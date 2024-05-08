@@ -1,9 +1,12 @@
 import React from 'react'
+import "./login.css"
 
 export default function Login() {
   return (
     <div>
-      Hi from Login page.
+      <div className="shadow-lg rounded-4 loginform">
+        ff
+      </div>
     </div>
   )
 }

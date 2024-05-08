@@ -6,17 +6,16 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->string("status");
-            $table->float("amount");
-            $table->foreignId('course_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('student_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('parent_id')->constrained()->nullable();
+            $table->float('amount');
+            $table->boolean('status');
+            $table->foreignId('course_id')->constrained();
+            $table->foreignId('student_id')->constrained();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

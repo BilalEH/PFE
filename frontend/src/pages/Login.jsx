@@ -1,25 +1,30 @@
 import React, { useState } from "react";
 import "./login.css";
 import { Link } from 'react-router-dom';
+import { axiosclient } from "../api/axios";
+import axios from "axios";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  function handleSubmit(e) {
+  const  handleSubmit = async (e) => {
     e.preventDefault();
     console.log("login attempt");
 
     // You can access email and password here directly
+    const axios= await axiosclient.post("/login",email,password)
     console.log("Email:", email);
     console.log("Password:", password);
+    console.log(axios);
+
   }
 
   return (
     <div>
       <div className="shadow-lg rounded-4 loginform">
         <div className="brand-logo text-center my-3">
-          <span className='display-3'>AB</span> center
+          <span className='display-3'>ABS</span> center
         </div>
         <form action="" className='mt-5'>
           <div className="my-3">

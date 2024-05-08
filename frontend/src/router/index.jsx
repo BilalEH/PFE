@@ -5,6 +5,7 @@ import Signup from "../pages/Signup";
 import Users from "../pages/Users";
 import NotFound from "../pages/NotFound";
 import Layout from "../layouts/Layout";
+import ContactUs from "../pages/ContactUs";
 
 export const router = createBrowserRouter([
     {
@@ -29,7 +30,11 @@ export const router = createBrowserRouter([
     {
         path: "*",
         element: <NotFound/>
-    }
+    },
+      { path: "/Contactus",
+       element: <ContactUs/>}
+
+
         ]
     }
 ])

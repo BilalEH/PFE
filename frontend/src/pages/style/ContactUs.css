@@ -1,0 +1,32 @@
+
+
+.right_side{
+
+    background-color: rgb(168, 168, 168);
+    width: 35%;
+    height: 500px;
+    display: flex;
+    margin-left: 10px;
+
+}
+
+
+.left_side{
+
+    background-color: rgb(234, 234, 234);
+    width: 60%;
+    height: 500px;
+        display: flex;
+
+
+}
+
+
+
+
+.footer{
+    background-color: black;
+    height: 90px;
+    width: 100%;
+
+}

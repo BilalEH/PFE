@@ -13,7 +13,12 @@ return new class extends Migration
     {
         Schema::create('classs', function (Blueprint $table) {
             $table->id();
+            $table->string('className')->unique();
+            $table->foreignId('course')->constrained();
+            $table->foreignId('filiere_id')->constrained();
+            $table->foreignId('teacher_id')->constrained();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

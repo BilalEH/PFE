@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('parents', function (Blueprint $table) {
             $table->id();
-            $table->string('firstName');
-            $table->string('lastName');
+            $table->foreignId('user_id')->constrained();
+            $table->boolean("status");
+            $table->string('CIN')->unique();
+            $table->string('phone')->unique();
             $table->date("dateN");
-            $table->string("status");
+            $table->softDeletes();
             $table->timestamps();
         });
     }

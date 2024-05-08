@@ -13,7 +13,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('description');
-            $table->foreignId('class_id')->constrained();
+            $table->foreignId('classe_id')->constrained();
             $table->foreignId('salle_id')->constrained();
             $table->dateTime('start_date');
             $table->dateTime('end_date');

@@ -26,7 +26,7 @@ return new class extends Migration
                 // Foreign key to teachers
                 $table->foreignId('course_id')->constrained();
                 // Foreign key to courses
-                $table->foreignId('class_id')->constrained();
+                $table->foreignId('classe_id')->constrained();
                 $table->foreignId('salle_id')->constrained();
                 // Foreign key to classes
                 $table->dateTime('start_date');

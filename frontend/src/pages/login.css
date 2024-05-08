@@ -1,0 +1,61 @@
+.loginform {
+    margin: 80px auto;
+    padding: 12px 24px;
+    width: 92%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media only screen and (min-width : 576px) {
+    .loginform {
+        width: 80%;
+    }
+}
+
+
+@media only screen and (min-width : 768px) {
+    .loginform {
+        width: 60%;
+    }
+}
+
+
+@media only screen and (min-width : 992px) {
+    .loginform {
+        width: 60%;
+    }
+}
+
+
+@media only screen and (min-width : 1200px) {
+    .loginform {
+        width: 50%;
+    }
+}

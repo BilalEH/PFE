@@ -1,11 +1,12 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
+import Heading from '../components/Heading'
 
 export default function Layout() {
   return (
     <div>
       <header>
-        Header
+        <Heading></Heading>
       </header>
       <main>
         <Outlet></Outlet>

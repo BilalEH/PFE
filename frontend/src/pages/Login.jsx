@@ -1,8 +1,11 @@
 import { useState } from "react";
 import "./login.css";
-import { Link } from 'react-router-dom';
+import { Link, redirect } from 'react-router-dom';
 import { axiosclient } from "../api/axios";
 import axios from "axios";
+import TextField from '@mui/material/TextField';
+import { Button } from "@mui/material";
+
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -20,6 +23,10 @@ export default function Login() {
 
   }
 
+  function switchSignUp(){
+    redirect('/signup');
+  }
+
   return (
     <div>
       <div className="shadow-lg rounded-4 loginform">
@@ -28,20 +35,27 @@ export default function Login() {
         </div>
         <form action="" className='mt-5'>
           <div className="my-3">
-            <label htmlFor="email" className="form-label">Email</label>
-            <input type="text" name="email" id="email" className="form-control" onChange={(e) => setEmail(e.target.value)} />
+            <TextField id="email" label="Email" variant="outlined" className="w-100" onChange={(e) => setEmail(e.target.value)} />
+            {/* <label htmlFor="email" className="form-label">Email</label>
+            <input type="text" name="email" id="email" className="form-control"  /> */}
           </div>
           <div className="my-3">
-            <label htmlFor="password" className="form-label">Password</label>
-            <input type="password" name="password" id="password" className="form-control" onChange={(e) => setPassword(e.target.value)} />
+            <TextField type="password" id="email" label="Password" variant="outlined" className="w-100" onChange={(e) => setPassword(e.target.value)} />
+            {/* <label htmlFor="password" className="form-label">Password</label>
+            <input type="password" name="password" id="password" className="form-control" onChange={(e) => setPassword(e.target.value)} /> */}
           </div>
-          <div className="my-5">
+          <div className="my-3">
             <div className="loginBtn my-4">
-              <button className='btn' onClick={handleSubmit}>Log In</button>
+              <Button className='btn text-capitalize' onClick={handleSubmit}>
+                Log In
+              </Button>
+              {/* <button className='btn' onClick={handleSubmit}>Log In</button> */}
             </div>
             <hr />
             <div className="toSignupBtn my-4">
-              <Link to="/signup">Sign Up</Link>
+              <Button variant="outlined" className='btn text-capitalize' onClick={switchSignUp}>
+                Sign Up
+              </Button>
             </div>
           </div>
         </form>

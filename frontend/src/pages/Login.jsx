@@ -1,11 +1,6 @@
 import { useState } from "react";
-<<<<<<< HEAD
-import './style/login.css'
-import {useNavigate } from 'react-router-dom';
-=======
 import "./style/login.css";
 import { useNavigate } from 'react-router-dom';
->>>>>>> ecaf062ab1854ad076432e2dd7ed0e266e513356
 import { axiosclient } from "../api/axios";
 // import axios from "axios";
 import TextField from '@mui/material/TextField';

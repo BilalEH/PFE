@@ -14,7 +14,7 @@ export default function Login() {
     try {
       await axiosInstance.get("/sanctum/csrf-cookie");
       const response = await axiosInstance.post("/login", credentials);
-      
+
       if (response.status === 204) {
         // const user=await axiosInstance.get("/api/user");
         // console.log(user.data);

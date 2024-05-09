@@ -1,50 +1,35 @@
-import React from 'react'
-import "./style/signup.css"
+import React, { useState } from 'react';
+import "./style/signup.css";
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import TextField from '@mui/material/TextField';
-import { Button, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import BrandLogo from "../components/BrandLogo";
+import { Button, FormControl, InputLabel, MenuItem, TextField, Select } from '@mui/material';
+import BrandLogo from '../components/BrandLogo';
 
 export default function Signup() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [firstName, setFirstName] = useState("");
   const [role, setRole] = useState("");
-
-
-  const currentDate = new Date();
-  var year = currentDate.getFullYear();
-  var month = ('0' + (currentDate.getMonth() + 1)).slice(-2); // Add leading zero if necessary
-  var day = ('0' + currentDate.getDate()).slice(-2); // Add leading zero if necessary
-  const [date, setDate] = useState(year + "-" + month + "-" + day);
-
-
+  const [date, setDate] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const  handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("login attempt");
 
-    // You can access email and password here directly
-    const axios= await axiosclient.post("/login",email,password)
-    console.log("Email:", email);
-    console.log("Password:", password);
-    console.log(axios);
+    // You can handle form submission here, e.g., send data to server
+    // Add your logic here to handle the form submission, such as making an API call
   }
-
-
 
   return (
     <div>
       <div className="shadow-lg rounded-4 signupForm">
-        <BrandLogo/>
-        <form action="" className='mt-5'>
+        <BrandLogo />
+        <form action="" className='mt-5' onSubmit={handleSubmit}>
           <div className="my-3 row">
             <div className="col-12 col-md-6 my-2">
-              <TextField id="lasnName" label="Nom" variant="outlined" className="w-100" onChange={(e) => setEmail(e.target.value)} />
+              <TextField id="lastName" label="Nom" variant="outlined" className="w-100" value={lastName} onChange={(e) => setLastName(e.target.value)} />
             </div>
             <div className="col-12 col-md-6 my-2">
-              <TextField id="firstName" label="Prenom" variant="outlined" className="w-100" onChange={(e) => setEmail(e.target.value)} />
+              <TextField id="firstName" label="Prenom" variant="outlined" className="w-100" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
             </div>
           </div>
           <div className="my-3">
@@ -57,28 +42,27 @@ export default function Signup() {
             </FormControl>
           </div>
 
-          {role=="student" && <div className="my-4">
-            <TextField label="Date de naissance" type='Date' value={date} onChange={(e) => setDate(e.target.value)} fullWidth/>
+          {role === "student" && <div className="my-4">
+            <TextField label="Date de naissance" type='Date' value={date} onChange={(e) => setDate(e.target.value)} fullWidth />
           </div>}
           <div className="my-3">
-            <TextField type="password" id="password" label="Password" variant="outlined" className="w-100" onChange={(e) => setPassword(e.target.value)} />
+            <TextField type="password" id="password" label="Password" variant="outlined" className="w-100" value={password} onChange={(e) => setPassword(e.target.value)} />
           </div>
           <div className="my-3">
             <div className="loginBtn my-4">
-              <Button className='btn text-capitalize' onClick={handleSubmit}>
-                Log In
+              <Button className='btn text-capitalize' type="submit">
+                Sign Up
               </Button>
-              {/* <button className='btn' onClick={handleSubmit}>Log In</button> */}
             </div>
             <hr />
             <div className="toSignupBtn my-4">
-              <Button variant="outlined" className='btn text-capitalize' onClick={() => navigate("/signup")}>
-                Sign Up
+              <Button variant="outlined" className='btn text-capitalize' onClick={() => navigate("/login")}>
+                Log In
               </Button>
             </div>
           </div>
         </form>
       </div>
     </div>
-  )
+  );
 }

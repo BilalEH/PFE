@@ -1,6 +1,6 @@
 import React from 'react'
 import "./header.css"
-import { redirect, useNavigate } from 'react-router-dom'
+import {  useNavigate } from 'react-router-dom'
 import { Button } from '@mui/material'
 
 export default function Heading() {

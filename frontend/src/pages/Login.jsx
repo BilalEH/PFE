@@ -21,19 +21,14 @@ export default function Login() {
       // Send login request
       const response = await axios.post('/login', { email, password });
 
-      // Check response status
       if (response.status === 204) {
-        // Successful login, redirect to "/users"
         navigate("/users");
       } else {
-        // Handle unexpected response status
         console.log("Unexpected response status:", response.status);
       }
     } catch (error) {
-      // Handle login error
       console.error("An error occurred during login:", error);
       if (error.response) {
-        // Server responded with an error status
         console.log("Server error response:", error.response.data);
       } else {
         // Request was not sent or something else went wrong

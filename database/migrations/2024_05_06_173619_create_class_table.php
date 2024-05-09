@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('classes', function (Blueprint $table) {
             $table->id();
             $table->string('className')->unique();
-            $table->foreignId('course')->constrained();
+            $table->foreignId('course_id')->constrained();
             $table->foreignId('filiere_id')->constrained();
             $table->foreignId('teacher_id')->constrained();
             $table->timestamps();

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./login.css";
-import { Link, redirect } from 'react-router-dom';
+import { Link, redirect, useNavigate } from 'react-router-dom';
 import { axiosclient } from "../api/axios";
 import axios from "axios";
 import TextField from '@mui/material/TextField';
@@ -10,6 +10,7 @@ import { Button } from "@mui/material";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const  handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,9 +24,7 @@ export default function Login() {
 
   }
 
-  function switchSignUp(){
-    redirect('/signup');
-  }
+
 
   return (
     <div>
@@ -40,7 +39,7 @@ export default function Login() {
             <input type="text" name="email" id="email" className="form-control"  /> */}
           </div>
           <div className="my-3">
-            <TextField type="password" id="email" label="Password" variant="outlined" className="w-100" onChange={(e) => setPassword(e.target.value)} />
+            <TextField type="password" id="password" label="Password" variant="outlined" className="w-100" onChange={(e) => setPassword(e.target.value)} />
             {/* <label htmlFor="password" className="form-label">Password</label>
             <input type="password" name="password" id="password" className="form-control" onChange={(e) => setPassword(e.target.value)} /> */}
           </div>
@@ -53,7 +52,7 @@ export default function Login() {
             </div>
             <hr />
             <div className="toSignupBtn my-4">
-              <Button variant="outlined" className='btn text-capitalize' onClick={switchSignUp}>
+              <Button variant="outlined" className='btn text-capitalize' onClick={() => navigate("/signup")}>
                 Sign Up
               </Button>
             </div>

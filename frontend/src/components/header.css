@@ -9,33 +9,33 @@
     transform: translateX(-50%);
 }
 
-.login a,
-.signup a {
+.login button,
+.signup button {
     padding: 8px 18px;
     border-radius: 12px;
 }
 
-.login a {
+.login button {
     background-color: #04f17a;
     color: white;
     border: 2px solid #00000000;
     transition: 100ms all ease-in;
 }
 
-.login a:hover {
+.login button:hover {
     border: 2px solid #04f17a;
     color: #04f17a;
     background-color: #00000000;
 }
 
-.signup a {
+.signup button {
     background-color: #19647e;
     color: aliceblue;
     border: 2px solid #00000000;
     transition: 100ms all ease-in;
 }
 
-.signup a:hover {
+.signup button:hover {
     border: 2px solid #19647e;
     color: #19647e;
     background-color: #00000000;

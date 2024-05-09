@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->date("dateN");
             $table->string("status");
-            $table->foreignId('parent_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('absparent_id')->constrained()->cascadeOnDelete();
             $table->foreignId('filieres_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
             $table->softDeletes();

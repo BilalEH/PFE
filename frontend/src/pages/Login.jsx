@@ -1,6 +1,10 @@
 import { useState } from "react";
 import "./login.css";
+<<<<<<< HEAD
 import {redirect, useNavigate } from 'react-router-dom';
+=======
+import { Link, redirect, useNavigate } from 'react-router-dom';
+>>>>>>> 0445c3a526ae2817ff568f997338fd4a5d542a63
 import { axiosclient } from "../api/axios";
 import axios from "axios";
 import TextField from '@mui/material/TextField';
@@ -10,7 +14,12 @@ import { Button } from "@mui/material";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+<<<<<<< HEAD
   const navigate= useNavigate();
+=======
+  const navigate = useNavigate();
+
+>>>>>>> 0445c3a526ae2817ff568f997338fd4a5d542a63
   const  handleSubmit = async (e) => {
     e.preventDefault();
     console.log("login attempt");
@@ -22,6 +31,10 @@ export default function Login() {
     console.log(axios);
   }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0445c3a526ae2817ff568f997338fd4a5d542a63
 
   return (
     <div>
@@ -49,7 +62,13 @@ export default function Login() {
             </div>
             <hr />
             <div className="toSignupBtn my-4">
+<<<<<<< HEAD
               <Button variant="outlined" className='btn text-capitalize' onClick={()=>navigate('/signup')}>Sign Up</Button>
+=======
+              <Button variant="outlined" className='btn text-capitalize' onClick={() => navigate("/signup")}>
+                Sign Up
+              </Button>
+>>>>>>> 0445c3a526ae2817ff568f997338fd4a5d542a63
             </div>
           </div>
         </form>

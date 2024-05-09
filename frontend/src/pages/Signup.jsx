@@ -3,7 +3,7 @@ import "./style/signup.css";
 import { useNavigate } from 'react-router-dom';
 import { Button, FormControl, InputLabel, MenuItem, TextField, Select } from '@mui/material';
 import BrandLogo from '../components/BrandLogo';
-import axios from "../api/axios";
+import {axiosInstance} from "../api/axios";
 
 
 
@@ -22,8 +22,8 @@ export default function Signup() {
 
     try {
       // Send registration request
-      await axios.get('/sanctum/csrf-cookie');
-      const response = await axios.post('/register', {
+      await axiosInstance.get('/sanctum/csrf-cookie');
+      const response = await axiosInstance.post('/register', {
         firstName,
         lastName,
         role,

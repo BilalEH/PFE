@@ -17,8 +17,13 @@
     color: #19647e;
 }
 
+.loginBtn button:active {
+    border: 2px solid #19647e !important;
+    color: #19647e !important;
+}
 
-.toSignupBtn a {
+
+.toSignupBtn button {
     display: block;
     width: 100%;
     text-align: center;
@@ -29,9 +34,15 @@
     transition: 100ms all ease-in;
 }
 
-.toSignupBtn a:hover {
+.toSignupBtn button:hover {
     background-color: #04f17a;
     color: aliceblue;
+}
+
+.toSignupBtn button:active {
+    background-color: white !important;
+    color: #04f17a !important;
+    border: 2px solid #04f17a !important;
 }
 
 

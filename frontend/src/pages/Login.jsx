@@ -21,7 +21,6 @@ export default function Login() {
     console.log("Email:", email);
     console.log("Password:", password);
     console.log(axios);
-
   }
 
 

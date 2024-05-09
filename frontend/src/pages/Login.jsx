@@ -1,22 +1,36 @@
 import { useState } from "react";
 import "./login.css";
-import { Link } from 'react-router-dom';
-import { axiosclient } from "../api/axios";
-import axios from "axios";
+import { Link, useNavigate } from 'react-router-dom';
+import axios from "../api/axios";
+
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate=   useNavigate();
+  const  handleSubmit =async(e)  => {
+     e.preventDefault();
 
-  const  handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log("login attempt");
+   try{
+    await axios.get('/sanctum/csrf-cookie')
 
-    // You can access email and password here directly
-    const axios= await axiosclient.post("/login",email,password)
-    console.log("Email:", email);
-    console.log("Password:", password);
-    console.log(axios);
+    axios.post('/login', {
+        email: email,
+        password: password,
+    })
+    navigate("/users")
+
+}
+     catch(e){
+
+
+        console.log(e)
+
+
+
+     }
+
+
 
   }
 

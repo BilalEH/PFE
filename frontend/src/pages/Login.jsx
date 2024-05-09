@@ -1,43 +1,41 @@
-import { useState } from "react";
-
-import "./style/login.css";
+import React, { useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';
-import axios from "../api/axios";// import axios from "axios";
+import axios from "../api/axios";
+import '../pages/style/login.css'
 import TextField from '@mui/material/TextField';
 import { Button } from "@mui/material";
 import BrandLogo from "../components/BrandLogo";
 
-
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate=   useNavigate();
-  const  handleSubmit =async(e)  => {
-     e.preventDefault();
+  const navigate = useNavigate();
 
-   try{
-    await axios.get('/sanctum/csrf-cookie')
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    axios.post('/login', {
-        email: email,
-        password: password,
-    })
-    navigate("/users")
+    try {
+      // Fetch CSRF token
+      await axios.get('/sanctum/csrf-cookie');
 
-}
-     catch(e){
+      // Make login request
+      const response = await axios.post('/login', { email, password });
 
-
-        console.log(e)
-
-
-
-     }
-
-
-
-  }
-
+      // Check response status
+      if (response.status === 204) {
+        // Redirect to /users page on successful login
+        navigate("/users");
+      } else {
+        // Handle invalid login credentials
+        console.log("Invalid login credentials");
+      }
+    } catch (error) {
+      // Handle errors
+      console.error("An error occurred:", error);
+      // Assuming error.response.data.errors is the correct property to access error messages
+      console.log(error.response.data.errors);
+    }
+  };
 
   return (
     <div>
@@ -58,7 +56,7 @@ export default function Login() {
             </div>
             <hr />
             <div className="toSignupBtn my-4">
-              <Button variant="outlined" className='btn text-capitalize' onClick={()=>navigate('/signup')}>Sign Up</Button>
+              <Button variant="outlined" className='btn text-capitalize' onClick={() => navigate('/signup')}>Sign Up</Button>
             </div>
           </div>
         </form>

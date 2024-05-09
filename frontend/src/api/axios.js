@@ -1,10 +1,15 @@
 import axios from "axios"
 
-export  default  axios.create({
+export  default axios.create({
 
     // baseURL:import.meta.env.VITE_BACKEND_URL
-     baseURL:"http://localhost:8000",
+    //  baseURL:"http://localhost:8000",
+        baseURL:'http://127.0.0.1:8000',
+  withXSRFToken:true,
+    withCredentials:true,
 
 
-    timeout: 60000, withCredentials: true, withXSRFToken: true,
+
+
+
 })

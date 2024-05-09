@@ -15,25 +15,30 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      // Fetch CSRF token
+      // Fetch CSRF token before login request
       await axios.get('/sanctum/csrf-cookie');
 
-      // Make login request
+      // Send login request
       const response = await axios.post('/login', { email, password });
 
       // Check response status
       if (response.status === 204) {
-        // Redirect to /users page on successful login
+        // Successful login, redirect to "/users"
         navigate("/users");
       } else {
-        // Handle invalid login credentials
-        console.log("Invalid login credentials");
+        // Handle unexpected response status
+        console.log("Unexpected response status:", response.status);
       }
     } catch (error) {
-      // Handle errors
-      console.error("An error occurred:", error);
-      // Assuming error.response.data.errors is the correct property to access error messages
-      console.log(error.response.data.errors);
+      // Handle login error
+      console.error("An error occurred during login:", error);
+      if (error.response) {
+        // Server responded with an error status
+        console.log("Server error response:", error.response.data);
+      } else {
+        // Request was not sent or something else went wrong
+        console.log("Error details:", error.message);
+      }
     }
   };
 

@@ -3,6 +3,11 @@ import "./style/signup.css";
 import { useNavigate } from 'react-router-dom';
 import { Button, FormControl, InputLabel, MenuItem, TextField, Select } from '@mui/material';
 import BrandLogo from '../components/BrandLogo';
+import axios from "../api/axios";
+
+
+
+
 
 export default function Signup() {
   const [lastName, setLastName] = useState("");
@@ -12,12 +17,38 @@ export default function Signup() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // You can handle form submission here, e.g., send data to server
-    // Add your logic here to handle the form submission, such as making an API call
-  }
+    try {
+      // Send registration request
+      await axios.get('/sanctum/csrf-cookie');
+      const response = await axios.post('/register', {
+        firstName,
+        lastName,
+        role,
+        date,
+        password
+      });
+
+      // Check if registration was successful
+      if (response.status === 201) {
+        console.log("Registration successful");
+        // Optionally, you can redirect the user to the login page after successful registration
+        navigate("/login");
+      } else {
+        console.log("Unexpected response status:", response.status);
+      }
+    } catch (error) {
+      console.error("An error occurred during registration:", error);
+      if (error.response) {
+        console.log("Server error response:", error.response.data);
+      } else {
+        // Request was not sent or something else went wrong
+        console.log("Error details:", error.message);
+      }
+    }
+  };
 
   return (
     <div>

@@ -11,8 +11,12 @@ import BrandLogo from "../components/BrandLogo";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+<<<<<<< HEAD
+  const navigate= useNavigate();
+=======
   const navigate = useNavigate();
 
+>>>>>>> 0445c3a526ae2817ff568f997338fd4a5d542a63
   const  handleSubmit = async (e) => {
     e.preventDefault();
     console.log("login attempt");
@@ -24,7 +28,10 @@ export default function Login() {
     console.log(axios);
   }
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> 0445c3a526ae2817ff568f997338fd4a5d542a63
 
   return (
     <div>
@@ -50,9 +57,13 @@ export default function Login() {
             </div>
             <hr />
             <div className="toSignupBtn my-4">
+<<<<<<< HEAD
+              <Button variant="outlined" className='btn text-capitalize' onClick={()=>navigate('/signup')}>Sign Up</Button>
+=======
               <Button variant="outlined" className='btn text-capitalize' onClick={() => navigate("/signup")}>
                 Sign Up
               </Button>
+>>>>>>> 0445c3a526ae2817ff568f997338fd4a5d542a63
             </div>
           </div>
         </form>

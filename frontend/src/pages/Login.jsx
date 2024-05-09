@@ -1,10 +1,16 @@
 import { useState } from "react";
+<<<<<<< HEAD
 import './style/login.css'
 import {useNavigate } from 'react-router-dom';
+=======
+import "./style/login.css";
+import { useNavigate } from 'react-router-dom';
+>>>>>>> ecaf062ab1854ad076432e2dd7ed0e266e513356
 import { axiosclient } from "../api/axios";
 // import axios from "axios";
 import TextField from '@mui/material/TextField';
 import { Button } from "@mui/material";
+import BrandLogo from "../components/BrandLogo";
 
 
 export default function Login() {
@@ -26,9 +32,7 @@ export default function Login() {
   return (
     <div>
       <div className="shadow-lg rounded-4 loginform">
-        <div className="brand-logo text-center my-3">
-          <span className='display-3'>ABS</span> center
-        </div>
+        <BrandLogo/>
         <form action="" className='mt-5'>
           <div className="my-3">
             <TextField id="email" label="Email" variant="outlined" className="w-100" onChange={(e) => setEmail(e.target.value)} />

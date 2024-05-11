@@ -30,8 +30,8 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrors({}); // Reset errors
-    setLoginError(null); // Reset login error
+    setErrors({});
+    setLoginError(null); 
 
     if (!formData.email || !formData.password) {
       setErrors({

@@ -2,6 +2,7 @@ import React from 'react'
 import "./header.css"
 import {  useNavigate } from 'react-router-dom'
 import { Button } from '@mui/material'
+import BrandLogo from './BrandLogo';
 
 export default function Heading() {
 
@@ -13,6 +14,7 @@ export default function Heading() {
       <div className="container-fluid w-100 m-0">
         <div className="bg-white navbar navbar-expand-lg shadow-lg mt-4 mx-auto">
             <div className="navbar-brand display-1 fs-2">
+                {/* <BrandLogo/> */}
                 ABS
             </div>
             <div className="d-flex">

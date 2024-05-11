@@ -18,6 +18,6 @@ use Illuminate\Support\Facades\Route;
 Route::get("/", function () {
     return "API";
 });
-Route::get('/user', function () {
+Route::middleware('auth:sanctum')->get('/user', function () {
     return response(Auth::user(), 200);
 });

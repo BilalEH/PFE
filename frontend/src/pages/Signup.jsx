@@ -16,13 +16,23 @@ export default function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
+      // Send registration request
       await axiosInstance.get('/sanctum/csrf-cookie');
-      const response = await axiosInstance.post('/register', {  firstName,lastName, role,date,password
+      const response = await axiosInstance.post('/register', {
+        firstName,
+        lastName,
+        role,
+        date,
+        password
       });
+
+      // Check if registration was successful
       if (response.status === 201) {
         console.log("Registration successful");
-        navigate("/users");
+        // Optionally, you can redirect the user to the login page after successful registration
+        navigate("/login");
       } else {
         console.log("Unexpected response status:", response.status);
       }
@@ -31,6 +41,7 @@ export default function Signup() {
       if (error.response) {
         console.log("Server error response:", error.response.data);
       } else {
+        // Request was not sent or something else went wrong
         console.log("Error details:", error.message);
       }
     }

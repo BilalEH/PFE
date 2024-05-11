@@ -4,26 +4,18 @@ import "../pages/style/ContactUs.css"
 function ContactUs() {
   return (
 
-
     <div className=' '>
-        <div className=' container my-5 d-flex justify-content-space-around  main_ ' >
+        <div className=' container my-5 d-flex justify-content-space-around  '>
 
-        <span className='left_side   ' >
+        <div className='left_side ' >
 
+           <h1 className='display-6 ms-3 mt-3 text-success bold' >Contact us</h1>
 
-             <div><div className='display-6 ms-3 mt-3   title  ' >Contact us</div>
+        </div>
 
-             <div>
-             </div>
-
-             </div>
-
-
-        </span>
-
-        <span className='  v2 right_side'>
+        <div className='  v2 right_side'>
           <h1>v2</h1>
-        </span>
+        </div>
 
 
         </div>

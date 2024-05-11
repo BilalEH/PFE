@@ -1,16 +1,10 @@
 
-.main_{
-    color:rgb(0, 201, 0);
-    height: 550px;
-}
-
-
 
 .right_side{
 
-    background-color: #999990;
+    background-color: rgb(168, 168, 168);
     width: 35%;
-
+    height: 500px;
     display: flex;
     margin-left: 10px;
 
@@ -21,6 +15,7 @@
 
     background-color: rgb(234, 234, 234);
     width: 60%;
+    height: 500px;
         display: flex;
 
 
@@ -33,16 +28,5 @@
     background-color: black;
     height: 90px;
     width: 100%;
-
-}
-
-
-
-.title{
-
-   font-weight:bold;
-   color:#25e725
-
-
 
 }

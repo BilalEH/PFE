@@ -1,30 +1,21 @@
 import { useState } from "react";
-import { useNavigate } from 'react-router-dom';
-import {axiosInstance} from "../api/axios";
-import '../pages/style/login.css'
+import './style/login.css'
 import TextField from '@mui/material/TextField';
 import { Button } from "@mui/material";
 import BrandLogo from "../components/BrandLogo";
-
+import useAuthContext from "../api/auth.jsx";
+import { useNavigate } from "react-router-dom";
 export default function Login() {
-  const [credentials, setCredentials] = useState({ email: "", password: "" });
+  const [formData, setFormData] = useState({ email: "admin@gmail.com", password: "password" });
+  const {login,User,getUser} = useAuthContext();
   const navigate = useNavigate();
-  const handleSubmit = async (e) => {
+
+  const handleSubmit =(e) => {
     e.preventDefault();
-    try {
-      await axiosInstance.get("/sanctum/csrf-cookie");
-      const response = await axiosInstance.post("/login", credentials);
-
-      if (response.status === 204) {
-        // const user=await axiosInstance.get("/api/user");
-        // console.log(user.data);
-        navigate("/users");
-      }
-    } catch (error) {
-      console.error("An error occurred during login:", error);
-    }
+    // console.log(login);
+    login(formData);
+    console.log(User);
   };
-
   return (
     <div>
       <div className="shadow-lg rounded-4 loginform">
@@ -36,7 +27,7 @@ export default function Login() {
               label="Email"
               variant="outlined"
               className="w-100"
-              onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             />
           </div>
           <div className="my-3">
@@ -46,7 +37,7 @@ export default function Login() {
               label="Password"
               variant="outlined"
               className="w-100"
-              onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
+              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
             />
           </div>
           <div className="my-3">
@@ -63,6 +54,8 @@ export default function Login() {
             </div>
           </div>
         </form>
+              <button onClick={() => {getUser();console.log(User)}}>user</button>
+        {/* <button onClick={LogOut} className="btn btn-danger">LogOut for test</button> */}
       </div>
     </div>
   );

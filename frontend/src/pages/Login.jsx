@@ -11,7 +11,7 @@ export default function Login() {
   const { login, importUser } = useAuthContext();
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
-  const [loginError, setLoginError] = useState(null); // State to store login error
+  const [loginError, setLoginError] = useState(null); 
 
   useEffect(() => {
     const userTest = importUser();

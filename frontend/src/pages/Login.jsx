@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {  useEffect, useState } from "react";
 import './style/login.css'
 import TextField from '@mui/material/TextField';
 import { Button } from "@mui/material";
@@ -7,14 +7,45 @@ import useAuthContext from "../api/auth.jsx";
 import { useNavigate } from "react-router-dom";
 export default function Login() {
   const [formData, setFormData] = useState({ email: "admin@gmail.com", password: "password" });
-  const {login,User,getUser} = useAuthContext();
+  const {login,importUser} = useAuthContext();
   const navigate = useNavigate();
 
-  const handleSubmit =(e) => {
+// const ValidateFormData = () => {
+//   coming soon
+// }
+
+useEffect(() => {
+  const userTest=importUser();
+  if(userTest){
+    if(userTest.role==='admin'){
+      navigate('/admin');
+    }else if(userTest.role==='stduent'){
+      navigate('/student');
+    }else if(userTest.role==='teacher'){
+      navigate('/teacher');
+    }else if(userTest.role==='parent'){
+      navigate('/parent');
+    }
+  }
+},[])
+
+  const handleSubmit =async(e) => {
     e.preventDefault();
-    // console.log(login);
-    login(formData);
-    console.log(User);
+    const LoginTest=await login(formData);    
+    if(LoginTest){
+      const user=importUser();
+      if(user.role==='admin'){
+        navigate('/admin');
+      }else if(user.role==='stduent'){
+        navigate('/student');
+      }else if(user.role==='teacher'){
+        navigate('/teacher');
+      }else if(user.role==='parent'){
+        navigate('/parent');
+      }else{
+        console.log('login failed');
+      }
+    }
   };
   return (
     <div>
@@ -54,8 +85,6 @@ export default function Login() {
             </div>
           </div>
         </form>
-              <button onClick={() => {getUser();console.log(User)}}>user</button>
-        {/* <button onClick={LogOut} className="btn btn-danger">LogOut for test</button> */}
       </div>
     </div>
   );

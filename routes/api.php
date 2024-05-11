@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -20,4 +21,8 @@ Route::get("/", function () {
 });
 Route::middleware('auth:sanctum')->get('/user', function () {
     return response(Auth::user(), 200);
+});
+
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::apiResource("/admins", AdminController::class);
 });

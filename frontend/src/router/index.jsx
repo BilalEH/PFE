@@ -31,10 +31,6 @@ export const router = createBrowserRouter([
         element: <Users/>
     },
     {
-        path: "*",
-        element: <NotFound/>
-    },
-    {
         path: "/Contactus",
         element: <ContactUs/>
     },
@@ -49,7 +45,11 @@ export const router = createBrowserRouter([
     {
         path: "/admin",
         element: <AdminHome/>
-    }
+    },
+    {
+        path: "*",
+        element: <NotFound/>
+    },
         ]
     }
 ])

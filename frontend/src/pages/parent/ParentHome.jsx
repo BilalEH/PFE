@@ -1,9 +1,9 @@
-import React from 'react'
 
 export default function ParentHome() {
+
   return (
     <div>
-        parent
+      <h1>Parent Home</h1>  
     </div>
   )
 }

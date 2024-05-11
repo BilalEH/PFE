@@ -9,7 +9,7 @@ function ContactUs() {
 
         <div className='left_side ' >
 
-           <h1 className='display-6 ms-3 mt-3 text-success bold' >Contact us</h1>
+          <h1 className='display-6 ms-3 mt-3 text-success bold' >Contact us</h1>
 
         </div>
 

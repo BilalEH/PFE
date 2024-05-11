@@ -6,6 +6,9 @@ import Users from "../pages/Users";
 import NotFound from "../pages/NotFound";
 import Layout from "../layouts/Layout";
 import ContactUs from "../pages/ContactUs";
+import StudentHome from "../pages/student/StudentHome";
+import ParentHome from "../pages/parent/ParentHome";
+import AdminHome from "../pages/admin/AdminHome";
 
 export const router = createBrowserRouter([
     {
@@ -31,10 +34,22 @@ export const router = createBrowserRouter([
         path: "*",
         element: <NotFound/>
     },
-      { path: "/Contactus",
-       element: <ContactUs/>}
-
-
+    {
+        path: "/Contactus",
+        element: <ContactUs/>
+    },
+    {
+        path : "/student",
+        element: <StudentHome/>
+    },
+    {
+        path:"/parent",
+        element: <ParentHome/>
+    },
+    {
+        path: "/admin",
+        element: <AdminHome/>
+    }
         ]
     }
 ])

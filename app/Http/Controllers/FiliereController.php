@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Admin;
+use App\Models\Filiere;
 use Illuminate\Http\Request;
 
-class AdminController extends Controller
+class FiliereController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $admins = Admin::all();
-        return response()->json($admins, 200);
+        $filieres = Filiere::all();
+        return response()->json($filieres, 200);
     }
 
     /**
@@ -22,11 +22,11 @@ class AdminController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'user_id' => 'required|integer',
+            'nomFiliere' => 'required|string',
         ]);
 
-        $admin = Admin::create($request->all());
-        return response()->json($admin, 201);
+        $filiere = Filiere::create($request->all());
+        return response()->json($filiere, 201);
     }
 
     /**
@@ -34,8 +34,8 @@ class AdminController extends Controller
      */
     public function show($id)
     {
-        $admin = Admin::findOrFail($id);
-        return response()->json($admin, 200);
+        $filiere = Filiere::findOrFail($id);
+        return response()->json($filiere, 200);
     }
 
     /**
@@ -44,12 +44,12 @@ class AdminController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'user_id' => 'integer',
+            'nomFiliere' => 'string',
         ]);
 
-        $admin = Admin::findOrFail($id);
-        $admin->update($request->all());
-        return response()->json($admin, 200);
+        $filiere = Filiere::findOrFail($id);
+        $filiere->update($request->all());
+        return response()->json($filiere, 200);
     }
 
     /**
@@ -57,8 +57,8 @@ class AdminController extends Controller
      */
     public function destroy($id)
     {
-        $admin = Admin::findOrFail($id);
-        $admin->delete();
+        $filiere = Filiere::findOrFail($id);
+        $filiere->delete();
         return response()->json(null, 204);
     }
 }

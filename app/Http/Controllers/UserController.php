@@ -12,7 +12,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        return response()->json(User::get(), 200);
+        $users = User::all();
+        return response()->json($users, 200);
     }
 
     /**
@@ -20,7 +21,29 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:8',
+            'firstName' => 'required',
+            'lastName' => 'required',
+            'role' => 'required',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        $user = new User();
+        $user->fill($request->all());
+
+        // If there's an avatar file uploaded, store it
+        if ($request->hasFile('avatar')) {
+            $avatar = $request->file('avatar');
+            $avatarName = time() . '.' . $avatar->getClientOriginalExtension();
+            $avatar->storeAs('avatars', $avatarName);
+            $user->avatar = $avatarName;
+        }
+
+        $user->save();
+
+        return response()->json($user, 201);
     }
 
     /**
@@ -28,7 +51,9 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        return response()->json($user, 200);
     }
 
     /**
@@ -36,7 +61,25 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        $request->validate([
+            'email' => 'email|unique:users,email,' . $user->id,
+            'password' => 'min:6',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $user->update($request->all());
+
+        if ($request->hasFile('avatar')) {
+            $avatar = $request->file('avatar');
+            $avatarName = time() . '.' . $avatar->getClientOriginalExtension();
+            $avatar->storeAs('avatars', $avatarName);
+            $user->avatar = $avatarName;
+            $user->save();
+        }
+
+        return response()->json($user, 200);
     }
 
     /**
@@ -44,6 +87,9 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return response()->json(null, 204);
     }
 }

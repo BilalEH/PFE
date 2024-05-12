@@ -1,7 +1,7 @@
 import {  useEffect, useState } from "react";
 import './style/login.css'
 import TextField from '@mui/material/TextField';
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import BrandLogo from "../components/BrandLogo";
 import useAuthContext from "../api/auth.jsx";
 import { useNavigate } from "react-router-dom";
@@ -9,7 +9,7 @@ export default function Login() {
   const [formData, setFormData] = useState({ email: "admin@gmail.com", password: "password" });
   const {login,importUser} = useAuthContext();
   const navigate = useNavigate();
-
+  const [loading,setLoading]=useState(false);
 // const ValidateFormData = () => {
 //   coming soon
 // }
@@ -30,8 +30,9 @@ useEffect(() => {
 },[])
 
   const handleSubmit =async(e) => {
+    setLoading(true);
     e.preventDefault();
-    const LoginTest=await login(formData);    
+    const LoginTest=await login(formData);
     if(LoginTest){
       const user=importUser();
       if(user.role==='admin'){
@@ -42,13 +43,13 @@ useEffect(() => {
         navigate('/teacher');
       }else if(user.role==='parent'){
         navigate('/parent');
-      }else{
-        console.log('login failed');
       }
+      setLoading(false);
     }
   };
   return (
     <div>
+      {/* {loading&&} */}
       <div className="shadow-lg rounded-4 loginform">
         <BrandLogo />
         <form action="" className="mt-5" onSubmit={handleSubmit}>
@@ -73,7 +74,7 @@ useEffect(() => {
           </div>
           <div className="my-3">
             <div className="loginBtn my-4">
-              <Button type="submit" className="btn text-capitalize">
+              <Button type="submit"endIcon={loading&&<CircularProgress color="#19647e" size={20} />} className="btn text-capitalize">
                 Log In
               </Button>
             </div>

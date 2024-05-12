@@ -14,8 +14,9 @@ export default function Login() {
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
 
-  
+
   useEffect(() => {
+    
     const userTest = importUser();
     if (userTest) {
       if (userTest.role === 'admin') {

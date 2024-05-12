@@ -59,12 +59,16 @@ export default function Signup() {
       setLastName("");
 
       if (response.status === 204) {
+
         console.log("Registration successful");
-        if (role === 'student') {
-          navigate('/student');
-        } else if (role === 'parent') {
-          navigate('/parent');
-        }
+
+                    if(role==="parent"){
+                        navigate("/parent");
+                    }
+                    else{
+                        navigate("/Student");
+                    }
+
       } else {
         console.log("Unexpected response status:", response.status);
       }

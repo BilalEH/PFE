@@ -35,7 +35,6 @@ export default function Signup() {
         password
       });
 
-      // Clear form fields after successful registration
       setDate("");
       setPassword("");
       setEmail("");
@@ -106,8 +105,6 @@ export default function Signup() {
               </Button>
             </div>
           </div>
-          {/* Display error message for empty fields */}
-          {errors.emptyFields && <p className="error-message">{errors.emptyFields}</p>}
         </form>
       </div>
     </div>

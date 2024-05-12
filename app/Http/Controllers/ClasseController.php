@@ -21,6 +21,7 @@ class ClasseController extends Controller
      */
     public function store(Request $request)
     {
+        
         $request->validate([
             'className' => 'required',
             'course_id' => 'required|exists:courses,id',

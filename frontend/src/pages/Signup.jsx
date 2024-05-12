@@ -19,8 +19,25 @@ export default function Signup() {
     e.preventDefault();
 
     // Validation for empty fields
-    if (!lastName || !firstName || !email || !role || !password) {
-      setErrors({ emptyFields: "Please fill in all required fields" });
+    const errorsObj = {};
+    if (!lastName) errorsObj.lastName = "Last name is required";
+    if (!firstName) errorsObj.firstName = "First name is required";
+    if (!email) errorsObj.email = "Email is required";
+    if (!role) errorsObj.role = "Role is required";
+    if (!password) errorsObj.password = "Password is required";
+
+    if (role === "student") {
+      const currentDate = new Date();
+      const selectedDate = new Date(date);
+      const differenceInYears = currentDate.getFullYear() - selectedDate.getFullYear();
+
+      if (differenceInYears < 6 || differenceInYears > 80) {
+        errorsObj.date = "Date of birth should be between 6 and 80 years ago";
+      }
+    }
+
+    if (Object.keys(errorsObj).length > 0) {
+      setErrors(errorsObj);
       return;
     }
 

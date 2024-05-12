@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->boolean("status")->default(false);
             $table->string('CIN')->unique();
-            $table->string('phone')->unique();
+            $table->string('telephone')->unique();
             $table->date("dateN");
             $table->softDeletes();
             $table->timestamps();

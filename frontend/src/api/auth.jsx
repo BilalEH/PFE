@@ -1,22 +1,13 @@
 import { createContext,useContext,useState } from "react";
 import { axiosInstance } from "./axios";
 import { toast } from "react-toastify";
+import { StyleToast } from "../layouts/Layout";
 
 export const AuthContext = createContext({});
 
 export const AuthProvider = ({children}) => {
     const [User, setUser] = useState(null);
 
-    const StyleToast = {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-    };
     const saveUser = (User) =>{
         localStorage.setItem('User',JSON.stringify(User));
         setUser(User);
@@ -47,9 +38,6 @@ export const AuthProvider = ({children}) => {
             toast.success("Login successful", StyleToast);
             return true;
         }catch (error) {
-            if (error.response.status === 422) {
-                toast.error("Invalid credentials", StyleToast);
-            }
             if(error.response.status === 401){
                 toast.error("not authorized", StyleToast);
             }

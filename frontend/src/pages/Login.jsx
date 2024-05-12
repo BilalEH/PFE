@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import './style/login.css'
+import React, { useState, useEffect } from "react";
+import './style/login.css';
 import TextField from '@mui/material/TextField';
 import { Button } from "@mui/material";
 import BrandLogo from "../components/BrandLogo";
@@ -11,7 +11,7 @@ export default function Login() {
   const { login, importUser } = useAuthContext();
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
-  const [loginError, setLoginError] = useState(null); 
+  const [loginError, setLoginError] = useState(null);
 
   useEffect(() => {
     const userTest = importUser();
@@ -28,34 +28,47 @@ export default function Login() {
     }
   }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setErrors({});
-    setLoginError(null); 
+  const validateForm = () => {
+    const errors = {};
 
-    if (!formData.email || !formData.password) {
-      setErrors({
-        email: !formData.email ? "Email is required" : "",
-        password: !formData.password ? "Password is required" : ""
-      });
-      return;
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formData.email) {
+      errors.email = "Email is required";
+    } else if (!emailRegex.test(formData.email)) {
+      errors.email = "Invalid email format";
     }
 
-    const loginTest = await login(formData);
-    if (loginTest) {
-      const user = importUser();
-      if (user.role === 'admin') {
-        navigate('/admin');
-      } else if (user.role === 'student') {
-        navigate('/student');
-      } else if (user.role === 'teacher') {
-        navigate('/teacher');
-      } else if (user.role === 'parent') {
-        navigate('/parent');
+    const passwordRegex = /^.{8,}$/;
+    if (!formData.password) {
+      errors.password = "Password is required";
+    } else if (!passwordRegex.test(formData.password)) {
+      errors.password = "Password must be at least 8 characters";
+    }
+
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+      const loginTest = await login(formData);
+      if (loginTest) {
+        const user = importUser();
+        if (user.role === 'admin') {
+          navigate('/admin');
+        } else if (user.role === 'student') {
+          navigate('/student');
+        } else if (user.role === 'teacher') {
+          navigate('/teacher');
+        } else if (user.role === 'parent') {
+          navigate('/parent');
+        }
+      } else {
+        console.log('login failed');
+        setLoginError("Invalid email or password");
       }
-    } else {
-      console.log('login failed');
-      setLoginError("Invalid email or password");
     }
   };
 
@@ -90,10 +103,10 @@ export default function Login() {
             />
           </div>
           {loginError && (
-              <div className="alert alert-danger" role="alert">
-                {loginError}
-              </div>
-            )}
+            <div className="alert alert-danger" role="alert">
+              {loginError}
+            </div>
+          )}
           <div className="my-3">
             <div className="loginBtn my-4">
               <Button type="submit" className="btn text-capitalize">

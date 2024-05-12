@@ -17,24 +17,15 @@ return new class extends Migration
             'exams',
             function (Blueprint $table) {
                 $table->id();
-                // Primary key
                 $table->string('title');
-                // Exam title
                 $table->string('description');
-                // Exam description
                 $table->foreignId('teacher_id')->constrained();
-                // Foreign key to teachers
-                $table->foreignId('course_id')->constrained();
-                // Foreign key to courses
                 $table->foreignId('classe_id')->constrained();
                 $table->foreignId('salle_id')->constrained();
-                // Foreign key to classes
                 $table->dateTime('start_date');
                 $table->dateTime('end_date');
                 $table->timestamps();
-                // Timestamps
                 $table->softDeletes();
-                // Soft delete
             }
         );
     }

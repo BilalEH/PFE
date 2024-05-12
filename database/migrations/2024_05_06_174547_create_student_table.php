@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->date("dateN");
+            $table->string("telephone");
             $table->string("status");
-            $table->foreignId('absparent_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('filieres_id')->constrained()->cascadeOnDelete();
+            $table->string("CIN")->nullable();
+            $table->foreignId('absparent_id')->constrained()->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

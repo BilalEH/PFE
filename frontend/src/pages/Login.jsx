@@ -15,8 +15,9 @@ export default function Login() {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
-  
+
   useEffect(() => {
+    
     const userTest = importUser();
     if (userTest) {
       if (userTest.role === 'admin') {

@@ -18,7 +18,6 @@ export default function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validation for empty fields
     const errorsObj = {};
     if (!lastName) errorsObj.lastName = "Last name is required";
     if (!firstName) errorsObj.firstName = "First name is required";
@@ -61,7 +60,11 @@ export default function Signup() {
 
       if (response.status === 204) {
         console.log("Registration successful");
-        navigate("/login");
+        if (role === 'student') {
+          navigate('/student');
+        } else if (role === 'parent') {
+          navigate('/parent');
+        }
       } else {
         console.log("Unexpected response status:", response.status);
       }
@@ -104,7 +107,7 @@ export default function Signup() {
           </div>
 
           {role === "student" && <div className="my-4">
-            <TextField label="Date of Birth" type='date' value={date} onChange={(e) => setDate(e.target.value)} fullWidth error={!!errors.date} helperText={errors.date} />
+            <TextField label="" type='date' value={date} onChange={(e) => setDate(e.target.value)} fullWidth error={!!errors.date} helperText={errors.date} />
           </div>}
           <div className="my-3">
             <TextField type="password" id="password" label="Password" variant="outlined" className="w-100" value={password} onChange={(e) => setPassword(e.target.value)} error={!!errors.password} helperText={errors.password} />

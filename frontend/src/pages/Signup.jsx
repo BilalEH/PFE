@@ -11,7 +11,6 @@ import {
 } from "@mui/material";
 import BrandLogo from "../components/BrandLogo";
 import { axiosInstance } from "../api/axios";
-import useAuthContext from "../api/auth.jsx";
 
 export default function Signup() {
     var currentDate = new Date();
@@ -36,6 +35,18 @@ export default function Signup() {
         e.preventDefault();
 
         const errorsObj = {};
+
+        // Regex pattern for Moroccan phone number (05, 06, or 07 followed by 8 digits)
+        const phoneRegex = /^(05|06|07)[0-9]{8}$/;
+        if (!phoneRegex.test(phone)) {
+            errorsObj.phone = "Invalid Moroccan phone number format";
+        }
+
+        // Regex pattern for CIN (2 letters followed by 2 to 7 numbers)
+        const cinRegex = /^[A-Za-z]{2}[0-9]{2,7}$/;
+        if (!cinRegex.test(cin)) {
+            errorsObj.cin = "Invalid CIN format";
+        }
 
         if (!cin) errorsObj.cin = "CIN is required";
         if (!lastName) errorsObj.lastName = "Last name is required";
@@ -71,6 +82,8 @@ export default function Signup() {
                 role,
                 date,
                 password,
+                cin,
+                phone
             });
 
             setPassword("");
@@ -83,13 +96,6 @@ export default function Signup() {
                 console.log("Registration successful");
 
                 navigate("/login");
-
-                // message to saad "khas tal admin y accepter demande dyal inscription 3ad tqd dkhel lpage student/parent"
-                // if (role === "parent") {
-                //     navigate("/parent");
-                // } else {
-                //     navigate("/Student");
-                // }
             } else {
                 console.log("Unexpected response status:", response.status);
             }
@@ -152,6 +158,8 @@ export default function Signup() {
                             id="phone"
                             label="Phone Number"
                             variant="outlined"
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value)}
                             error={!!errors.phone}
                             helperText={errors.phone}
                             fullWidth

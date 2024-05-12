@@ -95,7 +95,15 @@ export default function Signup() {
             if (response.status === 204) {
                 console.log("Registration successful");
 
-                navigate("/login");
+                if (role==="student"){
+                    navigate("/student")
+                }
+
+                else{
+                    navigate("/parent")
+                }
+
+
             } else {
                 console.log("Unexpected response status:", response.status);
             }

@@ -24,5 +24,9 @@ Route::middleware('auth:sanctum')->get('/user', function () {
 });
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
+    // -------------------------Admins----------------------------------------------
     Route::apiResource("/admins", AdminController::class);
+    Route::put("/admins/restore/{id}", [AdminController::class, 'restore']);
+    Route::get('admin/deleted', [AdminController::class, "deleted"]);
+    // -------------------------Students----------------------------------------------
 });

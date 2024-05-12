@@ -1,0 +1,19 @@
+.p404 {
+    font-size: 180px;
+}
+
+.p404Text {
+    font-size: 26px;
+}
+
+.goback>button {
+    border: 0;
+    background-color: #00000000;
+    text-decoration: underline;
+    color: #19647e;
+    transition: 100ms all ease-in;
+}
+
+.goback>button:hover {
+    color: #04f17a;
+}

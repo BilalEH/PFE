@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import './style/login.css';
 import TextField from '@mui/material/TextField';
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import BrandLogo from "../components/BrandLogo";
 import useAuthContext from "../api/auth.jsx";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,7 @@ export default function Login() {
   const { login, importUser } = useAuthContext();
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
 
   
   useEffect(() => {
@@ -52,6 +53,7 @@ export default function Login() {
   };
 
   const handleSubmit = async (e) => {
+    setLoading(true)
     e.preventDefault();
     if (validateForm()) {
       const loginTest = await login(formData);
@@ -70,6 +72,7 @@ export default function Login() {
         toast.error("Invalid email or password", StyleToast);
       }
     }
+    return setLoading(false);
   };
 
   return (
@@ -104,7 +107,7 @@ export default function Login() {
           </div>
           <div className="my-3">
             <div className="loginBtn my-4">
-              <Button type="submit" className="btn text-capitalize">
+              <Button type="submit" endIcon={loading && <CircularProgress size={20} color="inherit" />} className="btn text-capitalize">
                 Log In
               </Button>
             </div>

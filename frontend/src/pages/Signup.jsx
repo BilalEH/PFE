@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { Button, FormControl, InputLabel, MenuItem, TextField, Select } from '@mui/material';
 import BrandLogo from '../components/BrandLogo';
 import { axiosInstance } from "../api/axios";
+import useAuthContext from "../api/auth.jsx";
+
 
 export default function Signup() {
   const [lastName, setLastName] = useState("");
@@ -14,6 +16,7 @@ export default function Signup() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();

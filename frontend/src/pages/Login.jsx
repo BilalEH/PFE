@@ -1,18 +1,20 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import './style/login.css';
 import TextField from '@mui/material/TextField';
 import { Button } from "@mui/material";
 import BrandLogo from "../components/BrandLogo";
 import useAuthContext from "../api/auth.jsx";
 import { useNavigate } from "react-router-dom";
+import { StyleToast } from "../layouts/Layout.jsx";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const [formData, setFormData] = useState({ email: "admin@gmail.com", password: "password" });
   const { login, importUser } = useAuthContext();
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
-  const [loginError, setLoginError] = useState(null);
 
+  
   useEffect(() => {
     const userTest = importUser();
     if (userTest) {
@@ -30,7 +32,6 @@ export default function Login() {
 
   const validateForm = () => {
     const errors = {};
-
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!formData.email) {
@@ -66,8 +67,7 @@ export default function Login() {
           navigate('/parent');
         }
       } else {
-        console.log('login failed');
-        setLoginError("Invalid email or password");
+        toast.error("Invalid email or password", StyleToast);
       }
     }
   };
@@ -102,11 +102,6 @@ export default function Login() {
               helperText={errors.password}
             />
           </div>
-          {loginError && (
-            <div className="alert alert-danger" role="alert">
-              {loginError}
-            </div>
-          )}
           <div className="my-3">
             <div className="loginBtn my-4">
               <Button type="submit" className="btn text-capitalize">

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('filieres', function (Blueprint $table) {
             $table->id();
-            $table->string("nomFiliere");
+            $table->string("nomFiliere")->unique();
             $table->timestamps();
             $table->softDeletes();
         });

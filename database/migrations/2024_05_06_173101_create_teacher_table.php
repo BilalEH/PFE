@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('teachers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
+            $table->string('CIN')->unique();
             $table->string('specialite');
-            $table->softDeletes();
+            $table->string('telephone');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

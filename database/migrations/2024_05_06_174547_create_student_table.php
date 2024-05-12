@@ -17,7 +17,7 @@ return new class extends Migration
             $table->date("dateN");
             $table->string("telephone");
             $table->string("status");
-            $table->string("CIN")->nullable();
+            $table->string("CIN")->unique()->nullable();
             $table->foreignId('absparent_id')->constrained()->nullable();
             $table->timestamps();
             $table->softDeletes();

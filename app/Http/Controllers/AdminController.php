@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -13,7 +14,9 @@ class AdminController extends Controller
     public function index()
     {
         $admins = Admin::all();
-        return response()->json($admins, 200);
+        return response()->json([
+            'admins' => $admins,
+        ], 200);
     }
 
     /**
@@ -21,12 +24,21 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'user_id' => 'required|integer',
-        ]);
-
-        $admin = Admin::create($request->all());
-        return response()->json($admin, 201);
+        try {
+            $data = $request->validate([
+                'user_id' => 'required|integer|exists:users,id|unique:admins,user_id',
+            ]);
+            $userData = User::find($request->user_id);
+            if ($userData) {
+                if ($userData->role === 'admin') {
+                    $admin = Admin::create($data);
+                    return response()->json($admin, 201);
+                }
+            }
+            return response()->json(['message' => 'User is not admin'], 404);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 404);
+        }
     }
 
     /**
@@ -34,31 +46,47 @@ class AdminController extends Controller
      */
     public function show($id)
     {
-        $admin = Admin::findOrFail($id);
-        return response()->json($admin, 200);
+        try {
+            $admin = Admin::findOrFail($id);
+            return response()->json(['admin' => $admin], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Admin not found'], 404);
+        }
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'user_id' => 'integer',
-        ]);
-
-        $admin = Admin::findOrFail($id);
-        $admin->update($request->all());
-        return response()->json($admin, 200);
-    }
-
     /**
      * Remove the specified resource from storage.
      */
     public function destroy($id)
     {
-        $admin = Admin::findOrFail($id);
-        $admin->delete();
-        return response()->json(null, 204);
+        try {
+            $admin = Admin::findOrFail($id);
+            $admin->delete();
+            return response()->json(['admin_id' => $admin], 204);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Admin not found'], 404);
+        }
+    }
+
+    public function restore($id)
+    {
+        try {
+            $admin = Admin::withTrashed()->findOrFail($id);
+            if (!$admin->trashed()) {
+                return response()->json(['message' => 'Admin is not deleted'], 400);
+            };
+            $admin->restore();
+            return response()->json(['admin' => $admin], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 404);
+        }
+    }
+    public function deleted()
+    {
+        try {
+            $admins = Admin::onlyTrashed()->get();
+            return response()->json(['admins' => $admins], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Classe;
+use Exception;
 use Illuminate\Http\Request;
 
 class ClasseController extends Controller
@@ -12,8 +13,12 @@ class ClasseController extends Controller
      */
     public function index()
     {
-        $classes = Classe::all();
-        return response()->json($classes, 200);
+        try {
+            $classes = Classe::all();
+            return response()->json($classes, 200);
+        } catch (Exception $e) {
+            return response()->json(["message" => $e->getMessage()], 404);
+        }
     }
 
     /**
@@ -21,31 +26,26 @@ class ClasseController extends Controller
      */
     public function store(Request $request)
     {
-        
-        $request->validate([
-            'className' => 'required',
-            'course_id' => 'required|exists:courses,id',
-            'filiere_id' => 'required|exists:filieres,id',
-            'teacher_id' => 'required|exists:teachers,id',
+        $data = $request->validate([
+            'className' => 'required|unique:classes,className|string',
+            'course_id' => 'required|exists:courses,id|integer',
+            'filiere_id' => 'required|exists:filieres,id|integer',
+            'teacher_id' => 'required|exists:teachers,id|integer',
         ]);
-
-        $classe = Classe::create($request->all());
-
+        $classe = Classe::create($data);
         return response()->json($classe, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        $classe = Classe::findOrFail($id);
-        return response()->json($classe, 200);
+        try {
+            $classe = Classe::findOrFail($id);
+            return response()->json($classe, 200);
+        } catch (Exception $e) {
+            return response()->json(["message" => "Classe not found"], 404);
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         $classe = Classe::findOrFail($id);

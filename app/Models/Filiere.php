@@ -13,4 +13,9 @@ class Filiere extends Model
     protected $fillable = [
         'nomFiliere',
     ];
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
 }

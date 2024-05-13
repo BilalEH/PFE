@@ -12,11 +12,14 @@ class Exam extends Model
     protected $fillable = [
         'title',
         'description',
-        'teacher_id',
-        'coiurse_id',
         'classe_id',
         'salle_id',
         'start_date',
         'end_date'
+    ];
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 }

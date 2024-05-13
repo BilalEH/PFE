@@ -14,4 +14,20 @@ class Teacher extends Model
         'user_id',
         'specialite'
     ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function students()
+    {
+        return $this->hasMany(Student::class, 'student_id', 'id');
+    }
 }

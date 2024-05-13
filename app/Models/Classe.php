@@ -16,4 +16,9 @@ class Classe extends Model
         'filiere_id',
         'teacher_id'
     ];
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
 }

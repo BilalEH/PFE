@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Student;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -14,8 +15,10 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = Student::all();
-        return response()->json($students, 200);
+        // $students = Student::all();
+        // return response()->json($students, 200);
+        return  Student::Collection(Student::all());
+
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\AdminResource;
 use App\Models\Admin;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -15,7 +16,7 @@ class AdminController extends Controller
     {
         $admins = Admin::all();
         return response()->json([
-            'admins' => $admins,
+            'admins' => AdminResource::collection($admins),
         ], 200);
     }
 

@@ -119,7 +119,7 @@ export default function Signup() {
     };
 
     return (
-        <div>
+        <>
             <div className="shadow-lg rounded-4 signupForm">
                 <BrandLogo />
                 <form action="" className="mt-5" onSubmit={handleSubmit}>
@@ -255,6 +255,6 @@ export default function Signup() {
                     </div>
                 </form>
             </div>
-        </div>
+        </>
     );
 }

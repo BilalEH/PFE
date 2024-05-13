@@ -1,0 +1,39 @@
+body {
+    margin-top: 0;
+}
+
+.dashboard {
+    width: 350px;
+    height: 100vh;
+    background-color: #19647e;
+    position: fixed;
+    transform: translateX(-75%);
+    transition: 300ms all ease-in;
+}
+
+.dashboard:hover {
+    transform: translateX(0%);
+}
+
+.adminPages {
+    padding-left: 100px;
+}
+
+.dashElement {
+    width: 100%;
+    transition: 100ms all ease-in;
+}
+
+.dashElement:hover {
+    background-color: #04f17a;
+}
+
+.dashElement>a {
+    text-decoration: none;
+    color: #04f17a;
+    transition: 100ms all ease-in;
+}
+
+.dashElement:hover>a {
+    color: #19647e;
+}

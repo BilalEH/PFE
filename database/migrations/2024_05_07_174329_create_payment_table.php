@@ -10,11 +10,11 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('absparent_id')->constrained()->nullable();
-            $table->float('amount');
             $table->boolean('status');
-            $table->foreignId('course_id')->constrained();
             $table->foreignId('student_id')->constrained();
+            $table->foreignId('course_id')->constrained();
+            $table->float('amount');
+            $table->date('datePay');
             $table->softDeletes();
             $table->timestamps();
         });

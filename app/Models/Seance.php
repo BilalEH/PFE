@@ -18,4 +18,9 @@ class Seance extends Model
         'start_date',
         'end_date',
     ];
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
 }

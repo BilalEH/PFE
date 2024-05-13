@@ -12,6 +12,12 @@ import AdminHome from "../pages/admin/AdminHome";
 import AdminLayout from "../layouts/AdminLayout";
 import StudentLayout from "../layouts/StudentLayout";
 import ParentLayout from "../layouts/ParentLayout";
+import AdminRequests from "../pages/admin/AdminRequests";
+import AdminStudents from "../pages/admin/AdminStudents";
+import AdminTeachers from "../pages/admin/AdminTeachers";
+import AdminParents from "../pages/admin/AdminParents";
+import AdminCourses from "../pages/admin/AdminCourses";
+import AdminMessages from "../pages/admin/AdminMessages";
 
 export const router = createBrowserRouter([
     {
@@ -45,6 +51,30 @@ export const router = createBrowserRouter([
             {
                 path: "/admin",
                 element: <AdminHome />,
+            },
+            {
+                path: "/admin/requests",
+                element: <AdminRequests />,
+            },
+            {
+                path: "/admin/students",
+                element: <AdminStudents />,
+            },
+            {
+                path: "/admin/parents",
+                element: <AdminParents />,
+            },
+            {
+                path: "/admin/teachers",
+                element: <AdminTeachers />,
+            },
+            {
+                path: "/admin/courses",
+                element: <AdminCourses />,
+            },
+            {
+                path: "/admin/messages",
+                element: <AdminMessages />,
             },
         ],
     },

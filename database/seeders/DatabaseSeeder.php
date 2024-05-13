@@ -18,8 +18,8 @@ class DatabaseSeeder extends Seeder
             'firstName' => "admin",
             'lastName' => "admin",
             'role' => 'admin',
-            'avatar' => "https://ui-avatars.com/api/?uppercase=false&name=aimane+jaghda",
-            'email' => 'admin@gmail.com',
+            'avatar' => "https://ui-avatars.com/api/?uppercase=false&name=Aimane+Jaghda",
+            'email' => 'Aimane@gmail.com',
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password,
         ]);
     }

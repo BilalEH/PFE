@@ -1,10 +1,9 @@
-import React from 'react'
+import React from "react";
 
 export default function AdminHome() {
-    
-  return (
-    <div>
-        Admin
-    </div>
-  )
+    return (
+        <>
+            <div>Admin home page</div>
+        </>
+    );
 }

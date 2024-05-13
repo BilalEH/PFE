@@ -15,11 +15,11 @@ class DatabaseSeeder extends Seeder
         \App\Models\User::factory(10)->create();
 
         \App\Models\User::factory()->create([
-            'firstName' => "admin",
-            'lastName' => "admin",
+            'firstName' => "Aimane",
+            'lastName' => "Jaghda",
             'role' => 'admin',
-            'avatar' => "https://ui-avatars.com/api/?uppercase=false&name=admin+admin",
-            'email' => 'admin@gmail.com',
+            'avatar' => "https://ui-avatars.com/api/?uppercase=false&name=aimane+jaghda",
+            'email' => 'Aimane@gmail.com',
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password,
         ]);
     }

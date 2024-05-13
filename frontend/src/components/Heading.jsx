@@ -1,16 +1,13 @@
-import { useState } from 'react';
 import "./header.css";
 import { useNavigate } from 'react-router-dom';
-import { Avatar, Button, Divider, IconButton, ListItemIcon, Menu, MenuItem } from '@mui/material';
+import { Button } from '@mui/material';
 import useAuthContext from '../api/auth';
-import Logout from '../pages/Logout';
 import BrandLogo from './BrandLogo';
+import HeaderAvatar from "./avatar";
 
 export default function Heading() {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const { importUser } = useAuthContext();
   const navigate = useNavigate();
-
+  const { importUser } = useAuthContext();
   return (
     <div>
       <div className="container-fluid w-100 m-0" >
@@ -28,27 +25,7 @@ export default function Heading() {
                   <Button onClick={() => navigate("/signup")}>Sign Up</Button>
                 </div>
               </>
-            ) : (
-              <>
-                <IconButton onClick={(e)=>setAnchorEl(e.currentTarget)} sx={{ p: 0 }}>
-                  <Avatar alt={`${importUser().firstName} ${importUser().lastName}`} src={importUser().avatar} />
-                </IconButton>
-                <Menu
-                  id="basic-menu"
-                  anchorEl={anchorEl}
-                  open={Boolean(anchorEl)}
-                  transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                  anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-                  onClose={()=>setAnchorEl(null)}>
-                  
-                  <MenuItem onClose={()=>setAnchorEl(null)} className='ShowFullName'>{`${importUser().firstName} ${importUser().lastName}`}</MenuItem>
-                  <MenuItem onClose={()=>setAnchorEl(null)} className='ShowRole'>{`${importUser().role}`}</MenuItem>
-                  <Divider />
-                  <MenuItem onClick={()=>console.log('test')}><ListItemIcon><Avatar sx={{width: 20, height: 20}}/></ListItemIcon>Profile</MenuItem>
-                  <Logout remove={setAnchorEl}/>
-                </Menu>
-              </>
-            )}
+            ) : <HeaderAvatar/>}
           </div>
         </div>
       </div>

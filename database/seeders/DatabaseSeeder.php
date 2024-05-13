@@ -15,8 +15,8 @@ class DatabaseSeeder extends Seeder
         \App\Models\User::factory(10)->create();
 
         \App\Models\User::factory()->create([
-            'firstName' => "Aimane",
-            'lastName' => "Jaghda",
+            'firstName' => "admin",
+            'lastName' => "admin",
             'role' => 'admin',
             'avatar' => "https://ui-avatars.com/api/?uppercase=false&name=Aimane+Jaghda",
             'email' => 'Aimane@gmail.com',

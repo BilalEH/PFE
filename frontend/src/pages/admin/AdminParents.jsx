@@ -15,6 +15,16 @@ export default function AdminParents() {
         console.log('Parents:', parents);
     }, [parents]);
 
+    const handleDelete = (parentId) => {
+        // Add your delete logic here
+        console.log(`Deleting parent with ID ${parentId}`);
+    };
+
+    const handleUpdate = (parentId) => {
+        // Add your update logic here
+        console.log(`Updating parent with ID ${parentId}`);
+    };
+
     if (status === 'loading') {
         return <div>Loading...</div>;
     }
@@ -30,7 +40,7 @@ export default function AdminParents() {
     return (
         <div>
             <h2>List of Parents</h2>
-            <table>
+            <table className="parent-table">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -39,6 +49,7 @@ export default function AdminParents() {
                         <th>Email</th>
                         <th>Phone</th>
                         <th>CIN</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -50,6 +61,10 @@ export default function AdminParents() {
                             <td>{parent.user_id.email}</td>
                             <td>{parent.user_id.phone}</td>
                             <td>{parent.user_id.cin}</td>
+                            <td>
+                                <button onClick={() => handleUpdate(parent.id)}>Update</button>
+                                <button onClick={() => handleDelete(parent.id)}>Delete</button>
+                            </td>
                         </tr>
                     ))}
                 </tbody>

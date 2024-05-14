@@ -1,6 +1,6 @@
 import{ useEffect } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
-import "./style/adminLayout.css"
+import "./style/dashboard.css";
 import { Avatar } from "@mui/material";
 import useAuthContext from "../api/auth";
 

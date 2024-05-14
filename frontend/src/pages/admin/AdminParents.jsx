@@ -34,16 +34,26 @@ export default function AdminParents() {
                 <thead>
                     <tr>
                         <th>ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>CIN</th>
                     </tr>
                 </thead>
                 <tbody>
                     {parents.map((parent) => (
                         <tr key={parent.id}>
                             <td>{parent.id}</td>
+                            <td>{parent.user_id.firstName}</td>
+                            <td>{parent.user_id.lastName}</td>
+                            <td>{parent.user_id.email}</td>
+                            <td>{parent.user_id.phone}</td>
+                            <td>{parent.user_id.cin}</td>
                         </tr>
                     ))}
                 </tbody>
-            </table> 
+            </table>
         </div>
     );
 }

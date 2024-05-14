@@ -1,24 +1,29 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import "./style/signup.css";
 import { useNavigate } from "react-router-dom";
-import {
-    Button,
-    FormControl,
-    InputLabel,
-    MenuItem,
-    TextField,
-    Select,
-} from "@mui/material";
+import {Button,FormControl,InputLabel,MenuItem,TextField,Select, CircularProgress,} from "@mui/material";
 import BrandLogo from "../components/BrandLogo";
-import { axiosInstance } from "../api/axios";
-
+import useAuthContext from "../api/auth";
 export default function Signup() {
-    var currentDate = new Date();
 
-    // Get the current date components
-    var year = currentDate.getFullYear();
-    var month = ("0" + (currentDate.getMonth() + 1)).slice(-2); // Add leading zero if necessary
-    var day = ("0" + currentDate.getDate()).slice(-2); // Add leading zero if necessary
+    const {Register,importUser}=useAuthContext();
+    const [loading, setLoading] = useState(false);
+    const padZero = (num) => num.toString().padStart(2, '0');
+
+    useEffect(() => {
+        const userTest = importUser();
+        if (userTest) {
+            if (userTest.role === 'admin') {
+                navigate('/admin');
+            } else if (userTest.role === 'student') {
+                navigate('/student');
+            } else if (userTest.role === 'teacher') {
+                navigate('/teacher');
+            } else if (userTest.role === 'parent') {
+                navigate('/parent');
+            }
+            }
+    }, []);
 
     const [cin, setCin] = useState("");
     const [lastName, setLastName] = useState("");
@@ -26,28 +31,34 @@ export default function Signup() {
     const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
     const [role, setRole] = useState("");
-    const [date, setDate] = useState(year + "-" + month + "-" + day);
+    const [date, setDate] = useState(`${new Date().getFullYear()}-${padZero(new Date().getMonth() + 1)}-${padZero(new Date().getDate())}`);//year + "-" + month + "-" + day
     const [password, setPassword] = useState("");
+    
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
 
-    const handleSubmit = async (e) => {
+    const validateForm = (e) => {
+        setLoading(true)
         e.preventDefault();
-
         const errorsObj = {};
-
         // Regex pattern for Moroccan phone number (05, 06, or 07 followed by 8 digits)
         const phoneRegex = /^(05|06|07)[0-9]{8}$/;
         if (!phoneRegex.test(phone)) {
             errorsObj.phone = "Invalid Moroccan phone number format";
         }
-
+        if(role=='student'){
+            const currentDate = new Date();
+            const selectedDate = new Date(date);
+            const differenceInYears =currentDate.getFullYear() - selectedDate.getFullYear();
+            if (differenceInYears < 6 || differenceInYears > 80) {
+                errorsObj.date ="Date of birth should be between 6 and 80 years ago";
+            }
+        }
         // Regex pattern for CIN (2 letters followed by 2 to 7 numbers)
         const cinRegex = /^[A-Za-z]{2}[0-9]{2,7}$/;
         if (!cinRegex.test(cin)) {
             errorsObj.cin = "Invalid CIN format";
         }
-
         if (!cin) errorsObj.cin = "CIN is required";
         if (!lastName) errorsObj.lastName = "Last name is required";
         if (!firstName) errorsObj.firstName = "First name is required";
@@ -55,74 +66,35 @@ export default function Signup() {
         if (!email) errorsObj.email = "Email is required";
         if (!role) errorsObj.role = "Role is required";
         if (!password) errorsObj.password = "Password is required";
-
+        if(Object.keys(errorsObj).length > 0){
+            setLoading(false)
+            return setErrors(errorsObj);
+        }else{
+            return handleSubmit();
+        }
+}
+    const handleSubmit = async () => {
+        let Data={cin: cin,last_name: lastName,first_name: firstName,email: email,role: role,password: password,phone: phone}
         if (role === "student") {
-            const currentDate = new Date();
-            const selectedDate = new Date(date);
-            const differenceInYears =
-                currentDate.getFullYear() - selectedDate.getFullYear();
-
-            if (differenceInYears < 6 || differenceInYears > 80) {
-                errorsObj.date =
-                    "Date of birth should be between 6 and 80 years ago";
-            }
+            Data={...Data,dateN: date}
         }
-
-        if (Object.keys(errorsObj).length > 0) {
-            setErrors(errorsObj);
-            return;
-        }
-
-        try {
-            await axiosInstance.get("/sanctum/csrf-cookie");
-            const response = await axiosInstance.post("/register", {
-                firstName,
-                lastName,
-                email,
-                role,
-                date,
-                password,
-                cin,
-                phone
-            });
-
-            setPassword("");
-            setEmail("");
-            setFirstName("");
-            setRole("");
-            setLastName("");
-
-            if (response.status === 204) {
-                console.log("Registration successful");
-
-                if (role==="student"){
-                    navigate("/student")
-                }
-
-                else{
-                    navigate("/parent")
-                }
-
-
-            } else {
-                console.log("Unexpected response status:", response.status);
+        const req=await Register(Data);
+        if(req){
+            const user = importUser();
+                if (user.role === 'student') {
+                navigate('/student');
+                } else if (user.role === 'parent') {
+                navigate('/parent');
+                }   
             }
-        } catch (error) {
-            console.error("An error occurred during registration:", error);
-            if (error.response) {
-                console.log("Server error response:", error.response.data);
-                setErrors(error.response.data.errors);
-            } else {
-                console.log("Error details:", error.message);
-            }
-        }
+        return setLoading(false);
     };
 
     return (
         <>
             <div className="shadow-lg rounded-4 signupForm">
                 <BrandLogo />
-                <form action="" className="mt-5" onSubmit={handleSubmit}>
+                <form action="" className="mt-5" onSubmit={validateForm}>
                     <div className="my-3">
                         <TextField
                             label="CIN"
@@ -194,7 +166,6 @@ export default function Signup() {
                             <p className="error-message">{errors.role}</p>
                         )}
                     </div>
-
                     {role === "student" && (
                         <div className="my-4">
                             <TextField
@@ -238,6 +209,7 @@ export default function Signup() {
                             <Button
                                 className="btn text-capitalize"
                                 type="submit"
+                                endIcon={loading && <CircularProgress size={20} color="inherit" />}
                             >
                                 Sign Up
                             </Button>

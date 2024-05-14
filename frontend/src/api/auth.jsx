@@ -7,7 +7,6 @@ export const AuthContext = createContext({});
 
 export const AuthProvider = ({children}) => {
     const [User, setUser] = useState(null);
-
     const saveUser = (User) =>{
         localStorage.setItem('User',JSON.stringify(User));
         setUser(User);
@@ -63,14 +62,15 @@ export const AuthProvider = ({children}) => {
     }
 
     const Register = async (registerData) => {
+        await axiosInstance.get("/sanctum/csrf-cookie");
         try {
             await axiosInstance.post("/register", registerData);
-            getUser();
+            await getUser();
             toast.success("Registration successful", StyleToast);
             return true;
         } catch (error) {
             if (error.response.status === 422) {
-                toast.error("Invalid credentials", StyleToast);
+                toast.error(error.response.data.message, StyleToast);
             }
             return false;
         }

@@ -6,7 +6,6 @@ import Logout from "../pages/Logout";
 function HeaderAvatar() {
     const { importUser } = useAuthContext();
     const [anchorEl, setAnchorEl] = useState(null);
-    console.log(importUser());
     return (
         <>
             <IconButton onClick={(e)=>setAnchorEl(e.currentTarget)} sx={{ p: 0 }}>

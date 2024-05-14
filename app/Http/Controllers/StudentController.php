@@ -73,13 +73,6 @@ class StudentController extends Controller
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 404);
         }
-
-        // $student = Student::find($id);
-        // if (!$student) {
-        //     return response()->json(['message' => 'Student not found'], 404);
-        // }
-        // $student->update($data);
-        // return response()->json($student, 200);
     }
 
     /**
@@ -90,11 +83,38 @@ class StudentController extends Controller
      */
     public function destroy($id)
     {
-        $student = Student::find($id);
-        if (!$student) {
-            return response()->json(['message' => 'Student not found'], 404);
+        try {
+            $student = Student::find($id);
+            if (!$student) {
+                return response()->json(['message' => 'Student not found'], 404);
+            }
+            $student->delete();
+            return response()->json(['message' => 'Student deleted successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 404);
         }
-        $student->delete();
-        return response()->json(['message' => 'Student deleted successfully'], 200);
+    }
+
+    public function restore($id)
+    {
+        try {
+            $Student = Student::withTrashed()->findOrFail($id);
+            if (!$Student->trashed()) {
+                return response()->json(['message' => 'Student is not deleted'], 400);
+            };
+            $Student->restore();
+            return response()->json(['Student' => $Student], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 404);
+        }
+    }
+    public function deleted()
+    {
+        try {
+            $Students = Student::onlyTrashed()->get();
+            return response()->json(['Students' => $Students], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
     }
 }

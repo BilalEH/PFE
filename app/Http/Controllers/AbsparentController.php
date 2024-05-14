@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ParentResource;
 use App\Models\Absparent;
+use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 
 class AbsparentController extends Controller
@@ -12,8 +15,8 @@ class AbsparentController extends Controller
      */
     public function index()
     {
-        $absparents = Absparent::all();
-        return response()->json($absparents, 200);
+        $parents = Absparent::all();
+        return response()->json(['parents' => ParentResource::collection($parents)], 200);
     }
 
     /**
@@ -22,42 +25,32 @@ class AbsparentController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'user_id' => 'required|integer',
-            'status' => 'string|nullable',
-            'CIN' => 'string|nullable',
-            'phone' => 'string|nullable',
-            'dateN' => 'date|nullable',
+            'user_id' => 'required|integer,exists:users,id',
         ]);
-
-        $absparent = Absparent::create($request->all());
-        return response()->json($absparent, 201);
+        $UserData = User::find($request->user_id);
+        if ($UserData->role == 'parent') {
+            $parent = Absparent::create($request->all());
+            return response()->json(['absparent' => new ParentResource($parent)], 201);
+        }
+        return response()->json(['message' => 'User is not parent'], 404);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show($id)
-    {
-        $absparent = Absparent::findOrFail($id);
-        return response()->json($absparent, 200);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'user_id' => 'integer',
-            'status' => 'string|nullable',
-            'CIN' => 'string|nullable',
-            'phone' => 'string|nullable',
-            'dateN' => 'date|nullable',
-        ]);
-
-        $absparent = Absparent::findOrFail($id);
-        $absparent->update($request->all());
-        return response()->json($absparent, 200);
+        try {
+            $data = $request->validate([
+                'email' => 'email',
+                'phone' => 'regex:/(^0)[0-9]{9}$/|min:10|max:10',
+            ]);
+            $parent = Absparent::findOrFail($id);
+            $UserData = User::find($request->parent->user_id);
+            if ($UserData) {
+                $UserData->update($data);
+                return response()->json($parent, 200);
+            };
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 404);
+        }
     }
 
     /**
@@ -65,8 +58,12 @@ class AbsparentController extends Controller
      */
     public function destroy($id)
     {
-        $absparent = Absparent::findOrFail($id);
-        $absparent->delete();
-        return response()->json(null, 204);
+        try {
+            $parent = Absparent::findOrFail($id);
+            $parent->delete();
+            return response()->json($parent, 204);
+        } catch (Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 404);
+        }
     }
 }

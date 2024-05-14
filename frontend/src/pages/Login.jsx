@@ -17,9 +17,6 @@ export default function Login() {
 
 
   useEffect(() => {
-
-
-
     const userTest = importUser();
     if (userTest) {
       if (userTest.role === 'admin') {

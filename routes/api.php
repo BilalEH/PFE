@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AbsparentController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\StudentController;
 use Illuminate\Http\Request;
@@ -31,4 +32,10 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('admin/deleted', [AdminController::class, "deleted"]);
     // -------------------------Students----------------------------------------------
     Route::apiResource("/studients", StudentController::class);
+    Route::put("/studients/restore/{id}", [StudentController::class, 'restore']);
+    Route::get('studient/deleted', [StudentController::class, "deleted"]);
+    // ------------------------------teachers----------------------------------------------
+
+    // ------------------------------parents----------------------------------------------
+    Route::apiResource("/parents", AbsparentController::class);
 });

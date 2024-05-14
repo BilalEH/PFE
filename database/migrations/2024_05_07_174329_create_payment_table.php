@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->boolean('status');
+            $table->boolean('status')->default(false);
             $table->foreignId('student_id')->constrained();
             $table->foreignId('course_id')->constrained();
             $table->float('amount');

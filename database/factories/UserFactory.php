@@ -15,15 +15,31 @@ class UserFactory extends Factory
      *
      * @return array<string, mixed>
      */
-public function definition(): array
+    public function definition(): array
     {
         $fn = fake()->firstName();
         $ln = fake()->lastName();
+        $role = fake()->randomElement(['admin', 'student', 'teacher', 'parent']);
+        $style_admin = ['bg' => 'FFD700', 'color' => '122620'];
+        $style_student = ['bg' => '04F17A', 'color' => '19647E'];
+        $style_teacher = ['bg' => '19647E', 'color' => 'FFFDFD'];
+        $style_parent = ['bg' => 'ff4500', 'color' => 'FFFDFD'];
+        $selectedStyle = [];
+        if ($role == 'admin') {
+            $selectedStyle = $style_admin;
+        } else if ($role == 'student') {
+            $selectedStyle = $style_student;
+        } else if ($role == 'teacher') {
+            $selectedStyle = $style_teacher;
+        } else {
+            $selectedStyle = $style_parent;
+        };
+        $avatar = "https://ui-avatars.com/api/?uppercase=false&name=$fn+$ln&background=$selectedStyle[bg]&color=$selectedStyle[color]";
         return [
             'firstName' => $fn,
             'lastName' => $ln,
-            'role' => fake()->randomElement(['admin', 'student', 'teacher', 'parent']),
-            'avatar' => "https://ui-avatars.com/api/?uppercase=false&name=$fn+$ln",
+            'role' => $role,
+            'avatar' => $avatar,
             'email' => $this->faker->unique()->safeEmail,
             'phone' => $this->faker->phoneNumber,
             'cin' => 'G' . $this->faker->randomNumber(4),

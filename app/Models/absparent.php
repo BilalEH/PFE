@@ -12,6 +12,7 @@ class absparent extends Model
 
     protected $fillable = [
         'user_id',
+        'status'
     ];
 
     protected $hidden = [
@@ -24,5 +25,4 @@ class absparent extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
-    
 }

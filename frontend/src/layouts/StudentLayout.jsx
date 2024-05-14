@@ -22,7 +22,7 @@ export default function StudentLayout() {
     return (
         <>
             <header>{/* <Heading></Heading> */}</header>
-            <main>
+            <main className="pages">
                 <Outlet></Outlet>
             </main>
         </>

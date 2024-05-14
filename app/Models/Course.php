@@ -11,7 +11,6 @@ class Course extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'filiere_id',
         'courseName',
         'description',
         'niveau',
@@ -22,4 +21,14 @@ class Course extends Model
         'updated_at',
         'deleted_at',
     ];
+
+    public function classes()
+    {
+        return $this->hasMany(Classe::class);
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
 }

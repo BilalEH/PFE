@@ -66,4 +66,26 @@ class AbsparentController extends Controller
             return response()->json(['message' => $e->getMessage()], 404);
         }
     }
+    public function restore($id)
+    {
+        try {
+            $parent = Absparent::withTrashed()->findOrFail($id);
+            if (!$parent->trashed()) {
+                return response()->json(['message' => 'parent is not deleted'], 400);
+            };
+            $parent->restore();
+            return response()->json(['parent' => $parent], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 404);
+        }
+    }
+    public function deleted()
+    {
+        try {
+            $parents = Absparent::onlyTrashed()->get();
+            return response()->json(['parentsDeleted' => $parents], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
+    }
 }

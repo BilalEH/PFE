@@ -21,4 +21,9 @@ class Classe extends Model
         'updated_at',
         'deleted_at',
     ];
+
+    public function filiere()
+    {
+        return $this->belongsTo(Filiere::class);
+    }
 }

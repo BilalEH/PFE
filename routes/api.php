@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\AbsparentController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\TeacherController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -35,7 +37,12 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::put("/studients/restore/{id}", [StudentController::class, 'restore']);
     Route::get('studient/deleted', [StudentController::class, "deleted"]);
     // ------------------------------teachers----------------------------------------------
+    Route::apiResource("/teachers", TeacherController::class);
 
     // ------------------------------parents----------------------------------------------
     Route::apiResource("/parents", AbsparentController::class);
+    Route::put("/parents/restore/{id}", [AbsparentController::class, 'restore']);
+    Route::get('parent/deleted', [AbsparentController::class, "deleted"]);
+    // ------------------------------courses----------------------------------------------
+    Route::apiResource("/courses", CourseController::class);
 });

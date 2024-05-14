@@ -13,7 +13,7 @@ function ProfileStudent() {
   return (
     <div>
       {loading ? (
-        <div>Loading...</div>
+        <div>Loading...</div> 
       ) : error ? (
         <div>Error: {error}</div>
       ) : (

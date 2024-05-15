@@ -55,7 +55,7 @@ export default function Signup() {
             }
         }
         // Regex pattern for CIN (2 letters followed by 2 to 7 numbers)
-        const cinRegex = /^[A-Za-z]{2}[0-9]{2,7}$/;
+        const cinRegex = /^[A-Za-z]{1,2}[0-9]{2,7}$/;
         if (!cinRegex.test(cin)) {
             errorsObj.cin = "Invalid CIN format";
         }

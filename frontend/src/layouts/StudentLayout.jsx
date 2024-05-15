@@ -42,7 +42,7 @@ export default function StudentLayout() {
                                     Profile
                                 </div>
                                 <div className="dash-icon">
-                                    <Avatar alt={${importUser().firstName} ${importUser().lastName}} src={importUser().avatar} />
+                                <Avatar alt={`${importUser().firstName} ${importUser().lastName}`} src={importUser().avatar} />
                                 </div>
                             </div>
                         </Link>

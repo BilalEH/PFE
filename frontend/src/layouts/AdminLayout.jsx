@@ -144,7 +144,7 @@ export default function AdminLayout() {
                     </div>
                 </div>
             </div>
-            <main className="adminPages">
+            <main className="pages">
                 <Outlet></Outlet>
             </main>
         </>

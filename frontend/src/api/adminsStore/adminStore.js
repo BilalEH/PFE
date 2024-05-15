@@ -132,7 +132,55 @@ export const AdminSlice=createSlice({
             state.status = 'failed';
         })
 
+
+        builder.addCase(addTeacher.pending, (state) => {
+            state.status = 'loading';
+        });
+        builder.addCase(addTeacher.fulfilled, (state, action) => {
+            state.status = 'succeeded';
+
+            const newTeacher = action.payload;
+            // Add the new teacher to the state
+            state.teachers.push(newTeacher);
+        });
+        builder.addCase(addTeacher.rejected, (state) => {
+            state.status = 'failed';
+        });
+
+
+
+
+
+        builder.addCase(deleteTeacher.pending, (state) => {
+            state.status = 'loading';
+        });
+        builder.addCase(deleteTeacher.fulfilled, (state, action) => {
+            state.status = 'succeeded';
+            state.teachers = state.teachers.filter(teacher => teacher.id !== action.payload.teacherId);
+        });
+        builder.addCase(deleteTeacher.rejected, (state) => {
+            state.status = 'failed';
+        });
+
+        // Add cases for updating teacher
+        builder.addCase(updateTeacher.pending, (state) => {
+            state.status = 'loading';
+        });
+        builder.addCase(updateTeacher.fulfilled, (state, action) => {
+            state.status = 'succeeded';
+            const updatedTeacherIndex = state.teachers.findIndex(teacher => teacher.id === action.payload.teacherId);
+            if (updatedTeacherIndex !== -1) {
+                state.teachers[updatedTeacherIndex] = action.payload.updatedTeacher;
+            }
+        });
+        builder.addCase(updateTeacher.rejected, (state) => {
+            state.status = 'failed';
+        });
+
+
     }
+
+
 })
 
 export const GetStudents=createAsyncThunk(
@@ -265,8 +313,46 @@ export const updateParent = createAsyncThunk(
 
 
 
+export const deleteTeacher = createAsyncThunk(
+    'admin/deleteTeacher',
+    async (teacherId) => {
+        try {
+            await axiosInstance.delete(`/api/teachers/${teacherId}`);
+            return { teacherId };
+        } catch (error) {
+            toast.error(`X ${error.response.data.message}`, StyleToast);
+            throw error;
+        }
+    }
+);
+
+// Create async thunk to update teacher
+export const updateTeacher = createAsyncThunk(
+    'admin/updateTeacher',
+    async ({ teacherId, updatedTeacher }) => {
+        try {
+            await axiosInstance.put(`/api/teachers/${teacherId}`, updatedTeacher);
+            return { teacherId, updatedTeacher };
+        } catch (error) {
+            toast.error(`X ${error.response.data.message}`, StyleToast);
+            throw error;
+        }
+    }
+);
 
 
+export const addTeacher = createAsyncThunk(
+    'admin/addTeacher',
+    async (teacherData) => {
+        try {
+            const response = await axiosInstance.post(`/api/teachers`, teacherData);
+            return response.data; // Assuming the response contains the newly added teacher data
+        } catch (error) {
+            toast.error(`X ${error.response.data.message}`, StyleToast);
+            throw error;
+        }
+    }
+);
 
 
 

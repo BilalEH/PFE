@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetParents } from '../../api/adminsStore/adminStore';
+// import "./style/pages.css"
 
 export default function AdminParents() {
     const dispatch = useDispatch();
@@ -39,8 +40,8 @@ export default function AdminParents() {
 
     return (
         <div>
-            <h2>List of Parents</h2>
-            <table className="parent-table">
+            <div className='page-title'>List of Parents</div>
+            <table className="page-table">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -62,8 +63,8 @@ export default function AdminParents() {
                             <td>{parent.user_id.phone}</td>
                             <td>{parent.user_id.cin}</td>
                             <td>
-                                <button onClick={() => handleUpdate(parent.id)}>Update</button>
-                                <button onClick={() => handleDelete(parent.id)}>Delete</button>
+                                <button className='table-btn update' onClick={() => handleUpdate(parent.id)}>Update</button>
+                                <button className='table-btn delete' onClick={() => handleDelete(parent.id)}>Delete</button>
                             </td>
                         </tr>
                     ))}

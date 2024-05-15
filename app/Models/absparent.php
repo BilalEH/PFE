@@ -12,11 +12,12 @@ class absparent extends Model
 
     protected $fillable = [
         'user_id',
-        'status'
+        'status',
+        'created_at'
     ];
 
     protected $hidden = [
-        'created_at',
+        // 'created_at',
         'updated_at',
         'deleted_at',
     ];

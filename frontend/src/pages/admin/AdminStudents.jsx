@@ -5,17 +5,17 @@ import { GetStudents, deleteStudent, updateStudent } from '../../api/adminsStore
 import "./style/pages.css";
 
 export default function AdminStudents() {
-    const dispatch = useDispatch();
-    const students = useSelector((state) => state.admins.students);
-    const status = useSelector((state) => state.status);
+  const dispatch = useDispatch();
+  const students = useSelector((state) => state.admins.students);
+  const status = useSelector((state) => state.status);
 
-    useEffect(() => {
-        dispatch(GetStudents());
-    }, [dispatch]);
+  useEffect(() => {
+    dispatch(GetStudents());
+  }, [dispatch]);
 
-    useEffect(() => {
-        console.log('Students:', students);
-    }, [students]);
+  useEffect(() => {
+    console.log('Students:', students);
+  }, [students]);
 
     const handleDelete = (studentId) => {
         dispatch(deleteStudent(studentId));
@@ -25,17 +25,17 @@ export default function AdminStudents() {
         dispatch(updateStudent(studentId));
     };
 
-    if (status === 'loading') {
-        return <div>Loading...</div>;
-    }
+  if (status === 'loading') {
+    return <div>Loading...</div>;
+  }
 
-    if (status === 'failed') {
-        return <div>Error loading data</div>;
-    }
+  if (status === 'failed') {
+    return <div>Error loading data</div>;
+  }
 
-    if (students.length === 0) {
-        return <div>No data available</div>;
-    }
+  if (students.length === 0) {
+    return <div>No data available</div>;
+  }
 
     return (
         <div>
@@ -89,3 +89,4 @@ export default function AdminStudents() {
         </div>
     );
 }
+

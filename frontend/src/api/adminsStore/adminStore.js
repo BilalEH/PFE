@@ -15,6 +15,40 @@ export const AdminSlice=createSlice({
         action_status:''
     },
     extraReducers:(builder)=>{
+
+
+
+        builder.addCase(deleteParent.pending, (state) => {
+            state.status = 'loading';
+        });
+
+        builder.addCase(deleteParent.fulfilled, (state, action) => {
+            state.status = 'succeeded';
+            // Remove the deleted parent from the state
+            state.parents = state.parents.filter(parent => parent.id !== action.payload.parentId);
+        });
+
+        builder.addCase(deleteParent.rejected, (state) => {
+            state.status = 'failed';
+        });
+
+        builder.addCase(updateParent.pending, (state) => {
+            state.status = 'loading';
+        });
+
+        builder.addCase(updateParent.fulfilled, (state, action) => {
+            state.status = 'succeeded';
+            // Update the parent in the state
+            const updatedParentIndex = state.parents.findIndex(parent => parent.id === action.payload.parentId);
+            if (updatedParentIndex !== -1) {
+                state.parents[updatedParentIndex] = action.payload.updatedParent;
+            }
+        });
+
+        builder.addCase(updateParent.rejected, (state) => {
+            state.status = 'failed';
+        });
+
         // getStudents
         builder.addCase(GetStudents.pending, (state) => {
             state.status = 'loading';
@@ -202,6 +236,32 @@ export const updateStudent = createAsyncThunk(
     }
 );
 
+
+export const deleteParent = createAsyncThunk(
+    'admin/deleteParent',
+    async (parentId) => {
+        try {
+            await axiosInstance.delete(`/api/parents/${parentId}`);
+            return { parentId };
+        } catch (error) {
+            toast.error(`X ${error.response.data.message}`, StyleToast);
+            throw error;
+        }
+    }
+);
+
+export const updateParent = createAsyncThunk(
+    'admin/updateParent',
+    async ({ parentId, updatedParent }) => {
+        try {
+            await axiosInstance.put(`/api/parents/${parentId}`, updatedParent);
+            return { parentId, updatedParent };
+        } catch (error) {
+            toast.error(`X ${error.response.data.message}`, StyleToast);
+            throw error;
+        }
+    }
+);
 
 
 

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetParents } from '../../api/adminsStore/adminStore';
+import { GetParents, deleteParent } from '../../api/adminsStore/adminStore';
 // import "./style/pages.css"
 
 export default function AdminParents() {
@@ -17,8 +17,8 @@ console.log('Parents:', parents);
 }, [parents]);
 
 const handleDelete = (parentId) => {
-// Add your delete logic here
-console.log(`Deleting parent with ID ${parentId}`);
+    dispatch(deleteParent(parentId));
+    console.log(`Deleting parent with ID ${parentId}`);
 };
 
 const handleUpdate = (parentId) => {

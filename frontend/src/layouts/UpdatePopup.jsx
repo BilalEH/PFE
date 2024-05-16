@@ -1,5 +1,5 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide } from '@mui/material';
-function UpdatePopup({handleClose,setHandleClose,title,content,children}) {
+function UpdateDeletePopup({handleClose,setHandleClose,title,content,children}) {
     return (
         <>
             <Dialog open={handleClose} onClose={()=>setHandleClose(false)} >
@@ -12,7 +12,6 @@ function UpdatePopup({handleClose,setHandleClose,title,content,children}) {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={()=>setHandleClose(false)}>Disagree</Button>
                     {children}
                 </DialogActions>
             </Dialog>
@@ -20,4 +19,4 @@ function UpdatePopup({handleClose,setHandleClose,title,content,children}) {
     );
 }
 
-export default UpdatePopup;
+export default UpdateDeletePopup;

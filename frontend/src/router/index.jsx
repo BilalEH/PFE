@@ -28,6 +28,10 @@ import StudentPayment from "../pages/student/StudentPayment";
 import ParentStudents from "../pages/parent/ParentStudents";
 import ParentCourses from "../pages/parent/ParentCourses";
 import ParentPayments from "../pages/parent/ParentPayments";
+import TeacherLayout from "../layouts/TeacherLayout";
+import TeacherStudents from "../pages/Teacher/TeacherStudents";
+import TeacherCourses from "../pages/Teacher/TeacherCourses";
+import TeacherHome from "../pages/Teacher/TeacherHome";
 
 export const router = createBrowserRouter([
     {
@@ -63,6 +67,10 @@ export const router = createBrowserRouter([
                 element: <AdminHome />,
             },
             {
+                path: "/admin/Profile",
+                element: <AdminProfile />,
+            },
+            {
                 path: "/admin/requests",
                 element: <AdminRequests />,
             },
@@ -85,31 +93,7 @@ export const router = createBrowserRouter([
             {
                 path: "/admin/messages",
                 element: <AdminMessages />,
-            },
-
-            {
-                path: "/admin/Profile",
-                element: <AdminProfile />,
-            },
-            {
-                path: "/parent/profile",
-                element: <ParentProfile />,
-            },
-
-            {
-                path: "/Student/profile",
-                element: <StudentProfile />,
-            },
-
-            {
-                path: "/Teacher/profile",
-                element: <TeacherProfile />,
-            },
-
-
-            
-
-
+            }
         ],
     },
     {
@@ -161,6 +145,27 @@ export const router = createBrowserRouter([
                 element: <ParentPayments/>
             }
         ],
+    },
+    {
+        element: <TeacherLayout/>,
+        children: [
+            {
+                path: "/teacher",
+                element: <TeacherHome/>
+            },
+            {
+                path: "/teacher/profile",
+                element: <TeacherProfile/>
+            },
+            {
+                path: "/teacher/students",
+                element: <TeacherStudents/>
+            },
+            {
+                path: "/teacher/courses",
+                element: <TeacherCourses/>
+            }
+        ]
     },
     {
         path: "*",

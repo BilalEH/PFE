@@ -55,7 +55,7 @@ export default function AdminStudents() {
                 </thead>
                 <tbody>
                     {students.map((student) => (
-                        <tr key={student.id}>
+                        student.status? <tr key={student.id}>
                             <td className='icons-td'>
                                 <button className='table-btn delete' onClick={() => handleDelete(student.id)}>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
@@ -82,7 +82,7 @@ export default function AdminStudents() {
                             <td>{student.user_id.email}</td>
                             <td>{student.user_id.phone}</td>
                             <td>{new Date(student.created_at).toLocaleDateString()}</td>
-                        </tr>
+                        </tr>:""
                     ))}
                 </tbody>
             </table>

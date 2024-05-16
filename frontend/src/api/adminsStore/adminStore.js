@@ -93,7 +93,7 @@ export const AdminSlice=createSlice({
         })
         builder.addCase(GetAdmins.fulfilled, (state, action) => {
             state.status = 'succeeded';
-            state.parents = action.payload;
+            state.admins = action.payload;
         })
         builder.addCase(GetAdmins.rejected, (state) => {
             state.status = 'failed';

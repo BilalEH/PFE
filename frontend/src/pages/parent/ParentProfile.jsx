@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetParents } from 'path/to/adminSlice'; // Adjust the import path based on your file structure
-
+import { GetParents } from '../../api/adminsStore/adminStore';
 function ParentProfile() {
   const dispatch = useDispatch();
   const parents = useSelector((state) => state.studentsSlice.parents); // Assuming the key is 'parents' in your slice state

@@ -1,27 +1,15 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetStudents } from 'path/to/adminSlice'; // Adjust the import path based on your file structure
+import { GetStudents } from '../../api/adminsStore/adminStore';
 
 function StudentProfile() {
   const dispatch = useDispatch();
-  const students = useSelector((state) => state.studentsSlice.students); // Assuming the key is 'students' in your slice state
-  const status = useSelector((state) => state.studentsSlice.status);
 
   useEffect(() => {
     dispatch(GetStudents());
-  }, [dispatch]);
-
-  if (status === 'loading') {
-    return <div>Loading...</div>;
-  }
-
-  if (status === 'failed') {
-    return <div>Error loading data</div>;
-  }
-
-  const student = students[0]; // Assuming there's only one student, adjust accordingly if needed
-
-  if (!student) {
+  },[]);
+  const studentsData = useSelector((state) => state.studentsSlice);
+  if (!studentsData.student[0]) {
     return <div>No student data available</div>;
   }
 
@@ -29,9 +17,9 @@ function StudentProfile() {
     <div>
       <h2>Student Profile</h2>
       <div>
-        <p><strong>Name:</strong> {student.name}</p>
-        <p><strong>Age:</strong> {student.age}</p>
-        <p><strong>Grade:</strong> {student.grade}</p>
+        <p><strong>Name:</strong> {studentsData.student[0].name}</p>
+        <p><strong>Age:</strong> {studentsData.student[0].age}</p>
+        <p><strong>Grade:</strong> {studentsData.student[0].grade}</p>
         {/* Add more profile information here */}
       </div>
     </div>

@@ -1,36 +1,30 @@
-import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetAdmins } from '../../api/adminsStore/adminStore'; // Adjust the import path based on your file structure
+import useAuthContext from '../../api/auth';
+import { useEffect } from 'react';
+import { GetAdmins } from '../../api/adminsStore/adminStore';
 
 function AdminProfile() {
   const dispatch = useDispatch();
-  const admins = useSelector((state) => state.admins.admins);
-  const status = useSelector((state) => state.admins.status);
-
+  const {importUser} =useAuthContext()
   useEffect(() => {
     dispatch(GetAdmins());
-  }, [dispatch]);
-
-  if (status === 'loading') {
-    return <div>Loading...</div>;
-  }
-
-  if (status === 'failed') {
-    return <div>Error loading data</div>;
-  }
-
-  const admin = admins[0]; // Assuming there's only one admin, adjust accordingly if needed
-
-  if (!admin) {
+  },[])
+  const userData = useSelector((state) => state.admins);
+  console.log(userData);
+  if (userData.status!='succeeded') {
     return <div>No admin data available</div>;
   }
-
+  const user=userData.admins.find((e)=>e.user_id.id==importUser().id)
   return (
     <div>
       <h2>Admin Profile</h2>
       <div>
-        <p><strong>Name:</strong> {admin.name}</p>
-        <p><strong>Email:</strong> {admin.email}</p>
+        <p><strong>lastName:</strong> {user.user_id.lastName}</p>
+        <p><strong>firstName:</strong> {user.user_id.firstName}</p>
+        <p><strong>cin:</strong> {user.user_id.cin}</p>
+        <p><strong>Email:</strong> {user.user_id.email}</p>
+        <p><strong>phone:</strong> {user.user_id.phone}</p>
+        <p><strong>role:</strong> {user.user_id.role}</p>
       </div>
     </div>
   );

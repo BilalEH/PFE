@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetAdmins } from 'path/to/adminSlice'; // Adjust the import path based on your file structure
+import { GetAdmins } from '../../api/adminsStore/adminStore'; // Adjust the import path based on your file structure
 
 function AdminProfile() {
   const dispatch = useDispatch();
@@ -31,7 +31,6 @@ function AdminProfile() {
       <div>
         <p><strong>Name:</strong> {admin.name}</p>
         <p><strong>Email:</strong> {admin.email}</p>
-        {/* Add more profile information here */}
       </div>
     </div>
   );

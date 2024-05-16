@@ -36,7 +36,7 @@ export default function StudentLayout() {
             <div className="row">
                 <div className="dashboard pe-0">
                     <div className="dashElement">
-                        <Link to="/profile">
+                        <Link to="/parent/profile">
                             <div className="d-flex align-items-center justify-content-between p-3">
                                 <div>
                                     Profile

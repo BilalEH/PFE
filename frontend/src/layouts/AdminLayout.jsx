@@ -35,7 +35,7 @@ export default function AdminLayout() {
             <div className="row">
                 <div className="dashboard pe-0">
                     <div className="dashElement">
-                        <Link to="/profile">
+                        <Link to="/admin/profile">
                             <div className="d-flex align-items-center justify-content-between p-3">
                                 <div>
                                     Profile

@@ -18,6 +18,10 @@ import AdminTeachers from "../pages/admin/AdminTeachers";
 import AdminParents from "../pages/admin/AdminParents";
 import AdminCourses from "../pages/admin/AdminCourses";
 import AdminMessages from "../pages/admin/AdminMessages";
+import AdminProfile from "../pages/admin/AdminProfile";
+import ParentProfile from "../pages/parent/ParentProfile";
+import StudentProfile from "../pages/student/StudentProfile";
+import TeacherProfile from "../pages/Teacher/TeacherProfile";
 
 export const router = createBrowserRouter([
     {
@@ -76,6 +80,30 @@ export const router = createBrowserRouter([
                 path: "/admin/messages",
                 element: <AdminMessages />,
             },
+
+            {
+                path: "/admin/Profile",
+                element: <AdminProfile />,
+            },
+            {
+                path: "/parent/profile",
+                element: <ParentProfile />,
+            },
+
+            {
+                path: "/Student/profile",
+                element: <StudentProfile />,
+            },
+
+            {
+                path: "/Teacher/profile",
+                element: <TeacherProfile />,
+            },
+
+
+            
+
+
         ],
     },
     {

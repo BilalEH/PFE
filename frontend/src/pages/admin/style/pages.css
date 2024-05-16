@@ -1,0 +1,48 @@
+.page-title {
+    font-size: 52px;
+}
+
+.page-table {
+    width: 100%;
+     margin-top: 30px;
+}
+
+th,
+td {
+    padding: 22px 12px;
+}
+
+tr {
+    border-bottom: 2px solid #c6c6c6;
+}
+
+.icons-td {
+    width: 100px;
+}
+
+.table-btn {
+    margin: 0px 2px;
+    background: none;
+    border: 0;
+    transition: 100ms all ease-out;
+}
+
+.table-btn:hover {
+    text-decoration: underline;
+}
+
+.update {
+    color: #19647e;
+}
+
+.update:hover {
+    color: #0e3846;
+}
+
+.delete {
+    color: #F63E02;
+}
+
+.delete:hover {
+    color: #6b1b00;
+}

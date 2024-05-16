@@ -56,6 +56,7 @@ export const AuthProvider = ({children}) => {
             toast.success("Logout successful", StyleToast);
             return true;
         }else{
+            localStorage.clear();
             toast.error("you are not logged in", StyleToast);
             return false;
         }

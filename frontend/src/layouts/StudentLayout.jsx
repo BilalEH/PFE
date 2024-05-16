@@ -64,7 +64,7 @@ export default function StudentLayout() {
                         <Link to="/student/seance">
                             <div className="d-flex align-items-center justify-content-between p-3 h-100">
                                 <div>
-                                    Courses
+                                    Classes
                                 </div>
                                 <div className="dash-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" className="bi bi-hourglass-split" viewBox="0 0 16 16">

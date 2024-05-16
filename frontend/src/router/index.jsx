@@ -22,6 +22,12 @@ import AdminProfile from "../pages/admin/AdminProfile";
 import ParentProfile from "../pages/parent/ParentProfile";
 import StudentProfile from "../pages/student/StudentProfile";
 import TeacherProfile from "../pages/Teacher/TeacherProfile";
+import StudentCourse from "../pages/student/StudentCourse";
+import StudentSeance from "../pages/student/StudentSeance";
+import StudentPayment from "../pages/student/StudentPayment";
+import ParentStudents from "../pages/parent/ParentStudents";
+import ParentCourses from "../pages/parent/ParentCourses";
+import ParentPayments from "../pages/parent/ParentPayments";
 
 export const router = createBrowserRouter([
     {
@@ -113,6 +119,22 @@ export const router = createBrowserRouter([
                 path: "/student",
                 element: <StudentHome />,
             },
+            {
+                path: "student/profile",
+                element: <StudentProfile/>
+            },
+            {
+                path: "/student/courses",
+                element: <StudentCourse/> 
+            },
+            {
+                path: "/student/seance",
+                element: <StudentSeance/>
+            },
+            {
+                path: "/student/payment",
+                element: <StudentPayment/>
+            }
         ],
     },
     {
@@ -122,6 +144,22 @@ export const router = createBrowserRouter([
                 path: "/parent",
                 element: <ParentHome />,
             },
+            {
+                path: "/parent/profile",
+                element: <ParentProfile/>
+            },
+            {
+                path: "/parent/students",
+                element: <ParentStudents/>
+            },
+            {
+                path: "/parent/courses",
+                element: <ParentCourses/>
+            },
+            {
+                path: "/parent/payment",
+                element: <ParentPayments/>
+            }
         ],
     },
     {

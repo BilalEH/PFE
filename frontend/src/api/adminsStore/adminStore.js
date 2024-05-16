@@ -15,40 +15,31 @@ export const AdminSlice=createSlice({
         action_status:''
     },
     extraReducers:(builder)=>{
-
-
-
+        // delete parent
         builder.addCase(deleteParent.pending, (state) => {
-            state.status = 'loading';
+            state.action_status = 'loading';
         });
-
         builder.addCase(deleteParent.fulfilled, (state, action) => {
-            state.status = 'succeeded';
-            // Remove the deleted parent from the state
+            state.action_status = 'succeeded';
             state.parents = state.parents.filter(parent => parent.id !== action.payload.parentId);
         });
-
         builder.addCase(deleteParent.rejected, (state) => {
-            state.status = 'failed';
+            state.action_status = 'failed';
         });
-
+        // update parent
         builder.addCase(updateParent.pending, (state) => {
             state.status = 'loading';
         });
-
         builder.addCase(updateParent.fulfilled, (state, action) => {
             state.status = 'succeeded';
-            // Update the parent in the state
             const updatedParentIndex = state.parents.findIndex(parent => parent.id === action.payload.parentId);
             if (updatedParentIndex !== -1) {
                 state.parents[updatedParentIndex] = action.payload.updatedParent;
             }
         });
-
         builder.addCase(updateParent.rejected, (state) => {
             state.status = 'failed';
         });
-
         // getStudents
         builder.addCase(GetStudents.pending, (state) => {
             state.status = 'loading';
@@ -60,24 +51,23 @@ export const AdminSlice=createSlice({
         builder.addCase(GetStudents.rejected, (state) => {
             state.status = 'failed';
         })
-        // Add reducers for delete and update actions
+        // delete student
         builder.addCase(deleteStudent.pending, (state) => {
             state.status = 'loading';
         })
         builder.addCase(deleteStudent.fulfilled, (state, action) => {
             state.status = 'succeeded';
-            // Remove the deleted student from the state
             state.students = state.students.filter(student => student.id !== action.payload.studentId);
         })
         builder.addCase(deleteStudent.rejected, (state) => {
             state.status = 'failed';
         })
+        // update student
         builder.addCase(updateStudent.pending, (state) => {
             state.status = 'loading';
         })
         builder.addCase(updateStudent.fulfilled, (state, action) => {
             state.status = 'succeeded';
-            // Update the student in the state
             const updatedStudentIndex = state.students.findIndex(student => student.id === action.payload.studentId);
             if (updatedStudentIndex !== -1) {
                 state.students[updatedStudentIndex] = action.payload.updatedStudent;
@@ -86,7 +76,6 @@ export const AdminSlice=createSlice({
         builder.addCase(updateStudent.rejected, (state) => {
             state.status = 'failed';
         })
-
         // getParents
         builder.addCase(GetParents.pending, (state) => {
             state.status = 'loading';
@@ -131,14 +120,12 @@ export const AdminSlice=createSlice({
         builder.addCase(GetCourses.rejected, (state) => {
             state.status = 'failed';
         })
-
-
+        // add teacher
         builder.addCase(addTeacher.pending, (state) => {
             state.status = 'loading';
         });
         builder.addCase(addTeacher.fulfilled, (state, action) => {
             state.status = 'succeeded';
-
             const newTeacher = action.payload;
             // Add the new teacher to the state
             state.teachers.push(newTeacher);
@@ -146,11 +133,6 @@ export const AdminSlice=createSlice({
         builder.addCase(addTeacher.rejected, (state) => {
             state.status = 'failed';
         });
-
-
-
-
-
         builder.addCase(deleteTeacher.pending, (state) => {
             state.status = 'loading';
         });
@@ -176,8 +158,6 @@ export const AdminSlice=createSlice({
         builder.addCase(updateTeacher.rejected, (state) => {
             state.status = 'failed';
         });
-
-
     }
 
 
@@ -259,13 +239,11 @@ export const GetCourses=createAsyncThunk(
 export const deleteStudent = createAsyncThunk(
     'admin/deleteStudent',
     async (studentId) => {
-        // Make an API call to delete the student
         await axiosInstance.delete(`/api/students/${studentId}`)
             .catch(err => {
                 toast.error(`X ${err.response.data.message}`, StyleToast);
                 throw err;
             });
-        // Return the deleted studentId
         return { studentId };
     }
 );
@@ -279,7 +257,6 @@ export const updateStudent = createAsyncThunk(
                 toast.error(`X ${err.response.data.message}`, StyleToast);
                 throw err;
             });
-        // Return the updated student data
         return { studentId, updatedStudent };
     }
 );

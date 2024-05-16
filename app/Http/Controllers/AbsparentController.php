@@ -24,15 +24,19 @@ class AbsparentController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'user_id' => 'required|integer,exists:users,id',
-        ]);
-        $UserData = User::find($request->user_id);
-        if ($UserData->role == 'parent') {
-            $parent = Absparent::create($request->all());
-            return response()->json(['absparent' => new ParentResource($parent)], 201);
+        try {
+            $data = $request->validate([
+                'user_id' => 'required|exists:users,id|unique:absparents,user_id',
+            ]);
+            $UserData = User::find($request->user_id);
+            if ($UserData->role == 'parent') {
+                $parent = Absparent::create($data);
+                return response()->json(['absparent' => new ParentResource($parent)], 201);
+            }
+            return response()->json(['message' => 'User is not parent'], 404);
+        } catch (Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 404);
         }
-        return response()->json(['message' => 'User is not parent'], 404);
     }
 
     public function update(Request $request, $id)

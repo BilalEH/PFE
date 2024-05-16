@@ -31,4 +31,8 @@ class Student extends Model
     {
         return $this->belongsTo(absparent::class, 'absparent_id', 'id');
     }
+    public function classes()
+    {
+        return $this->belongsToMany(Classe::class, 'student_classes');
+    }
 }

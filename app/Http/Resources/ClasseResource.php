@@ -16,6 +16,7 @@ class ClasseResource extends JsonResource
     {
         $data = parent::toArray($request);
         $data['filiere_id'] = $this->filiere;
+        $data['course_id'] = $this->course;
         return $data;
     }
 }

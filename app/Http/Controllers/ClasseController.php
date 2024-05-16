@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ClasseResource;
 use App\Models\Classe;
 use Exception;
 use Illuminate\Http\Request;
@@ -15,7 +16,7 @@ class ClasseController extends Controller
     {
         try {
             $classes = Classe::all();
-            return response()->json($classes, 200);
+            return response()->json(['classes' => ClasseResource::collection($classes)], 200);
         } catch (Exception $e) {
             return response()->json(["message" => $e->getMessage()], 404);
         }
@@ -33,7 +34,7 @@ class ClasseController extends Controller
             'teacher_id' => 'required|exists:teachers,id|integer',
         ]);
         $classe = Classe::create($data);
-        return response()->json($classe, 201);
+        return response()->json(['classe' => new ClasseResource($classe)], 201);
     }
 
     public function show(string $id)
@@ -51,7 +52,7 @@ class ClasseController extends Controller
         $classe = Classe::findOrFail($id);
 
         $request->validate([
-            'className' => 'required',
+            'className' => 'required|unique:classes,className',
             'course_id' => 'required|exists:courses,id',
             'filiere_id' => 'required|exists:filieres,id',
             'teacher_id' => 'required|exists:teachers,id',

@@ -2,23 +2,14 @@
 
 use App\Http\Controllers\AbsparentController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ClasseController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
 
 Route::get("/", function () {
     return "API";
@@ -38,11 +29,14 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('studient/deleted', [StudentController::class, "deleted"]);
     // ------------------------------teachers----------------------------------------------
     Route::apiResource("/teachers", TeacherController::class);
-
     // ------------------------------parents----------------------------------------------
     Route::apiResource("/parents", AbsparentController::class);
     Route::put("/parents/restore/{id}", [AbsparentController::class, 'restore']);
     Route::get('parent/deleted', [AbsparentController::class, "deleted"]);
     // ------------------------------courses----------------------------------------------
     Route::apiResource("/courses", CourseController::class);
+    // --------------------------------Messages--------------------------------------------
+    Route::apiResource("/messages", MessageController::class);
+    // --------------------------------Classes--------------------------------------------
+    Route::apiResource("/classes", ClasseController::class);
 });

@@ -22,8 +22,20 @@ class Classe extends Model
         'deleted_at',
     ];
 
+    public function teacher()
+    {
+        return $this->belongsTo(Teacher::class);
+    }
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
+    }
     public function filiere()
     {
         return $this->belongsTo(Filiere::class);
+    }
+    public function classes()
+    {
+        return $this->belongsToMany(Student::class, 'student_classes');
     }
 }

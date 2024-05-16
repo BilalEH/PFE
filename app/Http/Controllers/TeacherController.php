@@ -27,14 +27,11 @@ class TeacherController extends Controller
             'user_id' => 'required|integer',
             'specialite' => 'required|string',
         ]);
-
         $teacher = Teacher::findOrFail($id);
-
         $teacher->update([
             'user_id' => $request->user_id,
             'specialite' => $request->specialite,
         ]);
-
         return response()->json($teacher, 200);
     }
 

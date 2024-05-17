@@ -12,11 +12,13 @@ export default function AdminTeachers() {
   const status = useSelector((state) => state.status);
 
   const [formData, setFormData] = useState({
+    cin: '', // Add cin field
     firstName: '',
     lastName: '',
     email: '',
     phone: '',
     specialty: '', // Change the field name to specialty
+    password: '', // Add password field
   });
 
   useEffect(() => {
@@ -86,10 +88,12 @@ export default function AdminTeachers() {
 
       {/* Form for adding a new teacher */}
       <form className="add-teacher-form" onSubmit={handleSubmit}>
+        <input type="text" name="cin" value={formData.cin} onChange={handleChange} placeholder="CIN" />
         <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} placeholder="First Name" />
         <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} placeholder="Last Name" />
         <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" />
         <input type="text" name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone" />
+        <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Password" />
         {/* Dropdown for selecting course as specialty */}
         <select name="specialty" value={formData.specialty} onChange={handleChange} placeholder="Specialty">
           <option value="">Select Specialty</option>

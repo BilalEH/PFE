@@ -370,7 +370,7 @@ export const addTeacher = createAsyncThunk(
     async (teacherData) => {
         try {
             const response = await axiosInstance.post(`/api/teachers`, teacherData);
-            return response.data; // Assuming the response contains the newly added teacher data
+            return response.data;
         } catch (error) {
             toast.error(`X ${error.response.data.message}`, StyleToast);
             throw error;

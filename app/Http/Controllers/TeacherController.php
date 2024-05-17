@@ -1,44 +1,48 @@
 <?php
 
-namespace App\Http\Controllers;
-
-use App\Http\Resources\TeacherResource;
+use App\Http\Controllers\Controller;
 use App\Models\Teacher;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 
 class TeacherController extends Controller
 {
+    // Other methods...
+
     /**
-     * Display a listing of the teachers.
+     * Store a newly created teacher in storage.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $teachers = Teacher::all();
-        return response()->json(['teachers' => TeacherResource::collection($teachers)], 200);
-    }
-
-
-    public function update(Request $request, $id)
+    public function store(Request $request)
     {
         // Validate the request data
         $request->validate([
-            'user_id' => 'required|integer',
-            'specialite' => 'required|string',
+            'firstName' => 'required|string',
+            'lastName' => 'required|string',
+            'email' => 'required|email|unique:users,email',
+            'phone' => 'required|string',
+            'password' => 'required|min:8', // Minimum 8 characters for password
         ]);
-        $teacher = Teacher::findOrFail($id);
-        $teacher->update([
-            'user_id' => $request->user_id,
-            'specialite' => $request->specialite,
+
+        // Create a new user with role 'teacher'
+        $user = User::create([
+            'firstName' => $request->input('firstName'),
+            'lastName' => $request->input('lastName'),
+            'email' => $request->input('email'),
+            'role' => 'teacher', // Set the role to 'teacher'
+            'phone' => $request->input('phone'),
+            'password' => Hash::make($request->input('password')), // Hash the password
         ]);
-        return response()->json($teacher, 200);
-    }
 
-    public function destroy($id)
-    {
-        Teacher::findOrFail($id)->delete();
+        // Create a new teacher associated with the user
+        $teacher = Teacher::create([
+            'user_id' => $user->id,
+            'specialite' => $request->input('specialty'),
+        ]);
 
-        return response()->json(['message' => 'Teacher deleted successfully'], 200);
+        return response()->json(['message' => 'Teacher created successfully', 'teacher' => $teacher], 201);
     }
 }

@@ -33,7 +33,13 @@ body {
     background-color: #fdfdfd;
     color: #19647e;
 }
-
+.dashElementActive{
+    background-color: #fdfdfd !important;
+    color: #19647e !important;
+}
+.dashElementActive>a{
+    color: #19647e !important;
+}
 .dashElement>a {
     text-decoration: none;
     color: #fdfdfd;

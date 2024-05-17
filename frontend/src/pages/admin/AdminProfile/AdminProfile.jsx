@@ -18,13 +18,19 @@ function AdminProfile() {
       {
         userData.status==='succeeded'?(
           <div>
-            <p><strong>lastName:</strong> {user.user_id.lastName}</p>
-            <p><strong>firstName:</strong> {user.user_id.firstName}</p>
-            <p><strong>cin:</strong> {user.user_id.cin}</p>
-            <p><strong>Email:</strong> {user.user_id.email}</p>
-            <p><strong>phone:</strong> {user.user_id.phone}</p>
-            <p><strong>role:</strong> {user.user_id.role}</p>
-            <p><strong>Status:</strong> {user.status==0?'Not verified':'Verified'}</p>
+            {
+              user?(
+                <>
+                  <p><strong>lastName:</strong> {user.user_id.lastName}</p>
+                  <p><strong>firstName:</strong> {user.user_id.firstName}</p>
+                  <p><strong>cin:</strong> {user.user_id.cin}</p>
+                  <p><strong>Email:</strong> {user.user_id.email}</p>
+                  <p><strong>phone:</strong> {user.user_id.phone}</p>
+                  <p><strong>role:</strong> {user.user_id.role}</p>
+                  <p><strong>Status:</strong> {user.status==0?'Not verified':'Verified'}</p>
+                </>
+              ):('error')
+            }
           </div>
         ):(userData.status==='failed'?(<div className='w-100 d-flex justify-content-center'>No admin data available</div>):(<div className='w-100 d-flex justify-content-center'><CircularProgress/></div>))
       }

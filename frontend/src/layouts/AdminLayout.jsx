@@ -1,5 +1,5 @@
 import{ useEffect } from "react";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import "./style/dashboard.css";
 import { Avatar } from "@mui/material";
 import useAuthContext from "../api/auth";
@@ -30,11 +30,12 @@ export default function AdminLayout() {
             navigate("/login")
         }
     }
+    const {pathname}=useLocation();
     return (
         <>
             <div className="row">
                 <div className="dashboard pe-0">
-                    <div className="dashElement">
+                    <div className={`dashElement ${pathname=='/admin/profile'?'dashElementActive':''}`}>
                         <Link to="/admin/profile">
                             <div className="d-flex align-items-center justify-content-between p-3">
                                 <div>
@@ -46,7 +47,7 @@ export default function AdminLayout() {
                             </div>
                         </Link>
                     </div>
-                    <div className="dashElement">
+                    <div className={`dashElement ${pathname=='/admin/requests'?'dashElementActive':''}`}>
                         <Link to="/admin/requests">
                             <div className="d-flex align-items-center justify-content-between p-3 h-100">
                                 <div>
@@ -60,7 +61,7 @@ export default function AdminLayout() {
                             </div>
                         </Link>
                     </div>
-                    <div className="dashElement">
+                    <div className={`dashElement ${pathname=='/admin/students'?'dashElementActive':''}`}>
                         <Link to="/admin/students">
                             <div className="d-flex align-items-center justify-content-between p-3 h-100">
                                 <div>
@@ -75,7 +76,7 @@ export default function AdminLayout() {
                             </div>
                         </Link>
                     </div>
-                    <div className="dashElement">
+                    <div className={`dashElement ${pathname=='/admin/parents'?'dashElementActive':''}`}>
                         <Link to="/admin/parents">
                             <div className="d-flex align-items-center justify-content-between p-3 h-100">
                                 <div>
@@ -89,7 +90,7 @@ export default function AdminLayout() {
                             </div>
                         </Link>
                     </div>
-                    <div className="dashElement">
+                    <div className={`dashElement ${pathname=='/admin/teachers'?'dashElementActive':''}`}>
                         <Link to="/admin/teachers">
                             <div className="d-flex align-items-center justify-content-between p-3 h-100">
                                 <div>
@@ -104,7 +105,7 @@ export default function AdminLayout() {
                             </div>
                         </Link>
                     </div>
-                    <div className="dashElement">
+                    <div className={`dashElement ${pathname=='/admin/courses'?'dashElementActive':''}`}>
                         <Link to="/admin/courses">
                             <div className="d-flex align-items-center justify-content-between p-3 h-100">
                                 <div>
@@ -118,7 +119,7 @@ export default function AdminLayout() {
                             </div>
                         </Link>
                     </div>
-                    <div className="dashElement">
+                    <div className={`dashElement ${pathname=='/admin/messages'?'dashElementActive':''}`}>
                         <Link to="/admin/messages">
                             <div className="d-flex align-items-center justify-content-between p-3 h-100">
                                 <div>
@@ -132,7 +133,7 @@ export default function AdminLayout() {
                             </div>
                         </Link>
                     </div>
-                    <div className="dashElement">
+                    <div className={`dashElement`}>
                         <button className="logoutBtn" onClick={logoutEvent}>
                             <div className="d-flex p-3 justify-content-between align-items-center">
                                 <p className="m-0">Log out</p>

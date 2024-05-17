@@ -1,14 +1,5 @@
-import {
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TablePagination,
-    TableRow,
-} from "@mui/material";
-import React, { useEffect, useState } from "react";
+import {CircularProgress, Paper,Table,TableBody,TableCell,TableContainer,TableHead,TablePagination,TableRow,} from "@mui/material";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GetStudents } from "../../../api/adminsStore/adminStore";
 import "../style/pages.css";
@@ -20,15 +11,14 @@ export default function AdminRequests() {
     const [showStudents, setShowStudents] = useState(true);
 
     const dispatch = useDispatch();
-    const students = useSelector((state) => state.admins.students);
-    const status = useSelector((state) => state.status);
+    const studentsData = useSelector((state) => state.admins);
     const columns = [
         { id: "cin", name: "CIN" },
         { id: "firstName", name: "First name" },
         { id: "lastName", name: "Last name" },
         { id: "email", name: "Email" },
         { id: "phone", name: "Phone" },
-        { id: "actions", name: "" },
+        { id: "actions", name: "Actions" },
     ];
 
     useEffect(() => {
@@ -36,42 +26,22 @@ export default function AdminRequests() {
     }, [dispatch]);
 
     useEffect(() => {
-        setStudentRows(students.filter((student) => student.status === 0));
-        console.log(studentRows);
-    }, [students]);
+        setStudentRows(studentsData.students.filter((student) => student.status === 0));
+    }, [studentsData]);
 
     function handlePageChange(event, newPage) {
         setpage(newPage);
     }
-
     function handleRowChange(event, newRow) {
         setrowPerPage(event.target.value);
         setpage(0);
     }
 
-    if (status === "loading") {
-        return <div>Loading...</div>;
-    }
-
-    if (status === "failed") {
-        return <div>Error loading data</div>;
-    }
-
-    if (students.length === 0) {
-        return (
-            <>
-                <div className="page-title">Requests list</div>
-                <div className="loading d-flex justify-content-center align-items-center">
-                    <span>Loading...</span>
-                </div>
-            </>
-        );
-    }
-
     return (
         <>
             <div className="page-title">Requests list</div>
-
+            {
+                studentsData.status === "succeeded" ? (
             <Paper
                 style={{
                     background: "none",
@@ -188,6 +158,8 @@ export default function AdminRequests() {
                     onRowsPerPageChange={handleRowChange}
                 ></TablePagination>
             </Paper>
+            ):studentsData.status === "loading" ? (<div style={{width:"100%",height:'70vh'}} className="d-flex justify-content-center align-items-center"><CircularProgress /></div>) : (<div>Error loading data</div>)
+        }
         </>
     );
 }

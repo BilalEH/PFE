@@ -15,12 +15,12 @@ class Student extends Model
         'dateN',
         'absparent_id',
         'status',
-        'created_at',
     ];
 
     protected $hidden = [
         'updated_at',
         'deleted_at',
+        'created_at',
     ];
 
     public function user()
@@ -33,6 +33,6 @@ class Student extends Model
     }
     public function classes()
     {
-        return $this->belongsToMany(Classe::class, 'student_classes');
+        return $this->belongsToMany(Classe::class, 'student_classes')->withPivot('dateJoin');
     }
 }

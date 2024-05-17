@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\StudentClasses;
 use App\Http\Resources\StudentResource;
 use App\Models\Student;
 use App\Models\User;
@@ -116,5 +117,14 @@ class StudentController extends Controller
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);
         }
+    }
+
+    public function GetClassesStu(string $id)
+    {
+        $student = Student::find($id);
+        if (!$student) {
+            return response()->json(['message' => 'Student not found'], 404);
+        }
+        return response()->json(['classes' => StudentClasses::collection($student->classes)], 200);
     }
 }

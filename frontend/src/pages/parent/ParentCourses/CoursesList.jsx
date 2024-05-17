@@ -1,3 +1,4 @@
+import { Button, Tooltip } from "@mui/material";
 
 function ParentCouresList({CouresData}) {
 
@@ -22,7 +23,9 @@ function ParentCouresList({CouresData}) {
                                 <td>{course.description}</td>
                                 <td>{course.amount}Dh</td>
                                 <td>{course.niveau}</td>
-                                <td>actions</td>
+                                <td>
+                                    actions
+                                </td>
                             </tr>
                         )
                     })

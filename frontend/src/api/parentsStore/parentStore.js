@@ -10,6 +10,7 @@ export const ParentsSlice=createSlice({
         parent:{},
         students:[],
         courses:[],
+        studentClasses:[],
         action_status:''
     },
     extraReducers:(builder)=>{
@@ -34,6 +35,17 @@ export const ParentsSlice=createSlice({
         });
         builder.addCase(ParentStudentsList.rejected, (state) => {
             state.status = 'failed';
+        });
+        // student classes list
+        builder.addCase(PStudentClasses.pending, (state) => {
+            state.action_status = 'loading';
+        });
+        builder.addCase(PStudentClasses.fulfilled, (state, action) => {
+            state.action_status = 'succeeded';
+            state.studentClasses = action.payload;
+        });
+        builder.addCase(PStudentClasses.rejected, (state) => {
+            state.action_status = 'failed';
         });
     }
 })
@@ -63,6 +75,23 @@ export const ParentStudentsList=createAsyncThunk(
         })
         .then((res) => {
             return data=res.data.childrens;
+        })
+        return data;
+    }
+)
+
+
+export const PStudentClasses=createAsyncThunk(
+    'Parent/PStudentClasses',
+
+    async (id) =>{
+        let data=null;
+        await axiosInstance.get(`/api/studients/getClasses/${id}`)
+        .catch(err=>{
+            toast.error(`X ${err.response.data.message}`, StyleToast);
+        })
+        .then((res) => {
+            return data=res.data.classes;
         })
         return data;
     }

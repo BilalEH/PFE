@@ -1,38 +1,18 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { GetParents } from '../../api/adminsStore/adminStore';
+import useAuthContext from '../../api/auth';
 function ParentProfile() {
-  const dispatch = useDispatch();
-  const parents = useSelector((state) => state.studentsSlice.parents); // Assuming the key is 'parents' in your slice state
-  const status = useSelector((state) => state.studentsSlice.status);
-
-  useEffect(() => {
-    dispatch(GetParents());
-  }, [dispatch]);
-
-  if (status === 'loading') {
-    return <div>Loading...</div>;
-  }
-
-  if (status === 'failed') {
-    return <div>Error loading data</div>;
-  }
-
-  const parent = parents[0]; // Assuming there's only one parent, adjust accordingly if needed
-
-  if (!parent) {
-    return <div>No parent data available</div>;
-  }
-
+  const {importUser} =useAuthContext()
   return (
     <div>
-      <h2>Parent Profile</h2>
+      <h2>Admin Profile</h2>
       <div>
-        <p><strong>Name:</strong> {parent.name}</p>
-        <p><strong>Email:</strong> {parent.email}</p>
-        {/* Add more profile information here */}
+        <p><strong>lastName:</strong> {importUser().lastName}</p>
+        <p><strong>firstName:</strong> {importUser().firstName}</p>
+        <p><strong>cin:</strong> {importUser().cin}</p>
+        <p><strong>Email:</strong> {importUser().email}</p>
+        <p><strong>phone:</strong> {importUser().phone}</p>
+        <p><strong>role:</strong> {importUser().role}</p>
       </div>
-    </div>
+  </div>
   );
 }
 

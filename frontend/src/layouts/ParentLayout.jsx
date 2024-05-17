@@ -13,7 +13,6 @@ export default function StudentLayout() {
         const TestLogout=await logout();
         if(TestLogout){
             navigate("/login")
-            props.remove(null);
         }
     }
 
@@ -22,8 +21,8 @@ export default function StudentLayout() {
         if (userTest) {
             if (userTest.role === 'admin') {
                 navigate('/admin');
-            } else if (userTest.role === 'parent') {
-                navigate('/parent');
+            } else if (userTest.role === 'student') {
+                navigate('/student') ;
             } else if (userTest.role === 'teacher') {
                 navigate('/teacher');
             }

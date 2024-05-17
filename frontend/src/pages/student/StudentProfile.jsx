@@ -1,28 +1,20 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { GetStudents } from '../../api/adminsStore/adminStore';
+import useAuthContext from '../../api/auth';
 
 function StudentProfile() {
-  const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(GetStudents());
-  },[]);
-  const studentsData = useSelector((state) => state.studentsSlice);
-  if (!studentsData.student[0]) {
-    return <div>No student data available</div>;
-  }
-
+  const {importUser} =useAuthContext()
   return (
     <div>
       <h2>Student Profile</h2>
       <div>
-        <p><strong>Name:</strong> {studentsData.student[0].name}</p>
-        <p><strong>Age:</strong> {studentsData.student[0].age}</p>
-        <p><strong>Grade:</strong> {studentsData.student[0].grade}</p>
-        {/* Add more profile information here */}
+        <p><strong>lastName:</strong> {importUser().lastName}</p>
+        <p><strong>firstName:</strong> {importUser().firstName}</p>
+        <p><strong>cin:</strong> {importUser().cin}</p>
+        <p><strong>Email:</strong> {importUser().email}</p>
+        <p><strong>phone:</strong> {importUser().phone}</p>
+        <p><strong>role:</strong> {importUser().role}</p>
       </div>
-    </div>
+  </div>
   );
 }
 

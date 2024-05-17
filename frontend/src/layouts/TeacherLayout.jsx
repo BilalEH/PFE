@@ -9,20 +9,20 @@ export default function TeacherLayout() {
     const navigate = useNavigate();
     const { importUser,logout } = useAuthContext();
 
-    // useEffect(() => {
-    //     const userTest = importUser();
-    //     if (userTest) {
-    //         if (userTest.role === 'student') {
-    //             navigate('/student');
-    //         } else if (userTest.role === 'teacher') {
-    //             navigate('/teacher');
-    //         } else if (userTest.role === 'parent') {
-    //             navigate('/parent');
-    //         }
-    //     }else{
-    //         navigate("/login");
-    //     }
-    // }, []);
+    useEffect(() => {
+        const userTest = importUser();
+        if (userTest) {
+            if (userTest.role === 'student') {
+                navigate('/student');
+            } else if (userTest.role === 'admin') {
+                navigate('/admin');
+            } else if (userTest.role === 'parent') {
+                navigate('/parent');
+            }
+        }else{
+            navigate("/login");
+        }
+    }, []);
 
     const logoutEvent =async () => {
         const TestLogout=await logout();

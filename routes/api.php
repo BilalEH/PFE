@@ -33,6 +33,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource("/parents", AbsparentController::class);
     Route::put("/parents/restore/{id}", [AbsparentController::class, 'restore']);
     Route::get('parent/deleted', [AbsparentController::class, "deleted"]);
+    Route::get('parent/childrens/{id}', [AbsparentController::class, "HisChildrensList"]);
     // ------------------------------courses----------------------------------------------
     Route::apiResource("/courses", CourseController::class);
     // --------------------------------Messages--------------------------------------------

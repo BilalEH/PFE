@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ParentResource;
+use App\Http\Resources\StudentResource;
 use App\Models\Absparent;
 use App\Models\User;
 use Exception;
@@ -90,6 +91,21 @@ class AbsparentController extends Controller
             return response()->json(['parentsDeleted' => $parents], 200);
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);
+        }
+    }
+
+    public function HisChildrensList($id)
+    {
+        try {
+            $par = Absparent::where('user_id', $id)->first();
+            if ($par) {
+                $childrens = $par->childrens;
+                return response()->json(['childrens' => StudentResource::collection($childrens)], 200);
+            } else {
+                return response()->json(['message' => 'parent not found'], 404);
+            }
+        } catch (Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 404);
         }
     }
 }

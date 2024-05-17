@@ -13,7 +13,6 @@ export default function StudentLayout() {
         const TestLogout=await logout();
         if(TestLogout){
             navigate("/login")
-            props.remove(null);
         }
     }
         useEffect(() => {

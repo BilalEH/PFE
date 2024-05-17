@@ -49,10 +49,10 @@ export const AuthProvider = ({children}) => {
 
     const logout = async () => {
         if(importUser()){
+            localStorage.clear();
             await axiosInstance.get("/sanctum/csrf-cookie");
             await axiosInstance.post("/logout");
             setUser(null);
-            localStorage.clear();
             toast.success("Logout successful", StyleToast);
             return true;
         }else{

@@ -108,3 +108,43 @@
     background-color: #f2f2f2;
     color: #333;
 }
+
+/* Input field styles */
+.add-teacher-form input[type="text"],
+.add-teacher-form input[type="email"],
+.add-teacher-form input[type="password"],
+.add-teacher-form select {
+    padding: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    transition: border-color 0.3s;
+    width: 200px
+}
+
+/* Input field focus styles */
+.add-teacher-form input[type="text"]:focus,
+.add-teacher-form input[type="email"]:focus,
+.add-teacher-form input[type="password"]:focus,
+.add-teacher-form select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Button styles */
+.add-teacher-form button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-transform: uppercase;
+    transition: background-color 0.3s;
+    width: 120px; /* Button takes full width */
+}
+
+.add-teacher-form button[type="submit"]:hover {
+    background-color: #0056b3;
+}

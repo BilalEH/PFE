@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetTeachers } from '../../api/adminsStore/adminStore';
+import { GetTeachers } from '../../../api/adminsStore/adminStore';
 
-import "./style/pages.css";
+import "../style/pages.css";
 
 export default function AdminTeachers() {
   const dispatch = useDispatch();

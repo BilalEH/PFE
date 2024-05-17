@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
-import useAuthContext from '../../api/auth';
+import useAuthContext from '../../../api/auth';
 import { useEffect } from 'react';
-import { GetAdmins } from '../../api/adminsStore/adminStore';
+import { GetAdmins } from '../../../api/adminsStore/adminStore';
 import { CircularProgress } from '@mui/material';
 
 function AdminProfile() {

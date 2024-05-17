@@ -41,4 +41,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource("/messages", MessageController::class);
     // --------------------------------Classes--------------------------------------------
     Route::apiResource("/classes", ClasseController::class);
+
+    
 });

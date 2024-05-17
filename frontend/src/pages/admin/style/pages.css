@@ -51,3 +51,11 @@ tr {
 .delete:hover {
     color: #6b1b00;
 }
+
+.accept {
+    color: #05a856;
+}
+
+.accept:hover {
+    color: #04522b;
+}

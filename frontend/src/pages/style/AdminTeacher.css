@@ -1,0 +1,110 @@
+/* Add this CSS to your existing stylesheet or create a new one */
+
+/* Existing CSS */
+
+.admin-teachers-container {
+    margin-top: 20px;
+}
+
+.no-teachers-msg {
+    color: #777;
+    font-size: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.add-teacher-form {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.add-teacher-form input[type="text"],
+.add-teacher-form input[type="email"],
+.add-teacher-form button {
+    padding: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    transition: border-color 0.3s;
+}
+
+.add-teacher-form input[type="text"],
+.add-teacher-form input[type="email"] {
+    flex: 1;
+}
+
+.add-teacher-form button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.add-teacher-form button:hover {
+    background-color: #0056b3;
+}
+
+.page-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.page-table th,
+.page-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+.page-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+.page-table td {
+    font-size: 14px;
+}
+
+.page-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.page-table tr:hover {
+    background-color: #f2f2f2;
+}
+
+.table-btn {
+    padding: 6px 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.table-btn.delete {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.table-btn.update {
+    background-color: #007bff;
+    color: #fff;
+}
+
+/* New CSS for list items */
+
+.list-item {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    background-color: #f2f2f2;
+    color: #333;
+}

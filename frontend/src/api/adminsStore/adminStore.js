@@ -236,6 +236,53 @@ export const GetCourses=createAsyncThunk(
 )
 
 
+
+export const addCourse = createAsyncThunk(
+    'admin/addCourse',
+    async (courseData) => {
+        try {
+            const response = await axiosInstance.post(`/api/courses`, courseData);
+            return response.data;
+        } catch (error) {
+            toast.error(`X ${error.response.data.message}`, StyleToast);
+            throw error;
+        }
+    }
+);
+
+
+export const deleteCourse = createAsyncThunk(
+    'admin/deleteCourse',
+    async (courseId) => {
+        try {
+            await axiosInstance.delete(`/api/courses/${courseId}`);
+            return courseId;
+        } catch (error) {
+            toast.error(`X ${error.response.data.message}`, StyleToast);
+            throw error;
+        }
+    }
+);
+
+export const updateCourse = createAsyncThunk(
+    'admin/updateCourse',
+    async ({ courseId, updatedCourse }) => {
+        try {
+            const response = await axiosInstance.put(`/api/courses/${courseId}`, updatedCourse);
+            return response.data;
+        } catch (error) {
+            toast.error(`X ${error.response.data.message}`, StyleToast);
+            throw error;
+        }
+    }
+);
+
+
+
+
+
+
+
 export const deleteStudent = createAsyncThunk(
     'admin/deleteStudent',
     async (studentId) => {

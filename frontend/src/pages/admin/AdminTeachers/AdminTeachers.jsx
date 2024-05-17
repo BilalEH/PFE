@@ -1,25 +1,36 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetTeachers } from '../../../api/adminsStore/adminStore';
+import { GetTeachers, addTeacher } from '../../../api/adminsStore/adminStore';
 
 import "../style/pages.css";
+import "../../style/AdminTeacher.css";
 
 export default function AdminTeachers() {
   const dispatch = useDispatch();
   const teachers = useSelector((state) => state.admins.teachers);
+  const courses = useSelector((state) => state.admins.courses); // Get courses from Redux store
   const status = useSelector((state) => state.status);
+
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    specialty: '', // Change the field name to specialty
+  });
 
   useEffect(() => {
     dispatch(GetTeachers());
   }, [dispatch]);
 
-  useEffect(() => {
-    console.log('Teachers:', teachers);
-  }, [teachers]);
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
-//   const handleDelete = (teacherId) => {
-//     dispatch(deleteTeacher(teacherId));
-//   };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(addTeacher(formData));
+  };
 
   const handleUpdate = (teacherId) => {
     console.log(`Updating teacher with ID ${teacherId}`);
@@ -34,13 +45,8 @@ export default function AdminTeachers() {
     return <div>Error loading data</div>;
   }
 
-  if (teachers.length === 0) {
-    return <div>No data available</div>;
-  }
-
   return (
-    <div>
-      <div className='page-title'>List of Teachers</div>
+    <div className="admin-teachers-container">
       <table className="page-table">
         <thead>
           <tr>
@@ -58,6 +64,7 @@ export default function AdminTeachers() {
           {teachers.map((teacher) => (
             <tr key={teacher.id}>
               <td className='icons-td'>
+                {/* Assuming handleDelete is implemented */}
                 <button className='table-btn delete' onClick={() => handleDelete(teacher.id)}>
                   Delete
                 </button>
@@ -70,12 +77,28 @@ export default function AdminTeachers() {
               <td className='text-capitalize'>{teacher.user_id.lastName}</td>
               <td>{teacher.user_id.email}</td>
               <td>{teacher.user_id.phone}</td>
-              <td>{teacher.specialite}</td>
+              <td>{teacher.specialty}</td>
               <td>{new Date(teacher.created_at).toLocaleDateString()}</td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      {/* Form for adding a new teacher */}
+      <form className="add-teacher-form" onSubmit={handleSubmit}>
+        <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} placeholder="First Name" />
+        <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} placeholder="Last Name" />
+        <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" />
+        <input type="text" name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone" />
+        {/* Dropdown for selecting course as specialty */}
+        <select name="specialty" value={formData.specialty} onChange={handleChange} placeholder="Specialty">
+          <option value="">Select Specialty</option>
+          {courses.map((course) => (
+            <option key={course.id} value={course.courseName}>{course.courseName}</option>
+          ))}
+        </select>
+        <button type="submit">Add Teacher</button>
+      </form>
     </div>
   );
 }

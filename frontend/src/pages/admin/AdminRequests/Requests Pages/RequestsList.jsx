@@ -1,8 +1,17 @@
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from "@mui/material";
+import {
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TablePagination,
+    TableRow,
+} from "@mui/material";
 import { useState } from "react";
 import AcceptPopup from "../AcceptPopup";
 
-function RequestsList({studentRows}) {
+function RequestsList({ studentRows }) {
     const [handleClose, setHandleClose] = useState(false);
     const [studentPop, setStudentPop] = useState();
     const [page, setpage] = useState(0);
@@ -30,34 +39,34 @@ function RequestsList({studentRows}) {
     }
     return (
         <div className="w-100">
-                    <Paper
-                        style={{
-                            background: "none",
-                            border: "2px solid #afafaf",
-                            borderRadius: "12px",
-                            overflow: "hidden",
-                        }}
-                        sx={{ width: "100%" }}
-                    >
-                        <TableContainer>
-                            <Table className="page-table">
-                                <TableHead>
-                                    <TableRow>
-                                        {columns.map((col) => (
-                                            <TableCell
-                                                style={{
-                                                    padding: "22px 18px",
-                                                    fontWeight: "bold",
-                                                    fontFamily: "Montserrat",
-                                                    fontSize: "16px",
-                                                }}
-                                                key={col.id}
-                                            >
-                                                {col.name}
-                                            </TableCell>
-                                        ))}
-                                    </TableRow>
-                                </TableHead>
+            <Paper
+                style={{
+                    background: "none",
+                    border: "2px solid #afafaf",
+                    borderRadius: "12px",
+                    overflow: "hidden",
+                }}
+                sx={{ width: "100%" }}
+            >
+                <TableContainer>
+                    <Table className="">
+                        <TableHead>
+                            <TableRow>
+                                {columns.map((col) => (
+                                    <TableCell
+                                        style={{
+                                            padding: "22px 18px",
+                                            fontWeight: "bold",
+                                            fontFamily: "Montserrat",
+                                            fontSize: "16px",
+                                        }}
+                                        key={col.id}
+                                    >
+                                        {col.name}
+                                    </TableCell>
+                                ))}
+                            </TableRow>
+                        </TableHead>
 
                                 <TableBody>
                                     {studentRows &&

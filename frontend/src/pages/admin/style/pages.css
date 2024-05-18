@@ -17,8 +17,17 @@ td {
     padding: 22px 12px;
 }
 
+table>* {
+    background: none;
+}
+
+table {
+    background: none;
+}
+
 tr {
     border-bottom: 2px solid #c6c6c6;
+    background: none;
 }
 
 .icons-td {
@@ -34,6 +43,12 @@ tr {
 
 .table-btn:hover {
     text-decoration: underline;
+}
+
+.update,
+.delete {
+    background: none;
+    border: 0;
 }
 
 .update {

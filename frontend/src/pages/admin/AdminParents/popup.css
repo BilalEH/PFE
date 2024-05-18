@@ -1,0 +1,47 @@
+.popup-container {
+    padding: 20px;
+    text-align: center;
+}
+
+.popup-title {
+    font-size: 3em;
+}
+
+.popup-text {
+    font-size: 1.1em;
+    width: 70%;
+    margin: auto;
+}
+
+.popup-name {
+    font-weight: 600;
+}
+
+.popup-btn {
+    width: 48%;
+    background: none;
+    border: 0;
+    padding: 14px;
+    border-radius: 14px;
+    transition: 100ms all ease-out;
+}
+
+.close-btn {
+    border: 2px solid #F63E02;
+    color: #F63E02;
+}
+
+.close-btn:hover {
+    background-color: #F63E02;
+    color: #fafafa;
+}
+
+.accept-btn {
+    border: 2px solid #19647e;
+    color: #19647e;
+}
+
+.accept-btn:hover {
+    background-color: #19647e;
+    color: #fafafa;
+}

@@ -19,11 +19,14 @@ class MessageController extends Controller
             'user_id' => ['required', 'exists:users,id'],
             'title' => ['required', 'string'],
             'content' => ['required', 'string'],
-            'send_date' => ['required', 'date'],
         ]);
+        $data['send_date'] = now();
         $newMessage = Message::create($data);
         return response()->json(['message' => new MessageResource($newMessage)], 201);
     }
+
+
+
 
     public function destroy(string $id)
     {

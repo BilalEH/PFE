@@ -1,0 +1,56 @@
+.popup-container {
+    padding: 20px;
+    text-align: center;
+}
+
+.popup-title {
+    font-size: 3em;
+}
+
+.popup-text {
+    font-size: 1.1em;
+    width: 70%;
+    margin: auto;
+}
+
+.popup-name {
+    font-weight: 600;
+}
+
+.popup-btn {
+    width: 48% !important;
+    background: none;
+    border: 0;
+    padding: 14px !important;
+    border-radius: 14px !important;
+    transition: 100ms all ease-out;
+}
+
+.close-btn {
+    border: 2px solid #F63E02 !important;
+    color: #F63E02 !important;
+}
+
+.close-btn:hover {
+    background-color: #F63E02;
+    color: #fafafa !important;
+}
+
+.accept-btn {
+    border: 2px solid #19647e;
+    color: #19647e;
+}
+
+.accept-btn:hover {
+    background-color: #19647e;
+    color: #fafafa;
+}
+
+.p-delete-btn {
+    background-color: #F63E02 !important;
+    color: #fafafa !important;
+}
+
+.p-delete-btn:hover {
+    background-color: #a82a00 !important;
+}

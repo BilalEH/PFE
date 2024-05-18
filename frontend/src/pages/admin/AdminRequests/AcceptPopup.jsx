@@ -1,13 +1,14 @@
 import { Dialog, DialogContent, DialogTitle } from "@mui/material";
-import React from "react";
 import "./style/popup.css";
+import { useDispatch } from 'react-redux';
+import { AccepteUsers } from "../../../api/adminsStore/adminStore";
 
-export default function AcceptPopup({
-    handleClose,
-    setHandleClose,
-    studentPop,
-}) {
-    function acceptRequest() {}
+export default function AcceptPopup({handleClose,setHandleClose,studentPop}) {
+    const dispatch = useDispatch();
+    const acceptRequest=({id,role})=>{
+        dispatch(AccepteUsers({id:id,role:role}));
+        setHandleClose(false)
+    }
 
     return (
         <>
@@ -23,8 +24,7 @@ export default function AcceptPopup({
                                     Are you sure you want to accept the sign up
                                     request of{" "}
                                     <span className="popup-name">
-                                        {studentPop.firstName}{" "}
-                                        {studentPop.lastName}
+                                        {studentPop.firstName} {studentPop.lastName}
                                     </span>
                                     ?
                                 </div>
@@ -36,7 +36,7 @@ export default function AcceptPopup({
                                         Close
                                     </button>
                                     <button
-                                        onClick={acceptRequest}
+                                        onClick={()=>acceptRequest({id:studentPop.id,role:studentPop.role})}
                                         className="popup-btn accept-btn"
                                     >
                                         Accept

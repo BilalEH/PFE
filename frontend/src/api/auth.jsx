@@ -1,4 +1,4 @@
-import { createContext,useContext,useState } from "react";
+import { createContext,useContext,useEffect,useState } from "react";
 import { axiosInstance } from "./axios";
 import { toast } from "react-toastify";
 import { StyleToast } from "../layouts/Layout";
@@ -7,6 +7,7 @@ export const AuthContext = createContext({});
 
 export const AuthProvider = ({children}) => {
     const [User, setUser] = useState(null);
+
     const saveUser = (User) =>{
         localStorage.setItem('User',JSON.stringify(User));
         setUser(User);

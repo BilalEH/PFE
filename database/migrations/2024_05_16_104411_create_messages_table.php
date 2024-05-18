@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('content');
             $table->dateTime('send_date');
+            $table->enum('status', ['in process', 'accepted', 'rejected'])->default('in process');
             $table->softDeletes();
             $table->timestamps();
         });

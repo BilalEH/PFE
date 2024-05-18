@@ -61,6 +61,15 @@ class RegisteredUserController extends Controller
                 'user_id' => $user->id,
                 'dateN' => $request->dateN
             ]);
+        } else if ($request->role == 'teacher') {
+            Student::create([
+                'user_id' => $user->id,
+                'dateN' => $request->dateN
+            ]);
+        } else if ($request->role == 'admin') {
+            Student::create([
+                'user_id' => $user->id,
+            ]);
         } else {
             absparent::create([
                 'user_id' => $user->id,

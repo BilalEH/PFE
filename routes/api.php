@@ -23,6 +23,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource("/admins", AdminController::class);
     Route::put("/admins/restore/{id}", [AdminController::class, 'restore']);
     Route::get('admin/deleted', [AdminController::class, "deleted"]);
+    Route::get('admin/acceptuser/{id}', [AdminController::class, "acceptUser"]);
+    Route::get('admin/requests', [AdminController::class, "Requests"]);
     // -------------------------Students----------------------------------------------
     Route::apiResource("/studients", StudentController::class);
     Route::put("/studients/restore/{id}", [StudentController::class, 'restore']);

@@ -13,6 +13,7 @@ export const AdminSlice=createSlice({
         teachers:[],
         courses:[],
         requests:{},
+        messages:{},
         action_status:''
     },
     extraReducers:(builder)=>{
@@ -187,8 +188,18 @@ export const AdminSlice=createSlice({
         builder.addCase(AccepteUsers.rejected, (state) => {
             state.action_status = 'failed';
         });
+        // Get Messages list
+        builder.addCase(GetUserMessages.pending, (state) => {
+            state.status = 'loading';
+        });
+        builder.addCase(GetUserMessages.fulfilled, (state, action) => {
+            state.status = 'succeeded';
+            state.messages = action.payload;
+        });
+        builder.addCase(GetUserMessages.rejected, (state) => {
+            state.status = 'failed';
+        });
     }
-
 
 })
 
@@ -294,6 +305,22 @@ export const AccepteUsers=createAsyncThunk(
         .then((res) => {
             toast.success(`X ${res.data.message}`, StyleToast);
             data=Ele
+        })
+        return data
+    }
+)
+    // show message list
+export const GetUserMessages=createAsyncThunk(
+    'GetUserMessages',
+    async () =>{
+        let data=null;
+        await axiosInstance.get(`/api/api/messages`)
+        .catch(err=>{
+            toast.error(`X ${err.response.data.message}`, StyleToast);
+        })
+        .then((res) => {
+            toast.success(`X ${res.data.message}`, StyleToast);
+            data=res.data.messages
         })
         return data
     }

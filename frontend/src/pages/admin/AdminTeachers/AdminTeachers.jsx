@@ -59,7 +59,6 @@ export default function AdminTeachers() {
             <th>Email</th>
             <th>Phone</th>
             <th>Specialty</th>
-            <th>Added at</th>
           </tr>
         </thead>
         <tbody>
@@ -79,14 +78,12 @@ export default function AdminTeachers() {
               <td className='text-capitalize'>{teacher.user_id.lastName}</td>
               <td>{teacher.user_id.email}</td>
               <td>{teacher.user_id.phone}</td>
-              <td>{teacher.specialty}</td>
-              <td>{new Date(teacher.created_at).toLocaleDateString()}</td>
+              <td>{teacher.specialite}</td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      {/* Form for adding a new teacher */}
       <form className="add-teacher-form" onSubmit={handleSubmit}>
         <input type="text" name="cin" value={formData.cin} onChange={handleChange} placeholder="CIN" />
         <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} placeholder="First Name" />
@@ -94,7 +91,6 @@ export default function AdminTeachers() {
         <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" />
         <input type="text" name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone" />
         <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Password" />
-        {/* Dropdown for selecting course as specialty */}
         <select name="specialty" value={formData.specialty} onChange={handleChange} placeholder="Specialty">
           <option value="">Select Specialty</option>
           {courses.map((course) => (

@@ -60,7 +60,7 @@ function RequestsList({studentRows}) {
                                 </TableHead>
 
                                 <TableBody>
-                                    {showStudents &&
+                                    {studentRows &&
                                         studentRows
                                             .slice(
                                                 page * rowPerPage,
@@ -168,7 +168,7 @@ function RequestsList({studentRows}) {
                             rowsPerPageOptions={[1, 5]}
                             rowsPerPage={rowPerPage}
                             page={page}
-                            count={studentRows.length}
+                            count={studentRows&&studentRows.length}
                             component="div"
                             onPageChange={handlePageChange}
                             onRowsPerPageChange={handleRowChange}

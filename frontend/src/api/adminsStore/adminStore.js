@@ -12,6 +12,7 @@ export const AdminSlice=createSlice({
         parents:[],
         teachers:[],
         courses:[],
+        requests:{},
         action_status:''
     },
     extraReducers:(builder)=>{
@@ -158,6 +159,34 @@ export const AdminSlice=createSlice({
         builder.addCase(updateTeacher.rejected, (state) => {
             state.status = 'failed';
         });
+        
+        // Get Requests list 
+        builder.addCase(GetRequests.pending, (state) => {
+            state.status = 'loading';
+        });
+        builder.addCase(GetRequests.fulfilled, (state, action) => {
+            state.status = 'succeeded';
+            state.requests = action.payload;
+        });
+        builder.addCase(GetRequests.rejected, (state) => {
+            state.status = 'failed';
+        });
+
+        // Accept Users
+        builder.addCase(AccepteUsers.pending, (state) => {
+            state.action_status = 'loading';
+        });
+        builder.addCase(AccepteUsers.fulfilled, (state, action) => {
+            state.action_status = 'succeeded';
+            if(action.payload.role==='student'){
+                state.requests.students = state.requests.students.filter(e => e.user_id.id !== action.payload.id);
+            }else{
+                state.requests.parents = state.requests.parents.filter(e => e.user_id.id !== action.payload.id);
+            }
+        });
+        builder.addCase(AccepteUsers.rejected, (state) => {
+            state.action_status = 'failed';
+        });
     }
 
 
@@ -230,6 +259,41 @@ export const GetCourses=createAsyncThunk(
         })
         .then((res) => {
             return data=res.data.courses;
+        })
+        return data
+    }
+)
+
+// requests list is 
+export const GetRequests=createAsyncThunk(
+    'GetRequests',
+    async () =>{
+        let data=null;
+        await axiosInstance.get('/api/admin/requests')
+        .catch(err=>{
+            toast.error(`X ${err.response.data.message}`, StyleToast);
+        })
+        .then((res) => {
+            return data=res.data;
+        })
+        return data
+    }
+)
+
+
+
+// Accept Users not verified
+export const AccepteUsers=createAsyncThunk(
+    'AccepteUsers',
+    async (Ele) =>{
+        let data=null;
+        await axiosInstance.get(`/api/admin/acceptuser/${Ele.id}`)
+        .catch(err=>{
+            toast.error(`X ${err.response.data.message}`, StyleToast);
+        })
+        .then((res) => {
+            toast.success(`X ${res.data.message}`, StyleToast);
+            data=Ele
         })
         return data
     }

@@ -1,8 +1,17 @@
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from "@mui/material";
+import {
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TablePagination,
+    TableRow,
+} from "@mui/material";
 import { useState } from "react";
 import AcceptPopup from "../AcceptPopup";
 
-function RequestsList({studentRows}) {
+function RequestsList({ studentRows }) {
     const [handleClose, setHandleClose] = useState(false);
     const [studentPop, setStudentPop] = useState();
     const [page, setpage] = useState(0);
@@ -30,156 +39,140 @@ function RequestsList({studentRows}) {
     }
     return (
         <div className="w-100">
-                    <Paper
-                        style={{
-                            background: "none",
-                            border: "2px solid #afafaf",
-                            borderRadius: "12px",
-                            overflow: "hidden",
-                        }}
-                        sx={{ width: "100%" }}
-                    >
-                        <TableContainer>
-                            <Table className="page-table">
-                                <TableHead>
-                                    <TableRow>
-                                        {columns.map((col) => (
-                                            <TableCell
-                                                style={{
-                                                    padding: "22px 18px",
-                                                    fontWeight: "bold",
-                                                    fontFamily: "Montserrat",
-                                                    fontSize: "16px",
-                                                }}
-                                                key={col.id}
-                                            >
-                                                {col.name}
-                                            </TableCell>
-                                        ))}
-                                    </TableRow>
-                                </TableHead>
+            <Paper
+                style={{
+                    background: "none",
+                    border: "2px solid #afafaf",
+                    borderRadius: "12px",
+                    overflow: "hidden",
+                }}
+                sx={{ width: "100%" }}
+            >
+                <TableContainer>
+                    <Table className="">
+                        <TableHead>
+                            <TableRow>
+                                {columns.map((col) => (
+                                    <TableCell
+                                        style={{
+                                            padding: "22px 18px",
+                                            fontWeight: "bold",
+                                            fontFamily: "Montserrat",
+                                            fontSize: "16px",
+                                        }}
+                                        key={col.id}
+                                    >
+                                        {col.name}
+                                    </TableCell>
+                                ))}
+                            </TableRow>
+                        </TableHead>
 
-                                <TableBody>
-                                    {showStudents &&
-                                        studentRows
-                                            .slice(
-                                                page * rowPerPage,
-                                                page * rowPerPage + rowPerPage
-                                            )
-                                            .map((row, i) => {
-                                                return (
-                                                    <TableRow key={i}>
-                                                        <TableCell
-                                                            style={{
-                                                                padding:
-                                                                    "22px 18px",
-                                                                fontFamily:
-                                                                    "Montserrat",
-                                                                fontSize:
-                                                                    "16px",
-                                                            }}
-                                                        >
-                                                            {row.user_id.cin}
-                                                        </TableCell>
-                                                        <TableCell
-                                                            style={{
-                                                                padding:
-                                                                    "22px 18px",
-                                                                fontFamily:
-                                                                    "Montserrat",
-                                                                fontSize:
-                                                                    "16px",
-                                                            }}
-                                                        >
-                                                            {
-                                                                row.user_id.firstName
-                                                            }
-                                                        </TableCell>
-                                                        <TableCell
-                                                            style={{
-                                                                padding:
-                                                                    "22px 18px",
-                                                                fontFamily:
-                                                                    "Montserrat",
-                                                                fontSize:
-                                                                    "16px",
-                                                            }}
-                                                        >
-                                                            {
-                                                                row.user_id.lastName
-                                                            }
-                                                        </TableCell>
-                                                        <TableCell
-                                                            style={{
-                                                                padding:
-                                                                    "22px 18px",
-                                                                fontFamily:
-                                                                    "Montserrat",
-                                                                fontSize:
-                                                                    "16px",
-                                                            }}
-                                                        >
-                                                            {row.user_id.email}
-                                                        </TableCell>
-                                                        <TableCell
-                                                            style={{
-                                                                padding:
-                                                                    "22px 18px",
-                                                                fontFamily:
-                                                                    "Montserrat",
-                                                                fontSize:
-                                                                    "16px",
-                                                            }}
-                                                        >
-                                                            {row.user_id.phone}
-                                                        </TableCell>
-                                                        <TableCell
-                                                            style={{
-                                                                padding:
-                                                                    "22px 18px",
-                                                                fontFamily:
-                                                                    "Montserrat",
-                                                                fontSize:
-                                                                    "16px",
-                                                            }}
-                                                        >
-                                                            <button
-                                                                onClick={() =>
-                                                                    handleAcceptStudent(
-                                                                        row.user_id
-                                                                    )
-                                                                }
-                                                                className="table-btn accept"
-                                                            >
-                                                                Accept
-                                                            </button>
-                                                        </TableCell>
-                                                    </TableRow>
-                                                );
-                                            })}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                        <TablePagination
-                            style={{
-                                paddingTop: "20px",
-                                paddingBottom: "10px",
-                            }}
-                            rowsPerPageOptions={[1, 5]}
-                            rowsPerPage={rowPerPage}
-                            page={page}
-                            count={studentRows.length}
-                            component="div"
-                            onPageChange={handlePageChange}
-                            onRowsPerPageChange={handleRowChange}
-                        ></TablePagination>
-                    </Paper>
-                    <AcceptPopup
-                        handleClose={handleClose}
-                        setHandleClose={setHandleClose}
-                        studentPop={studentPop}
-                    ></AcceptPopup>
-                </div>
+                        <TableBody>
+                            {showStudents &&
+                                studentRows
+                                    .slice(
+                                        page * rowPerPage,
+                                        page * rowPerPage + rowPerPage
+                                    )
+                                    .map((row, i) => {
+                                        return (
+                                            <TableRow key={i}>
+                                                <TableCell
+                                                    style={{
+                                                        padding: "22px 18px",
+                                                        fontFamily:
+                                                            "Montserrat",
+                                                        fontSize: "16px",
+                                                    }}
+                                                >
+                                                    {row.user_id.cin}
+                                                </TableCell>
+                                                <TableCell
+                                                    style={{
+                                                        padding: "22px 18px",
+                                                        fontFamily:
+                                                            "Montserrat",
+                                                        fontSize: "16px",
+                                                    }}
+                                                >
+                                                    {row.user_id.firstName}
+                                                </TableCell>
+                                                <TableCell
+                                                    style={{
+                                                        padding: "22px 18px",
+                                                        fontFamily:
+                                                            "Montserrat",
+                                                        fontSize: "16px",
+                                                    }}
+                                                >
+                                                    {row.user_id.lastName}
+                                                </TableCell>
+                                                <TableCell
+                                                    style={{
+                                                        padding: "22px 18px",
+                                                        fontFamily:
+                                                            "Montserrat",
+                                                        fontSize: "16px",
+                                                    }}
+                                                >
+                                                    {row.user_id.email}
+                                                </TableCell>
+                                                <TableCell
+                                                    style={{
+                                                        padding: "22px 18px",
+                                                        fontFamily:
+                                                            "Montserrat",
+                                                        fontSize: "16px",
+                                                    }}
+                                                >
+                                                    {row.user_id.phone}
+                                                </TableCell>
+                                                <TableCell
+                                                    style={{
+                                                        padding: "22px 18px",
+                                                        fontFamily:
+                                                            "Montserrat",
+                                                        fontSize: "16px",
+                                                    }}
+                                                >
+                                                    <button
+                                                        onClick={() =>
+                                                            handleAcceptStudent(
+                                                                row.user_id
+                                                            )
+                                                        }
+                                                        className="table-btn accept"
+                                                    >
+                                                        Accept
+                                                    </button>
+                                                </TableCell>
+                                            </TableRow>
+                                        );
+                                    })}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                <TablePagination
+                    style={{
+                        paddingTop: "20px",
+                        paddingBottom: "10px",
+                    }}
+                    rowsPerPageOptions={[1, 5]}
+                    rowsPerPage={rowPerPage}
+                    page={page}
+                    count={studentRows.length}
+                    component="div"
+                    onPageChange={handlePageChange}
+                    onRowsPerPageChange={handleRowChange}
+                ></TablePagination>
+            </Paper>
+            <AcceptPopup
+                handleClose={handleClose}
+                setHandleClose={setHandleClose}
+                studentPop={studentPop}
+            ></AcceptPopup>
+        </div>
     );
 }
 

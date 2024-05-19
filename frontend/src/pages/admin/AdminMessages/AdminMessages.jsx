@@ -1,6 +1,6 @@
 import "./style/AdminMessages.css";
 import Message from "./components/Message";
-import { Dispatch, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetUserMessages } from "../../../api/adminsStore/adminStore";
 import { CircularProgress } from "@mui/material";
@@ -24,7 +24,6 @@ export default function AdminMessages() {
                         {
                             MessagesData.status==='succeeded'?(
                                 MessagesData.messages.map(e=>{
-                                    console.log(e);
                                     return(
                                         <div className="msger" key={e.id}>
                                             <div className="msger-name d-flex align-items-center justify-content-">

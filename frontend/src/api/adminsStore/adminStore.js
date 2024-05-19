@@ -201,23 +201,18 @@ export const AdminSlice=createSlice({
         builder.addCase(GetUserMessages.rejected, (state) => {
             state.status = 'failed';
         });
-
-
-
-
-
+        // Add classes
         builder.addCase(addClass.pending, (state) => {
             state.status = "loading";
-          });
-          builder.addCase(addClass.fulfilled, (state, action) => {
+        });
+        builder.addCase(addClass.fulfilled, (state, action) => {
             state.status = "succeeded";
-            state.classes.push(action.payload); // Add the new class to the state
-          });
-          builder.addCase(addClass.rejected, (state) => {
+            state.classes=action.payload;
+        });
+        builder.addCase(addClass.rejected, (state) => {
             state.status = "failed";
-          });
-
-          
+        });
+    
     }
 
 })

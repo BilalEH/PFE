@@ -174,7 +174,7 @@ function RequestsList({ studentRows }) {
                                 paddingTop: "20px",
                                 paddingBottom: "10px",
                             }}
-                            rowsPerPageOptions={[1, 5]}
+                            rowsPerPageOptions={[2, 5]}
                             rowsPerPage={rowPerPage}
                             page={page}
                             count={studentRows&&studentRows.length}

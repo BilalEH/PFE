@@ -7,13 +7,13 @@ function AdminClasses() {
   const [className, setClassName] = useState('');
   const [selectedTeacher, setSelectedTeacher] = useState('');
   const [selectedCourse, setSelectedCourse] = useState('');
-  const teachers = useSelector((state) => state.admin.teachers);
-  const courses = useSelector((state) => state.admin.courses);
+  // const teachers = useSelector((state) => state.admin.teachers);
+  // const courses = useSelector((state) => state.admin.courses);
 
-  useEffect(() => {
-    dispatch(GetTeachers());
-    dispatch(GetCourses());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(GetTeachers());
+  //   dispatch(GetCourses());
+  // }, [dispatch]);
 
   const handleAddClass = () => {
     // Validate inputs before dispatching action
@@ -22,8 +22,7 @@ function AdminClasses() {
       return;
     }
 
-    // Dispatch action to add class
-    dispatch(addClass({ className, teacherId: selectedTeacher, courseId: selectedCourse }));
+    // dispatch(addClass({ className, teacherId: selectedTeacher, courseId: selectedCourse }));
   };
 
   return (

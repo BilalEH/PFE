@@ -16,6 +16,10 @@ body {
     transform: translateX(0%);
 }
 
+#profile {
+    background-color: #144c5f;
+}
+
 .pages {
     padding-left: 100px;
     background-color: #DCD5D0;
@@ -30,7 +34,7 @@ body {
 }
 
 .dashElement:hover {
-    background-color: #fdfdfd;
+    background-color: #fdfdfd !important;
     color: #19647e;
 }
 

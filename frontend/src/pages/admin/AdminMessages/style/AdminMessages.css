@@ -28,13 +28,26 @@
 }
 
 
-.msger:not(:last-child) {
+.msger {
     border-bottom: 2px solid #afafaf;
 }
 
 .msger {
     height: 20%;
+}
+
+.msger-button {
+    width: 100%;
+    height: 100%;
     padding: 16px;
+    text-align: left;
+    background: none;
+    border: 0;
+    transition: 100ms all ease-out;
+}
+
+.msger-button:hover {
+    background-color: #e4e4e4;
 }
 
 .msger-name {
@@ -120,4 +133,13 @@
 
 .accept-msg-btn:hover {
     background-color: #0f3f4e;
+}
+
+
+.e-msg-icon svg {
+    color: #8a8a8a;
+}
+
+.e-msg-content {
+    font-size: 22px;
 }

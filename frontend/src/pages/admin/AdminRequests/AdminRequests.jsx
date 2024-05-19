@@ -25,7 +25,6 @@ export default function AdminRequests() {
         }
     }, [RequestsData,roleSelected]);
 
-
     return (
         <>
             <div className="page-title">Requests list</div>
@@ -33,7 +32,10 @@ export default function AdminRequests() {
                         <option value="parents">Parent</option>
                         <option value="students">student</option>
                     </select>
-            {RequestsData.status_request === "succeeded" ? (<RequestsList studentRows={studentRows} />):RequestsData.status_request === "loading" ? (<div className="loading_error_container"><CircularProgress size={50}/></div>):studentRows.length===0&&(<div className="loading_error_container"><Alert severity="error">Error loading data.</Alert></div>)}
+            {RequestsData.status_request === "succeeded" ? 
+            (studentRows.length!=0?<RequestsList studentRows={studentRows}/>:(<div ><Alert severity="warning">There are no requests at the moment.</Alert></div>) ):RequestsData.status_request === "loading" ? 
+            (<div className="loading_error_container"><CircularProgress size={50}/></div>):RequestsData.status_request === "failed" &&
+            (<div className="loading_error_container"><Alert severity="error">Error loading data.</Alert></div>)}
         </>
     );
 }

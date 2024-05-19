@@ -31,7 +31,7 @@ class AbsparentController extends Controller
             ]);
             $UserData = User::find($request->user_id);
             if ($UserData->role == 'parent') {
-                $parent = Absparent::create($data); 
+                $parent = Absparent::create($data);
                 return response()->json(['absparent' => new ParentResource($parent)], 201);
             }
             return response()->json(['message' => 'User is not parent'], 404);
@@ -100,6 +100,7 @@ class AbsparentController extends Controller
             $par = Absparent::where('user_id', $id)->first();
             if ($par) {
                 $childrens = $par->childrens;
+
                 return response()->json(['childrens' => StudentResource::collection($childrens)], 200);
             } else {
                 return response()->json(['message' => 'parent not found'], 404);

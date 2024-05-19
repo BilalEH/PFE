@@ -33,13 +33,16 @@ body {
     background-color: #fdfdfd;
     color: #19647e;
 }
-.dashElementActive{
+
+.dashElementActive {
     background-color: #fdfdfd !important;
     color: #19647e !important;
 }
-.dashElementActive>a{
+
+.dashElementActive>a {
     color: #19647e !important;
 }
+
 .dashElement>a {
     text-decoration: none;
     color: #fdfdfd;
@@ -86,5 +89,5 @@ body {
 
 .pages {
     padding: 25px;
-    padding-left: 100px;
+    padding-left: 120px;
 }

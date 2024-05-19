@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { axiosInstance } from './../axios';
+import { axiosInstance } from '../axios';
 import { toast } from 'react-toastify';
-import { StyleToast } from './../../layouts/Layout';
+import { StyleToast } from '../../layouts/Layout';
 
 export const StudentsSlice = createSlice({
     name: 'studentsSlice',

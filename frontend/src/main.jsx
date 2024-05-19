@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { AdminSlice } from './api/adminsStore/adminStore.js';
 import { ParentsSlice } from './api/parentsStore/parentStore.js';
-import StudentsSlice from './api/StudentStore/Student.jsx';
+import StudentsSlice from './api/StudentStore/Student.js';
 
 
 const store=configureStore({

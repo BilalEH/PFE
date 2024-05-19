@@ -25,7 +25,10 @@ class MessageController extends Controller
         return response()->json(['message' => new MessageResource($newMessage)], 201);
     }
 
-
+    public function getUserMessages(string $id)
+    {
+        return response()->json(['messages' => MessageResource::collection(Message::where('user_id', $id)->get())], 200);
+    }
 
 
     public function destroy(string $id)

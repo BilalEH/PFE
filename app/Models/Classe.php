@@ -34,7 +34,7 @@ class Classe extends Model
     {
         return $this->belongsTo(Filiere::class);
     }
-    public function classes()
+    public function students()
     {
         return $this->belongsToMany(Student::class, 'student_classes');
     }

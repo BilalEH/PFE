@@ -6,12 +6,12 @@ import { StyleToast } from '../../layouts/Layout';
 export const StudentsSlice = createSlice({
     name: 'studentsSlice',
     initialState: {
-        status: '', // Status of asynchronous operation
-        student: {}, // Student data
-        parents: [], // Array to hold parent data
-        courses: [], // Array to hold course data
-        studentClasses: [], // Array to hold student class data
-        action_status: '', // Status of specific action
+        status: '', 
+        student: {},
+        parents: [], 
+        courses: [], 
+        studentClasses: [],  
+        action_status: '',
     },
     extraReducers: (builder) => {
         // Reducers for handling asynchronous actions

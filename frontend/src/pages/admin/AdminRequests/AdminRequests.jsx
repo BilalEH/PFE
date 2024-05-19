@@ -1,4 +1,4 @@
-import { CircularProgress } from "@mui/material";
+import { Alert, CircularProgress } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GetRequests } from "../../../api/adminsStore/adminStore";
@@ -14,46 +14,26 @@ export default function AdminRequests() {
     useEffect(() => {
         dispatch(GetRequests());
     }, []);
-    useEffect(() => {
-        if (RequestsData.status === "succeeded") {
-            setStudentRows(RequestsData.requests.parents);
-        }
-    }, [RequestsData]);
 
     useEffect(() => {
-        if (RequestsData.status === "succeeded") {
+        if (RequestsData.status_request === "succeeded") {
             if (roleSelected === "parents") {
                 setStudentRows(RequestsData.requests.parents);
             } else {
                 setStudentRows(RequestsData.requests.students);
             }
         }
-    }, [roleSelected, RequestsData]);
+    }, [RequestsData,roleSelected]);
+
+
     return (
         <>
             <div className="page-title">Requests list</div>
-
-            {RequestsData.status === "succeeded" ? (
-                <>
-                    <select
-                        defaultValue={roleSelected}
-                        onChange={(e) => setRoleSelected(e.target.value)}
-                    >
+                    <select defaultValue={roleSelected} onChange={(e) => setRoleSelected(e.target.value)}>
                         <option value="parents">Parent</option>
                         <option value="students">student</option>
                     </select>
-                    <RequestsList studentRows={studentRows} />
-                </>
-            ) : RequestsData.status === "loading" ? (
-                <div
-                    style={{ width: "100%", height: "70vh" }}
-                    className="d-flex justify-content-center align-items-center"
-                >
-                    <CircularProgress />
-                </div>
-            ) : (
-                <div>Error loading data</div>
-            )}
+            {RequestsData.status_request === "succeeded" ? (<RequestsList studentRows={studentRows} />):RequestsData.status_request === "loading" ? (<div className="loading_error_container"><CircularProgress size={50}/></div>):studentRows.length===0&&(<div className="loading_error_container"><Alert severity="error">Error loading data.</Alert></div>)}
         </>
     );
 }

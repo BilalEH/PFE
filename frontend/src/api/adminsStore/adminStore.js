@@ -6,19 +6,26 @@ import { StyleToast } from './../../layouts/Layout';
 export const AdminSlice=createSlice({
     name:'studentsSlice',
     initialState:{
-        status:'',
+        action_status:'',
+        status_admin:'',
         admins:[],
+        status_student:'',
         students:[],
+        status_parent:'',
         parents:[],
+        status_teacher:'',
         teachers:[],
+        status_course:'',
         courses:[],
-        classes: [], 
-
+        status_classe:'',
+        classes: [],
+        status_request:'',
         requests:{},
+        status_message:'',
         messages:{},
-        action_status:''
     },
     extraReducers:(builder)=>{
+        // --------------------------------------Delete--------------------------------------
         // delete parent
         builder.addCase(deleteParent.pending, (state) => {
             state.action_status = 'loading';
@@ -30,151 +37,177 @@ export const AdminSlice=createSlice({
         builder.addCase(deleteParent.rejected, (state) => {
             state.action_status = 'failed';
         });
+        //delete teacher
+        builder.addCase(deleteTeacher.pending, (state) => {
+            state.action_status = 'loading';
+        });
+        builder.addCase(deleteTeacher.fulfilled, (state, action) => {
+            state.action_status = 'succeeded';
+            state.teachers = state.teachers.filter(teacher => teacher.id !== action.payload.teacherId);
+        });
+        builder.addCase(deleteTeacher.rejected, (state) => {
+            state.action_status = 'failed';
+        });
+        // delete student
+        builder.addCase(deleteStudent.pending, (state) => {
+            state.action_status = 'loading';
+        })
+        builder.addCase(deleteStudent.fulfilled, (state, action) => {
+            state.action_status = 'succeeded';
+            state.students = state.students.filter(student => student.id !== action.payload.studentId);
+        })
+        builder.addCase(deleteStudent.rejected, (state) => {
+            state.action_status = 'failed';
+        })
+        // --------------------------------------Update
         // update parent
         builder.addCase(updateParent.pending, (state) => {
-            state.status = 'loading';
+            state.action_status = 'loading';
         });
         builder.addCase(updateParent.fulfilled, (state, action) => {
-            state.status = 'succeeded';
+            state.action_status = 'succeeded';
             const updatedParentIndex = state.parents.findIndex(parent => parent.id === action.payload.parentId);
             if (updatedParentIndex !== -1) {
                 state.parents[updatedParentIndex] = action.payload.updatedParent;
             }
         });
         builder.addCase(updateParent.rejected, (state) => {
-            state.status = 'failed';
+            state.action_status = 'failed';
         });
-        // getStudents
-        builder.addCase(GetStudents.pending, (state) => {
-            state.status = 'loading';
-        })
-        builder.addCase(GetStudents.fulfilled, (state, action) => {
-            state.status = 'succeeded';
-            state.students = action.payload;
-        })
-        builder.addCase(GetStudents.rejected, (state) => {
-            state.status = 'failed';
-        })
-        // delete student
-        builder.addCase(deleteStudent.pending, (state) => {
-            state.status = 'loading';
-        })
-        builder.addCase(deleteStudent.fulfilled, (state, action) => {
-            state.status = 'succeeded';
-            state.students = state.students.filter(student => student.id !== action.payload.studentId);
-        })
-        builder.addCase(deleteStudent.rejected, (state) => {
-            state.status = 'failed';
-        })
         // update student
         builder.addCase(updateStudent.pending, (state) => {
-            state.status = 'loading';
+            state.action_status = 'loading';
         })
         builder.addCase(updateStudent.fulfilled, (state, action) => {
-            state.status = 'succeeded';
+            state.action_status = 'succeeded';
             const updatedStudentIndex = state.students.findIndex(student => student.id === action.payload.studentId);
             if (updatedStudentIndex !== -1) {
                 state.students[updatedStudentIndex] = action.payload.updatedStudent;
             }
         })
         builder.addCase(updateStudent.rejected, (state) => {
-            state.status = 'failed';
+            state.action_status = 'failed';
         })
-        // getParents
-        builder.addCase(GetParents.pending, (state) => {
-            state.status = 'loading';
-        })
-        builder.addCase(GetParents.fulfilled, (state, action) => {
-            state.status = 'succeeded';
-            state.parents = action.payload;
-        })
-        builder.addCase(GetParents.rejected, (state) => {
-            state.status = 'failed';
-        })
-        // getAdmins
-        builder.addCase(GetAdmins.pending, (state) => {
-            state.status = 'loading';
-        })
-        builder.addCase(GetAdmins.fulfilled, (state, action) => {
-            state.status = 'succeeded';
-            state.admins = action.payload;
-        })
-        builder.addCase(GetAdmins.rejected, (state) => {
-            state.status = 'failed';
-        })
-        // getTeachers
-        builder.addCase(GetTeachers.pending, (state) => {
-            state.status = 'loading';
-        })
-        builder.addCase(GetTeachers.fulfilled, (state, action) => {
-            state.status = 'succeeded';
-            state.teachers = action.payload;
-        })
-        builder.addCase(GetTeachers.rejected, (state) => {
-            state.status = 'failed';
-        })
-        // getCourses
-        builder.addCase(GetCourses.pending, (state) => {
-            state.status = 'loading';
-        })
-        builder.addCase(GetCourses.fulfilled, (state, action) => {
-            state.status = 'succeeded';
-            state.courses = action.payload;
-        })
-        builder.addCase(GetCourses.rejected, (state) => {
-            state.status = 'failed';
-        })
+        // --------------------------------------Add
         // add teacher
         builder.addCase(addTeacher.pending, (state) => {
-            state.status = 'loading';
+            state.action_status = 'loading';
         });
         builder.addCase(addTeacher.fulfilled, (state, action) => {
-            state.status = 'succeeded';
+            state.action_status = 'succeeded';
             const newTeacher = action.payload;
             // Add the new teacher to the state
             state.teachers.push(newTeacher);
         });
         builder.addCase(addTeacher.rejected, (state) => {
-            state.status = 'failed';
+            state.action_status = 'failed';
         });
-        builder.addCase(deleteTeacher.pending, (state) => {
-            state.status = 'loading';
-        });
-        builder.addCase(deleteTeacher.fulfilled, (state, action) => {
-            state.status = 'succeeded';
-            state.teachers = state.teachers.filter(teacher => teacher.id !== action.payload.teacherId);
-        });
-        builder.addCase(deleteTeacher.rejected, (state) => {
-            state.status = 'failed';
-        });
-
         // Add cases for updating teacher
         builder.addCase(updateTeacher.pending, (state) => {
-            state.status = 'loading';
+            state.action_status = 'loading';
         });
         builder.addCase(updateTeacher.fulfilled, (state, action) => {
-            state.status = 'succeeded';
+            state.action_status = 'succeeded';
             const updatedTeacherIndex = state.teachers.findIndex(teacher => teacher.id === action.payload.teacherId);
             if (updatedTeacherIndex !== -1) {
                 state.teachers[updatedTeacherIndex] = action.payload.updatedTeacher;
             }
         });
         builder.addCase(updateTeacher.rejected, (state) => {
-            state.status = 'failed';
+            state.action_status = 'failed';
         });
+        // Add classes
+        builder.addCase(addClass.pending, (state) => {
+            state.action_status = "loading";
+        });
+        builder.addCase(addClass.fulfilled, (state, action) => {
+            state.action_status = "succeeded";
+            state.classes=action.payload;
+        });
+        builder.addCase(addClass.rejected, (state) => {
+            state.action_status = "failed";
+        });
+        // --------------------------------------Get
+        // getStudents
+        builder.addCase(GetStudents.pending, (state) => {
+            state.status_student = 'loading';
+        })
+        builder.addCase(GetStudents.fulfilled, (state, action) => {
+            state.status_student = 'succeeded';
+            state.students = action.payload;
+        })
+        builder.addCase(GetStudents.rejected, (state) => {
+            state.status_student = 'failed';
+        })
+        // getParents
+        builder.addCase(GetParents.pending, (state) => {
+            state.status_parent = 'loading';
+        })
+        builder.addCase(GetParents.fulfilled, (state, action) => {
+            state.status_parent = 'succeeded';
+            state.parents = action.payload;
+        })
+        builder.addCase(GetParents.rejected, (state) => {
+            state.status_parent = 'failed';
+        })
+        // getAdmins
+        builder.addCase(GetAdmins.pending, (state) => {
+            state.status_admin = 'loading';
+        })
+        builder.addCase(GetAdmins.fulfilled, (state, action) => {
+            state.status_admin = 'succeeded';
+            state.admins = action.payload;
+        })
+        builder.addCase(GetAdmins.rejected, (state) => {
+            state.status_admin = 'failed';
+        })
+        // getTeachers
+        builder.addCase(GetTeachers.pending, (state) => {
+            state.status_teacher = 'loading';
+        })
+        builder.addCase(GetTeachers.fulfilled, (state, action) => {
+            state.status_teacher = 'succeeded';
+            state.teachers = action.payload;
+        })
+        builder.addCase(GetTeachers.rejected, (state) => {
+            state.status_teacher = 'failed';
+        })
+        // getCourses
+        builder.addCase(GetCourses.pending, (state) => {
+            state.status_course = 'loading';
+        })
+        builder.addCase(GetCourses.fulfilled, (state, action) => {
+            state.status_course = 'succeeded';
+            state.courses = action.payload;
+        })
+        builder.addCase(GetCourses.rejected, (state) => {
+            state.status_course = 'failed';
+        })
         
         // Get Requests list 
         builder.addCase(GetRequests.pending, (state) => {
-            state.status = 'loading';
+            state.status_request = 'loading';
         });
         builder.addCase(GetRequests.fulfilled, (state, action) => {
-            state.status = 'succeeded';
+            state.status_request = 'succeeded';
             state.requests = action.payload;
         });
         builder.addCase(GetRequests.rejected, (state) => {
-            state.status = 'failed';
+            state.status_request = 'failed';
+        });
+        // Get Messages list
+        builder.addCase(GetUserMessages.pending, (state) => {
+            state.status_message = 'loading';
+        });
+        builder.addCase(GetUserMessages.fulfilled, (state, action) => {
+            state.status_message = 'succeeded';
+            state.messages = action.payload;
+        });
+        builder.addCase(GetUserMessages.rejected, (state) => {
+            state.status_message = 'failed';
         });
 
+        // --------------------------------------...
         // Accept Users
         builder.addCase(AccepteUsers.pending, (state) => {
             state.action_status = 'loading';
@@ -189,28 +222,6 @@ export const AdminSlice=createSlice({
         });
         builder.addCase(AccepteUsers.rejected, (state) => {
             state.action_status = 'failed';
-        });
-        // Get Messages list
-        builder.addCase(GetUserMessages.pending, (state) => {
-            state.status = 'loading';
-        });
-        builder.addCase(GetUserMessages.fulfilled, (state, action) => {
-            state.status = 'succeeded';
-            state.messages = action.payload;
-        });
-        builder.addCase(GetUserMessages.rejected, (state) => {
-            state.status = 'failed';
-        });
-        // Add classes
-        builder.addCase(addClass.pending, (state) => {
-            state.status = "loading";
-        });
-        builder.addCase(addClass.fulfilled, (state, action) => {
-            state.status = "succeeded";
-            state.classes=action.payload;
-        });
-        builder.addCase(addClass.rejected, (state) => {
-            state.status = "failed";
         });
     
     }

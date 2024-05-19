@@ -25,7 +25,7 @@ export default function AdminMessages() {
                 <div className="messages-container row">
                     <div className="col-4 p-0 messagers-container">
                         {
-                            MessagesData.status==='succeeded'?(
+                            MessagesData.status_message==='succeeded'?(
                                 MessagesData.messages.map(e=>{
                                     return(
                                         <div className="msger" key={e.id}>
@@ -44,7 +44,7 @@ export default function AdminMessages() {
                                         </div>
                                     );
                             })
-                        ) : MessagesData.status === "failed" ? (
+                        ) : MessagesData.status_message === "failed" ? (
                             <div className="w-100 h-100 d-flex justify-content-center">
                                 No messages available
                             </div>

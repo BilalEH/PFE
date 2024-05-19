@@ -17,7 +17,7 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = Student::all();
+        $students = Student::where('status', 1)->get();
         return response()->json(['students' => StudentResource::collection($students)], 200);
     }
 

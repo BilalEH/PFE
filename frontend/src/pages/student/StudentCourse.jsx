@@ -4,11 +4,8 @@ import { SGetCourses } from '../../api/StudentStore/Student';
 
 export default function StudentCourse() {
   const dispatch = useDispatch();
-//   const courses = useSelector((state) => state.studentsSlice.courses);
-const courses = useSelector((state) => state);  console.log(courses)
-
-  const status = useSelector((state) => state.studentsSlice.status);
-  
+  const coursesData = useSelector((state) => state.students);
+  console.log(coursesData);
 
   useEffect(() => {
     dispatch(SGetCourses());
@@ -16,20 +13,7 @@ const courses = useSelector((state) => state);  console.log(courses)
 
   return (
     <>
-      {status === 'loading' && <div>Loading...</div>}
-      {status === 'failed' && <div>Error loading courses</div>}
-      {status === 'succeeded' && (
-        <div>
-          <h2>Courses</h2>
-          <ul>
-            {courses.map((course) => (
-              <li key={course.id}>
-                {course.courseName} - {course.description}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      <h2>Courses</h2>
     </>
   );
 }

@@ -1,19 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GetParents, deleteParent } from "../../../api/adminsStore/adminStore";
-import {
-    Alert,
-    Button,
-    CircularProgress,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TablePagination,
-    TableRow,
-} from "@mui/material";
+import {Alert,CircularProgress,Paper,Table,TableBody,TableCell,TableContainer,TableHead,TablePagination,TableRow} from "@mui/material";
 import UpdateDeletePopup from "../../../layouts/UpdatePopup";
 import ConfDelete from "./ConfDelete";
 import UpdateParent from "./updateParent";
@@ -92,11 +80,11 @@ export default function AdminParents() {
     return (
         <div>
             <div className="page-title">List of Parents</div>
-            {parentsData.status === "loading" ? (
+            {parentsData.status_parent === "loading" ? (
                 <div className="w-100 text-center">
                     <CircularProgress />
                 </div>
-            ) : parentsData.status === "failed" ? (
+            ) : parentsData.status_parent === "failed" ? (
                 <div>
                     <Alert severity="error">Error</Alert>
                 </div>

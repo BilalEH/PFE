@@ -16,7 +16,7 @@ function AdminProfile() {
     <div>
       <h2>Admin Profile</h2>
       {
-        userData.status==='succeeded'?(
+        userData.status_admin==='succeeded'?(
           <div>
             {
               user?(
@@ -32,7 +32,7 @@ function AdminProfile() {
               ):('error')
             }
           </div>
-        ):(userData.status==='failed'?(<div className='w-100 d-flex justify-content-center'>No admin data available</div>):(<div className='w-100 d-flex justify-content-center'><CircularProgress/></div>))
+        ):(userData.status_admin==='failed'?(<div className='w-100 d-flex justify-content-center'>No admin data available</div>):(<div className='w-100 d-flex justify-content-center'><CircularProgress/></div>))
       }
 </div>
   );

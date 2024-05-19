@@ -8,7 +8,7 @@ import "../style/pages.css";
 export default function AdminCourses() {
   const dispatch = useDispatch();
   const courses = useSelector((state) => state.admins.courses);
-  const status = useSelector((state) => state.status);
+  const status = useSelector((state) => state.status_course);
 
   const [formData, setFormData] = useState({
     courseName: '',

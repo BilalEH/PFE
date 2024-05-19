@@ -14,10 +14,10 @@ class Classe extends Model
         'className',
         'course_id',
         'filiere_id',
-        'teacher_id'
+        'teacher_id' ,'created_at',
     ];
     protected $hidden = [
-        'created_at',
+       
         'updated_at',
         'deleted_at',
     ];

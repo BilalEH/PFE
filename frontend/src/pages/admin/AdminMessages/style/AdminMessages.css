@@ -134,3 +134,12 @@
 .accept-msg-btn:hover {
     background-color: #0f3f4e;
 }
+
+
+.e-msg-icon svg {
+    color: #8a8a8a;
+}
+
+.e-msg-content {
+    font-size: 22px;
+}

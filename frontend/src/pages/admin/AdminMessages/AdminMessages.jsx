@@ -4,6 +4,7 @@ import { Dispatch, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GetUserMessages } from "../../../api/adminsStore/adminStore";
 import { CircularProgress } from "@mui/material";
+import EmptyMessage from "./components/EmptyMessage";
 
 export default function AdminMessages() {
     const [messageSelected, setMessageSelected] = useState("none");
@@ -60,7 +61,7 @@ export default function AdminMessages() {
                     </div>
                     <div className="col-8 msg-container">
                         {messageSelected == "none" ? (
-                            <div>khawi hh</div>
+                            <EmptyMessage />
                         ) : (
                             <Message message={messageSelected} />
                         )}

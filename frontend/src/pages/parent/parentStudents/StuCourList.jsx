@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { PStudentClasses } from "../../../api/parentsStore/parentStore";
+import { PRemoveStudentInClasses, PStudentClasses } from "../../../api/parentsStore/parentStore";
 import { CircularProgress } from "@mui/material";
 
 
@@ -12,6 +12,9 @@ function StuCourseList({id}) {
         },[]
     )
     const ClassesData=useSelector((state)=>state.parents);
+    const removeStudent=(data)=>{
+        dispatch(PRemoveStudentInClasses(data))
+    }
     return (
         <>
         {
@@ -29,6 +32,7 @@ function StuCourseList({id}) {
                 <tbody>
                     {
                         ClassesData.studentClasses.map((e) => {
+                            console.log(e);
                             return (
                                 <tr key={e.id}>
                                     <td>{e.className}</td>
@@ -36,7 +40,9 @@ function StuCourseList({id}) {
                                     <td>{e.filiere_id.nomFiliere}</td>
                                     <td>{e.pivot.dateJoin}</td>
                                     <td>
-                                        actions
+                                        <button onClick={()=>removeStudent({id:e.pivot.classe_id,data:{student_id:e.pivot.student_id}})}>
+                                            remove 
+                                        </button>
                                     </td>
                                 </tr>
                             )

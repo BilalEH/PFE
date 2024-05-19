@@ -73,4 +73,13 @@ class ClasseController extends Controller
 
         return response()->json(null, 204);
     }
+
+    public function Remove_student_In_Classe(Request $request, String $id)
+    {
+        $request->validate([
+            'student_id' => ['required', 'exists:students,id'],
+        ]);
+        Classe::find($id)->students()->detach($request->student_id);
+        return response()->json(['message' => 'Student removed successfully',]);
+    }
 }

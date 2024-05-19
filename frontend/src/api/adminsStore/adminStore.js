@@ -314,12 +314,11 @@ export const GetUserMessages=createAsyncThunk(
     'GetUserMessages',
     async () =>{
         let data=null;
-        await axiosInstance.get(`/api/api/messages`)
+        await axiosInstance.get(`/api/messages`)
         .catch(err=>{
             toast.error(`X ${err.response.data.message}`, StyleToast);
         })
         .then((res) => {
-            toast.success(`X ${res.data.message}`, StyleToast);
             data=res.data.messages
         })
         return data

@@ -136,10 +136,12 @@
 }
 
 
-.e-msg-icon svg {
+.e-msg-icon svg,
+.e-msgs-icon svg {
     color: #8a8a8a;
 }
 
-.e-msg-content {
+.e-msg-content,
+.e-msgs-content {
     font-size: 22px;
 }

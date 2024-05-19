@@ -17,8 +17,7 @@ export default function AdminMessages() {
     }, []);
 
     const MessagesData = useSelector((state) => state.admins);
-    // console.log(MessagesData);
-    console.log(MessagesData.messages.length);
+
     return (
         <>
             <div>
@@ -26,7 +25,7 @@ export default function AdminMessages() {
                 <div className="messages-container row">
                     <div className="col-4 p-0 messagers-container">
                         {MessagesData.status_message === "succeeded" ? (
-                            MessagesData.length === 0 ? (
+                            MessagesData.messages.length === 0 ? (
                                 <EmptyMessagesHandle />
                             ) : (
                                 MessagesData.messages.map((e) => {

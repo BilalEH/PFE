@@ -1,4 +1,3 @@
-import React from "react";
 import "../style/AdminMessages.css";
 
 export default function EmptyMessagesHandle() {

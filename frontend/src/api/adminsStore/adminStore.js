@@ -12,6 +12,8 @@ export const AdminSlice=createSlice({
         parents:[],
         teachers:[],
         courses:[],
+        classes: [], 
+
         requests:{},
         messages:{},
         action_status:''
@@ -199,6 +201,23 @@ export const AdminSlice=createSlice({
         builder.addCase(GetUserMessages.rejected, (state) => {
             state.status = 'failed';
         });
+
+
+
+
+
+        builder.addCase(addClass.pending, (state) => {
+            state.status = "loading";
+          });
+          builder.addCase(addClass.fulfilled, (state, action) => {
+            state.status = "succeeded";
+            state.classes.push(action.payload); // Add the new class to the state
+          });
+          builder.addCase(addClass.rejected, (state) => {
+            state.status = "failed";
+          });
+
+          
     }
 
 })
@@ -323,6 +342,9 @@ export const GetUserMessages=createAsyncThunk(
         })
         return data
     }
+
+
+
 )
 
 
@@ -468,6 +490,20 @@ export const addTeacher = createAsyncThunk(
     }
 );
 
+
+export const addClass = createAsyncThunk(
+    "admin/addClass",
+    async (classData) => {
+      try {
+        const response = await axiosInstance.post(`/api/classes`, classData);
+        return response.data;
+      } catch (error) {
+        toast.error(`X ${error.response.data.message}`, StyleToast);
+        throw error;
+      }
+    }
+  );
+  
 
 
 export default AdminSlice.reducer;

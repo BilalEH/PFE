@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GetRequests } from "../../../api/adminsStore/adminStore";
 import "../style/pages.css";
+import "./style/AdminRequests.css";
 import RequestsList from "./Requests Pages/RequestsList";
 
 export default function AdminRequests() {
@@ -23,19 +24,58 @@ export default function AdminRequests() {
                 setStudentRows(RequestsData.requests.students);
             }
         }
-    }, [RequestsData,roleSelected]);
+    }, [RequestsData, roleSelected]);
 
     return (
         <>
             <div className="page-title">Requests list</div>
-                    <select defaultValue={roleSelected} onChange={(e) => setRoleSelected(e.target.value)}>
+            <div className="select-table-btns ">
+                <button
+                    className={`${
+                        roleSelected == "parents" ? "role-selected" : ""
+                    }`}
+                    onClick={() => {
+                        setRoleSelected("parents");
+                    }}
+                >
+                    Parents
+                </button>
+                <button
+                    className={`${
+                        roleSelected == "students" ? "role-selected" : ""
+                    }`}
+                    onClick={() => {
+                        setRoleSelected("students");
+                    }}
+                >
+                    Students
+                </button>
+            </div>
+            {/* <select defaultValue={roleSelected} onChange={(e) => setRoleSelected(e.target.value)}>
                         <option value="parents">Parent</option>
                         <option value="students">student</option>
-                    </select>
-            {RequestsData.status_request === "succeeded" ? 
-            (studentRows.length!=0?<RequestsList studentRows={studentRows}/>:(<div ><Alert severity="warning">There are no requests at the moment.</Alert></div>) ):RequestsData.status_request === "loading" ? 
-            (<div className="loading_error_container"><CircularProgress size={50}/></div>):RequestsData.status_request === "failed" &&
-            (<div className="loading_error_container"><Alert severity="error">Error loading data.</Alert></div>)}
+                    </select> */}
+            {RequestsData.status_request === "succeeded" ? (
+                studentRows.length != 0 ? (
+                    <RequestsList studentRows={studentRows} />
+                ) : (
+                    <div>
+                        <Alert severity="warning">
+                            There are no requests at the moment.
+                        </Alert>
+                    </div>
+                )
+            ) : RequestsData.status_request === "loading" ? (
+                <div className="loading_error_container">
+                    <CircularProgress size={50} />
+                </div>
+            ) : (
+                RequestsData.status_request === "failed" && (
+                    <div className="loading_error_container">
+                        <Alert severity="error">Error loading data.</Alert>
+                    </div>
+                )
+            )}
         </>
     );
 }

@@ -124,10 +124,6 @@ export default function AdminStudents() {
                                                         fontSize: "16px",
                                                     }}
                                                 >
-<<<<<<< HEAD
-                                                    <button className="delete" onClick={() =>handleDelete(row.id)}>{deleteIcone}</button>
-                                                    <button className="update" onClick={() =>handleUpdate(row.id)}>{updateIcone}</button>
-=======
                                                     <button
                                                         className="delete"
                                                         onClick={() =>
@@ -167,7 +163,6 @@ export default function AdminStudents() {
                                                             />
                                                         </svg>{" "}
                                                     </button>
->>>>>>> 7b93a1255982d64a3a03e96778dc95fe55411e53
                                                 </TableCell>
                                                 <TableCell
                                                     style={{

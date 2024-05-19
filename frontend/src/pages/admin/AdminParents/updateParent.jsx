@@ -10,11 +10,10 @@ import "./style/popup.css";
 
 function UpdateParent({ handleUpdate, data, UpdatePop }) {
     const [DataForme, setDataForme] = useState(data);
-    console.log(data);
     return (
         // data
         <div>
-            <div className="w-100">
+            <div className="w-100 p-3">
                 <div className="my-3">
                     <TextField
                         className="w-100"
@@ -108,6 +107,7 @@ function UpdateParent({ handleUpdate, data, UpdatePop }) {
                 <div>
                     {/* <TextField id="standard-basic" label="Standard" variant="standard" defaultValue={data.status==1?'Verified':'Not verified'}/> */}
                     <FormControl
+                        fullWidth
                         variant="standard"
                         sx={{ m: 1, minWidth: 120 }}
                     >
@@ -117,6 +117,8 @@ function UpdateParent({ handleUpdate, data, UpdatePop }) {
                         <Select
                             labelId="demo-simple-select-standard-label"
                             id="demo-simple-select-standard"
+                            className="w-100"
+                            style={{ width: "100%" }}
                             value={data.status}
                             onChange={(e) =>
                                 setDataForme({
@@ -125,6 +127,7 @@ function UpdateParent({ handleUpdate, data, UpdatePop }) {
                                 })
                             }
                             label="Age"
+                            fullWidth
                         >
                             <MenuItem value={1}>Verified</MenuItem>
                             <MenuItem value={0}>Not verified</MenuItem>

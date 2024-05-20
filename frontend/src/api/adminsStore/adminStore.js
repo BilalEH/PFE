@@ -128,6 +128,17 @@ export const AdminSlice=createSlice({
             state.action_status = "failed";
         });
         // --------------------------------------Get
+        // get Classes
+        builder.addCase(AdminGetClasses.pending, (state) => {
+            state.status_classe = 'loading';
+        })
+        builder.addCase(AdminGetClasses.fulfilled, (state, action) => {
+            state.status_classe = 'succeeded';
+            state.classes = action.payload;
+        })
+        builder.addCase(AdminGetClasses.rejected, (state) => {
+            state.status_classe = 'failed';
+        })
         // getStudents
         builder.addCase(GetStudents.pending, (state) => {
             state.status_student = 'loading';
@@ -498,20 +509,31 @@ export const addTeacher = createAsyncThunk(
     }
 );
 
-
-export const addClass = createAsyncThunk(
-    "admin/addClass",
-    async (classData) => {
-      try {
-        const response = await axiosInstance.post(`/api/classes`, classData);
-        return response.data;
-      } catch (error) {
+export const AdminGetClasses = createAsyncThunk(
+    "admin/AdminGetClasses",
+    async () => {
+    try {
+        const response = await axiosInstance.get(`/api/classes`);
+        return response.data.classes;
+    } catch (error) {
         toast.error(`X ${error.response.data.message}`, StyleToast);
         throw error;
-      }
     }
-  );
-  
+});
+
+    export const addClass = createAsyncThunk(
+    "admin/addClass",
+    async (classData) => {
+    try {
+        const response = await axiosInstance.post(`/api/classes`, classData);
+        return response.data;
+    } catch (error) {
+        toast.error(`X ${error.response.data.message}`, StyleToast);
+        throw error;
+    }
+    }
+);
+
 
 
 export default AdminSlice.reducer;

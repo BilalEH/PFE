@@ -30,7 +30,6 @@ class ClasseController extends Controller
         $data = $request->validate([
             'className' => 'required|unique:classes,className|string',
             'course_id' => 'required|exists:courses,id|integer',
-            'filiere_id' => 'required|exists:filieres,id|integer',
             'teacher_id' => 'required|exists:teachers,id|integer',
         ]);
         $classe = Classe::create($data);
@@ -82,4 +81,5 @@ class ClasseController extends Controller
         Classe::find($id)->students()->detach($request->student_id);
         return response()->json(['message' => 'Student removed successfully',]);
     }
+    
 }

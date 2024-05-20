@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTeacher, GetTeachers } from "../../../api/adminsStore/adminStore";
-import { TextField } from "@mui/material";
-import AddTeacherPopup from "./components/AddTeacherPopup";
-import "./style/AdminTeacher.css";
 
 const AdminTeachers = () => {
     const [handleClose, setHandleClose] = useState(false);
@@ -15,6 +12,29 @@ const AdminTeachers = () => {
     useEffect(() => {
         dispatch(GetTeachers());
     }, [dispatch]);
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setNewTeacherData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        dispatch(addTeacher(newTeacherData));
+        // Clear form data after submission
+        setNewTeacherData({
+            firstName: "",
+            lastName: "",
+            email: "",
+            cin: "",
+            phone: "",
+            password: "",
+            role: "teacher",
+        });
+    };
 
     return (
         <div>

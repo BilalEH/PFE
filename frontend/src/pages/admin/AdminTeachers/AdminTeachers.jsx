@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addTeacher, GetTeachers } from '../../../api/adminsStore/adminStore';
+import { addTeacher, GetTeachers, deleteTeacher } from '../../../api/adminsStore/adminStore';
+import { TextField } from '@mui/material';
 
 const AdminTeachers = () => {
   const [newTeacherData, setNewTeacherData] = useState({
@@ -43,61 +44,70 @@ const AdminTeachers = () => {
     });
   };
 
+  const handleDeleteTeacher = (teacherId) => {
+    dispatch(deleteTeacher(teacherId));
+  };
+
   return (
     <div>
       <h1>Teachers</h1>
       <div>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            name="firstName"
-            value={newTeacherData.firstName}
-            placeholder="First Name"
-            onChange={handleInputChange}
-            required
-          />
-          <input
-            type="text"
-            name="lastName"
-            value={newTeacherData.lastName}
-            placeholder="Last Name"
-            onChange={handleInputChange}
-            required
-          />
-          <input
-            type="email"
-            name="email"
-            value={newTeacherData.email}
-            placeholder="Email"
-            onChange={handleInputChange}
-            required
-          />
-          <input
-            type="text"
-            name="cin"
-            value={newTeacherData.cin}
-            placeholder="CIN"
-            onChange={handleInputChange}
-            required
-          />
-          <input
-            type="text"
-            name="phone"
-            value={newTeacherData.phone}
-            placeholder="Phone"
-            onChange={handleInputChange}
-            required
-          />
-          <input
-            type="password"
-            name="password"
-            value={newTeacherData.password}
-            placeholder="Password"
-            onChange={handleInputChange}
-            required
-          />
-          <button type="submit">Add Teacher</button>
-        </form>
+      <form onSubmit={handleSubmit}>
+                    <TextField
+                        label="First name"
+                        name="firstName"
+                        value={newTeacherData.firstName}
+                        placeholder="ex: Saad"
+                        onChange={handleInputChange}
+                        required
+                    />
+                    <TextField
+                        label="Last name"
+                        type="text"
+                        name="lastName"
+                        value={newTeacherData.lastName}
+                        placeholder="ex: Elhafyan"
+                        onChange={handleInputChange}
+                        required
+                    />
+                    <TextField
+                        label="Email"
+                        type="email"
+                        name="email"
+                        value={newTeacherData.email}
+                        placeholder="ex: dirassa@gmail.com"
+                        onChange={handleInputChange}
+                        required
+                    />
+                    <TextField
+                        label="CIN"
+                        type="text"
+                        name="cin"
+                        value={newTeacherData.cin}
+                        placeholder="ex: K000000"
+                        onChange={handleInputChange}
+                        required
+                    />
+                    <TextField
+                        label="Phone"
+                        type="text"
+                        name="phone"
+                        value={newTeacherData.phone}
+                        placeholder="ex: 0600000000"
+                        onChange={handleInputChange}
+                        required
+                    />
+                    <TextField
+                        label="Password"
+                        type="password"
+                        name="password"
+                        value={newTeacherData.password}
+                        placeholder=""
+                        onChange={handleInputChange}
+                        required
+                    />
+                    <button type="submit">Add Teacher</button>
+                </form>
       </div>
       <div>
         {status === 'loading' && <p>Loading...</p>}
@@ -110,7 +120,7 @@ const AdminTeachers = () => {
                 <th>Email</th>
                 <th>CIN</th>
                 <th>Phone</th>
-                <th>action</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -120,8 +130,10 @@ const AdminTeachers = () => {
                   <td>{teacher.user_id.email}</td>
                   <td>{teacher.user_id.cin}</td>
                   <td>{teacher.user_id.phone}</td>
-                  <td><button>delete</button> <button>update</button></td>
-                  {/* Add more table cells as needed */}
+                  <td>
+                    <button onClick={() => handleDeleteTeacher(teacher.id)}>Delete</button>
+                    <button>update</button>
+                  </td>
                 </tr>
               ))}
             </tbody>

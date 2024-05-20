@@ -11,14 +11,16 @@ export default function TeacherLayout() {
     useEffect(() => {
         const userTest = importUser();
         if (userTest) {
-            if (userTest.role === 'student') {
-                navigate('/student');
-            } else if (userTest.role === 'admin') {
-                navigate('/admin');
-            } else if (userTest.role === 'parent') {
-                navigate('/parent');
+            if (userTest.role === "student") {
+                navigate("/student");
+            } else if (userTest.role === "admin") {
+                navigate("/admin");
+            } else if (userTest.role === "parent") {
+                navigate("/parent");
+            } else if (userTest.role === "teacher") {
+                navigate("/teacher");
             }
-        }else{
+        } else {
             navigate("/login");
         }
     }, []);
@@ -34,7 +36,7 @@ export default function TeacherLayout() {
             <div className="row">
                 <div className="dashboard pe-0">
                     <div className="dashElement">
-                        <Link to="/admin/profile">
+                        <Link to="/teacher/profile">
                             <div className="d-flex align-items-center justify-content-between p-3">
                                 <div>Profile</div>
                                 <div className="dash-icon">

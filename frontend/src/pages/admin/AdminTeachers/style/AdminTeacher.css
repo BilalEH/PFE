@@ -1,0 +1,50 @@
+.add-teacher-btn>button {
+    background-color: #f0f8ff00;
+    font-size: 22px;
+    padding: 12px 22px;
+    border: 2px solid #19647e;
+    color: #19647e;
+    border-radius: 16px;
+    transition: 100ms all ease-out;
+}
+
+.add-teacher-btn>button:hover {
+    background-color: #19647e;
+    color: #fafafa;
+}
+
+.add-teacher-popup-btns {
+    margin-top: 1em;
+    display: flex;
+    justify-content: space-between;
+}
+
+.add-teacher-popup-btns>button {
+    width: 48%;
+    font-size: 22px;
+    padding: 12px;
+    border-radius: 16px;
+    transition: 100ms all ease-out;
+}
+
+.popup-cancel-btn {
+    border: 2px solid #F63E02;
+    color: #F63E02;
+}
+
+.popup-cancel-btn:hover {
+    background-color: #F63E02;
+    color: #fafafa;
+    scale: 105%;
+}
+
+.popup-add-btn {
+    border: 2px solid #19647e;
+    color: #19647e;
+}
+
+.popup-add-btn:hover {
+    background-color: #19647e;
+    color: #fafafa;
+    scale: 105%;
+}

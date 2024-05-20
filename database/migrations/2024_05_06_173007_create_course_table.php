@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string("courseName")->unique();
             $table->string("description");
             $table->string('niveau');
-            $table->double("amount", 5, 2);
+            $table->double("amount", 10, 2);
             $table->softDeletes();
             $table->timestamps();
         });

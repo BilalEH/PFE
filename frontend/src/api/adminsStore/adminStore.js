@@ -415,11 +415,11 @@ export const updateCourse = createAsyncThunk(
 export const deleteStudent = createAsyncThunk(
     'admin/deleteStudent',
     async (studentId) => {
-        await axiosInstance.delete(`/api/students/${studentId}`)
+        await axiosInstance.delete(`/api/studients/${studentId}`)
             .catch(err => {
                 toast.error(`X ${err.response.data.message}`, StyleToast);
                 throw err;
-            }).then((res) => {
+            }).then(() => {
                 toast.success(`X ${"Student deleted successfully"}`, StyleToast);
             });
         return { studentId };

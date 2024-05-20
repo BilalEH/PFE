@@ -40,6 +40,7 @@ class TeacherController extends Controller
             'email' => $request->email,
             'role' => 'teacher',
             'cin' => $request->cin,
+            'avatar' => "https://ui-avatars.com/api/?uppercase=false&name=$request->firstName+$request->lastName&background=19647E&color=FFFDFD",
             'phone' => $request->phone,
             'password' => bcrypt($request->password),
         ]);

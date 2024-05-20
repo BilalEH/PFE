@@ -31,10 +31,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get("/studients/getClasses/{id}", [StudentController::class, 'GetClassesStu']);
     Route::get('studient/deleted', [StudentController::class, "deleted"]);
     // ------------------------------teachers----------------------------------------------
-
-
-        Route::apiResource("/teachers", TeacherController::class);
-        //
+    Route::apiResource("/teachers", TeacherController::class);
     // ------------------------------parents----------------------------------------------
     Route::apiResource("/parents", AbsparentController::class);
     Route::put("/parents/restore/{id}", [AbsparentController::class, 'restore']);
@@ -42,6 +39,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('parent/childrens/{id}', [AbsparentController::class, "HisChildrensList"]);
     // ------------------------------courses----------------------------------------------
     Route::apiResource("/courses", CourseController::class);
+    Route::post('courses/add-request/{id}', [CourseController::class, "AddJoinRequest"]);
+    Route::post('courses/remove-request/{id}', [CourseController::class, "RemoveJoinRequest"]);
     // --------------------------------Messages--------------------------------------------
     Route::apiResource("/messages", MessageController::class);
     Route::get("/messages/usermessages/{id}", [MessageController::class, 'getUserMessages']);

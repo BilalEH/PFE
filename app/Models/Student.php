@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Student extends Model
@@ -34,5 +35,9 @@ class Student extends Model
     public function classes()
     {
         return $this->belongsToMany(Classe::class, 'student_classes')->withPivot('dateJoin');
+    }
+    public function requests()
+    {
+        return $this->belongsToMany(Course::class, 'coure_requrests')->withPivot('course_id', 'student_id', 'created_at');
     }
 }

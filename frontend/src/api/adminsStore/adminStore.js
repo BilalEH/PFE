@@ -128,6 +128,17 @@ export const AdminSlice=createSlice({
             state.action_status = "failed";
         });
         // --------------------------------------Get
+        // get Classes
+        builder.addCase(AdminGetClasses.pending, (state) => {
+            state.status_classe = 'loading';
+        })
+        builder.addCase(AdminGetClasses.fulfilled, (state, action) => {
+            state.status_classe = 'succeeded';
+            state.classes = action.payload;
+        })
+        builder.addCase(AdminGetClasses.rejected, (state) => {
+            state.status_classe = 'failed';
+        })
         // getStudents
         builder.addCase(GetStudents.pending, (state) => {
             state.status_student = 'loading';
@@ -183,8 +194,8 @@ export const AdminSlice=createSlice({
         builder.addCase(GetCourses.rejected, (state) => {
             state.status_course = 'failed';
         })
-        
-        // Get Requests list 
+
+        // Get Requests list
         builder.addCase(GetRequests.pending, (state) => {
             state.status_request = 'loading';
         });
@@ -223,7 +234,7 @@ export const AdminSlice=createSlice({
         builder.addCase(AccepteUsers.rejected, (state) => {
             state.action_status = 'failed';
         });
-    
+
     }
 
 })
@@ -300,7 +311,7 @@ export const GetCourses=createAsyncThunk(
     }
 )
 
-// requests list is 
+// requests list is
 export const GetRequests=createAsyncThunk(
     'GetRequests',
     async () =>{
@@ -404,11 +415,11 @@ export const updateCourse = createAsyncThunk(
 export const deleteStudent = createAsyncThunk(
     'admin/deleteStudent',
     async (studentId) => {
-        await axiosInstance.delete(`/api/students/${studentId}`)
+        await axiosInstance.delete(`/api/studients/${studentId}`)
             .catch(err => {
                 toast.error(`X ${err.response.data.message}`, StyleToast);
                 throw err;
-            }).then((res) => {
+            }).then(() => {
                 toast.success(`X ${"Student deleted successfully"}`, StyleToast);
             });
         return { studentId };
@@ -486,11 +497,11 @@ export const updateTeacher = createAsyncThunk(
 
 
 export const addTeacher = createAsyncThunk(
-    'admin/addTeacher',
+    'teachers/getteatchers',
     async (teacherData) => {
         try {
             const response = await axiosInstance.post(`/api/teachers`, teacherData);
-            return response.data;
+            return response.data.teacher;
         } catch (error) {
             toast.error(`X ${error.response.data.message}`, StyleToast);
             throw error;
@@ -498,20 +509,31 @@ export const addTeacher = createAsyncThunk(
     }
 );
 
-
-export const addClass = createAsyncThunk(
-    "admin/addClass",
-    async (classData) => {
-      try {
-        const response = await axiosInstance.post(`/api/classes`, classData);
-        return response.data;
-      } catch (error) {
+export const AdminGetClasses = createAsyncThunk(
+    "admin/AdminGetClasses",
+    async () => {
+    try {
+        const response = await axiosInstance.get(`/api/classes`);
+        return response.data.classes;
+    } catch (error) {
         toast.error(`X ${error.response.data.message}`, StyleToast);
         throw error;
-      }
     }
-  );
-  
+});
+
+    export const addClass = createAsyncThunk(
+    "admin/addClass",
+    async (classData) => {
+    try {
+        const response = await axiosInstance.post(`/api/classes`, classData);
+        return response.data;
+    } catch (error) {
+        toast.error(`X ${error.response.data.message}`, StyleToast);
+        throw error;
+    }
+    }
+);
+
 
 
 export default AdminSlice.reducer;

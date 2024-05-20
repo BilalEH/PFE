@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('className')->unique();
             $table->foreignId('course_id')->constrained();
-            $table->foreignId('filiere_id')->constrained();
             $table->foreignId('teacher_id')->constrained();
             $table->timestamps();
             $table->softDeletes();

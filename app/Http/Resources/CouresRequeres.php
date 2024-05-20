@@ -2,10 +2,11 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ClasseResource extends JsonResource
+class CouresRequeres extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,7 +16,8 @@ class ClasseResource extends JsonResource
     public function toArray(Request $request): array
     {
         $data = parent::toArray($request);
-        $data['course_id'] = $this->course;
+        $data['test']='messi';
+        $data['pivot']['student_id'] = Student::find($data['pivot']['student_id']);
         return $data;
     }
 }

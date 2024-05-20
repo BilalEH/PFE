@@ -14,10 +14,10 @@ class Course extends Model
         'courseName',
         'description',
         'niveau',
-        'amount'  ,'created_at',
+        'amount', 'created_at',
     ];
     protected $hidden = [
-      
+
         'updated_at',
         'deleted_at',
     ];
@@ -30,5 +30,9 @@ class Course extends Model
     public function payments()
     {
         return $this->hasMany(Payment::class);
+    }
+    public function requests()
+    {
+        return $this->belongsToMany(Course::class, 'coure_requrests')->withPivot('course_id', 'student_id', 'created_at');
     }
 }

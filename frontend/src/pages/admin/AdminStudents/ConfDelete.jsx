@@ -2,6 +2,7 @@ import { Button } from "@mui/material";
 import "../AdminParents/style/popup.css";
 
 function ConfDelete({ handleDelete, DeletePop, data }) {
+    console.log(data);
     const delete_icone = (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -21,7 +22,7 @@ function ConfDelete({ handleDelete, DeletePop, data }) {
                 <div className="popup-text my-3">
                     Are you sure you want to the delete the parent "
                     <span className="popup-name">
-                        {data.user_id.firstName} {data.user_id.lastName}
+                        {/* {data.user_id.firstName} {data.user_id.lastName} */}
                     </span>
                     "
                 </div>

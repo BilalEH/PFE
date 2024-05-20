@@ -1,24 +1,9 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-    GetStudents,
-    deleteStudent,
-    updateStudent,
-} from "../../../api/adminsStore/adminStore";
+import {GetStudents,deleteStudent,updateStudent} from "../../../api/adminsStore/adminStore";
 
 import "../style/pages.css";
-import {
-    Alert,
-    CircularProgress,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TablePagination,
-    TableRow,
-} from "@mui/material";
+import {Alert,CircularProgress,Paper,Table,TableBody,TableCell,TableContainer,TableHead,TablePagination,TableRow} from "@mui/material";
 import ConfDelete from "./ConfDelete";
 
 export default function AdminStudents() {
@@ -27,8 +12,7 @@ export default function AdminStudents() {
     const studentsData = useSelector((state) => state.admins);
     const [page, setpage] = useState(0);
     const [rowPerPage, setrowPerPage] = useState(5);
-    const [deletePop, setDeletePop] = useState(false);
-    const [ParDelete, setParDelete] = useState({});
+    // const [DeleteSelected,SetDeleteSelected]=useState({});
 
     const columns = [
         { id: "actions", name: "" },
@@ -50,10 +34,9 @@ export default function AdminStudents() {
 
 
     const handleDelete = (data) => {
+        SetDeleteSelected(data)
         // dispatch(deleteStudent(data.id));
-        // console.log(data);
-        setParDelete(data)
-        setDeletePop(true);
+        console.log(data);
     };
 
     const handleUpdate = (studentId) => {
@@ -120,7 +103,7 @@ return (
                                                     <TableRow key={i}>
                                                         <TableCell
                                                             style={{padding: "22px 18px",fontFamily:"Montserrat",fontSize: "16px",}}>
-                                                            <button className="delete" onClick={() =>handleDelete(row)}>{deleteIcone}</button>
+                                                            <button className="delete" onClick={() =>{handleDelete(row)}}>{deleteIcone}</button>
                                                             <button className="update" onClick={() =>handleUpdate(row.id)}>{UpdateIcone}</button>
                                                         </TableCell>
                                                         <TableCell
@@ -190,10 +173,7 @@ return (
                                 </Table>
                             </TableContainer>
                             <TablePagination
-                                style={{
-                                    paddingTop: "20px",
-                                    paddingBottom: "10px",
-                                }}
+                                style={{paddingTop: "20px",paddingBottom: "10px",}}
                                 rowsPerPageOptions={[1, 5]}
                                 rowsPerPage={rowPerPage}
                                 page={page}
@@ -204,7 +184,7 @@ return (
                             ></TablePagination>
                         </Paper>
                     </div>
-                    {/* <ConfDelete handleDelete={handleDelete} DeletePop={deletePop} data={ParDelete}/> */}
+                    {/* <ConfDelete handleDelete={handleDelete} DeletePop={deletePop} data={DeleteSelected}/> */}
                 </>
             )
         }

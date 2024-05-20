@@ -17,10 +17,6 @@ export default function AdminMessages() {
     }, []);
 
     const MessagesData = useSelector((state) => state.admins);
-<<<<<<< HEAD
-
-=======
->>>>>>> 486e206d7beb99b9cce1d7c50391ae26214ac055
     return (
         <>
             <div>

@@ -17,10 +17,12 @@ import {
     TableRow,
 } from "@mui/material";
 import DeleteTeacherPopup from "./components/DeleteTeacherPopup";
+import UpdateTeacherPopup from "./components/UpdateTeacherPopup";
 
 const AdminTeachers = () => {
     const [handleAddClose, setHandleAddClose] = useState(false);
     const [handleDeleteClose, setHandleDeleteClose] = useState(false);
+    const [handleUpdateClose, setHandleUpdateClose] = useState(false);
     const [page, setpage] = useState(0);
     const [rowPerPage, setrowPerPage] = useState(5);
     const [teacherSelected, setTeacherSelected] = useState();
@@ -180,7 +182,17 @@ const AdminTeachers = () => {
                                                                         delete_icone
                                                                     }
                                                                 </button>
-                                                                <button className="update">
+                                                                <button
+                                                                    className="update"
+                                                                    onClick={() => {
+                                                                        setHandleUpdateClose(
+                                                                            true
+                                                                        );
+                                                                        setTeacherSelected(
+                                                                            row
+                                                                        );
+                                                                    }}
+                                                                >
                                                                     {
                                                                         update_icone
                                                                     }
@@ -286,6 +298,11 @@ const AdminTeachers = () => {
                             handleClose={handleDeleteClose}
                             setHandleClose={setHandleDeleteClose}
                             dispatch={dispatch}
+                            teacher={teacherSelected}
+                        />
+                        <UpdateTeacherPopup
+                            handleClose={handleUpdateClose}
+                            setHandleClose={setHandleUpdateClose}
                             teacher={teacherSelected}
                         />
                     </div>

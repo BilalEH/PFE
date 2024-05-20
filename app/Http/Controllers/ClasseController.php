@@ -58,7 +58,6 @@ class ClasseController extends Controller
         ]);
 
         $classe->update($request->all());
-
         return response()->json($classe, 200);
     }
 
@@ -81,5 +80,4 @@ class ClasseController extends Controller
         Classe::find($id)->students()->detach($request->student_id);
         return response()->json(['message' => 'Student removed successfully',]);
     }
-    
 }

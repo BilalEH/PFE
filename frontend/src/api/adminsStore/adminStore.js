@@ -419,7 +419,7 @@ export const deleteStudent = createAsyncThunk(
             .catch(err => {
                 toast.error(`X ${err.response.data.message}`, StyleToast);
                 throw err;
-            }).then((res) => {
+            }).then(() => {
                 toast.success(`X ${"Student deleted successfully"}`, StyleToast);
             });
         return { studentId };

@@ -1,104 +1,120 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { GetTeachers, addTeacher } from "../../../api/adminsStore/adminStore";
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addTeacher, GetTeachers } from '../../../api/adminsStore/adminStore';
 
-import "../style/pages.css";
-import "../../style/AdminTeacher.css";
+const AdminTeachers = () => {
+  const [newTeacherData, setNewTeacherData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    cin: '',
+    phone: '',
+    password: '',
+    role: 'teacher'
+  });
+  const dispatch = useDispatch();
+  const teachers = useSelector((state) => state.admins.teachers);
+  const status = useSelector((state) => state.status_teacher);
 
-export default function AdminTeachers() {
-    const dispatch = useDispatch();
-    const teachers = useSelector((state) => state.admins.teachers);
-    const courses = useSelector((state) => state.admins.courses); // Get courses from Redux store
-    const status = useSelector((state) => state.status);
+  useEffect(() => {
+    dispatch(GetTeachers());
+  }, [dispatch]);
 
-    const [formData, setFormData] = useState({
-        cin: "", // Add cin field
-        firstName: "",
-        lastName: "",
-        email: "",
-        phone: "",
-        specialty: "", // Change the field name to specialty
-        password: "", // Add password field
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewTeacherData(prevData => ({
+      ...prevData,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(addTeacher(newTeacherData));
+    // Clear form data after submission
+    setNewTeacherData({
+      firstName: '',
+      lastName: '',
+      email: '',
+      cin: '',
+      phone: '',
+      password: '',
+      role: 'teacher'
     });
+  };
 
-    useEffect(() => {
-        dispatch(GetTeachers());
-    }, [dispatch]);
-
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        dispatch(addTeacher(formData));
-    };
-
-    const handleUpdate = (teacherId) => {
-        console.log(`Updating teacher with ID ${teacherId}`);
-        // Add your update logic here
-    };
-
-    if (status === "loading") {
-        return <div>Loading...</div>;
-    }
-
-    if (status === "failed") {
-        return <div>Error loading data</div>;
-    }
-
-    return (
-        <div className="admin-teachers-container">
-        <table className="page-table">
-            <thead>
-            <tr>
-                <th></th>
-                <th>CIN</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Specialty</th>
-            </tr>
-            </thead>
-            <tbody>
-            {teachers.map((teacher) => (
-                <tr key={teacher.id}>
-                <td className='icons-td'>
-                    {/* Assuming handleDelete is implemented */}
-                    <button className='table-btn delete' onClick={() => handleDelete(teacher.id)}>
-                    Delete
-                    </button>
-                    <button className='table-btn update' onClick={() => handleUpdate(teacher.id)}>
-                    Update
-                    </button>
-                </td>
-                <td>{teacher.user_id.cin}</td>
-                <td className='text-capitalize'>{teacher.user_id.firstName}</td>
-                <td className='text-capitalize'>{teacher.user_id.lastName}</td>
-                <td>{teacher.user_id.email}</td>
-                <td>{teacher.user_id.phone}</td>
-                <td>{teacher.specialite}</td>
-                </tr>
-            ))}
-            </tbody>
-        </table>
-
-        <form className="add-teacher-form" onSubmit={handleSubmit}>
-            <input type="text" name="cin" value={formData.cin} onChange={handleChange} placeholder="CIN" />
-            <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} placeholder="First Name" />
-            <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} placeholder="Last Name" />
-            <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" />
-            <input type="text" name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone" />
-            <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Password" />
-            <select name="specialty" value={formData.specialty} onChange={handleChange} placeholder="Specialty">
-            <option value="">Select Specialty</option>
-            {courses.map((course) => (
-                <option key={course.id} value={course.courseName}>{course.courseName}</option>
-            ))}
-            </select>
-            <button type="submit">Add Teacher</button>
+  return (
+    <div>
+      <h1>Teachers</h1>
+      <div>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            name="firstName"
+            value={newTeacherData.firstName}
+            placeholder="First Name"
+            onChange={handleInputChange}
+            required
+          />
+          <input
+            type="text"
+            name="lastName"
+            value={newTeacherData.lastName}
+            placeholder="Last Name"
+            onChange={handleInputChange}
+            required
+          />
+          <input
+            type="email"
+            name="email"
+            value={newTeacherData.email}
+            placeholder="Email"
+            onChange={handleInputChange}
+            required
+          />
+          <input
+            type="text"
+            name="cin"
+            value={newTeacherData.cin}
+            placeholder="CIN"
+            onChange={handleInputChange}
+            required
+          />
+          <input
+            type="text"
+            name="phone"
+            value={newTeacherData.phone}
+            placeholder="Phone"
+            onChange={handleInputChange}
+            required
+          />
+          <input
+            type="password"
+            name="password"
+            value={newTeacherData.password}
+            placeholder="Password"
+            onChange={handleInputChange}
+            required
+          />
+          <button type="submit">Add Teacher</button>
         </form>
-        </div>
-    );
-}
+      </div>
+      <div>
+        {status === 'loading' && <p>Loading...</p>}
+        {status === 'failed' && <p>Error fetching teachers</p>}
+        {teachers && teachers.length > 0 ? (
+          teachers.map(teacher => (
+            <div key={teacher.id}>
+              <h2>{teacher.name}</h2>
+              {/* {teacher.cin ? <p>CIN: {teacher.cin}</p> : <p>No CIN available</p>} */}
+            </div>
+          ))
+        ) : (
+          <p>No teachers available</p>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default AdminTeachers;

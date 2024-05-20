@@ -183,8 +183,8 @@ export const AdminSlice=createSlice({
         builder.addCase(GetCourses.rejected, (state) => {
             state.status_course = 'failed';
         })
-        
-        // Get Requests list 
+
+        // Get Requests list
         builder.addCase(GetRequests.pending, (state) => {
             state.status_request = 'loading';
         });
@@ -223,7 +223,7 @@ export const AdminSlice=createSlice({
         builder.addCase(AccepteUsers.rejected, (state) => {
             state.action_status = 'failed';
         });
-    
+
     }
 
 })
@@ -300,7 +300,7 @@ export const GetCourses=createAsyncThunk(
     }
 )
 
-// requests list is 
+// requests list is
 export const GetRequests=createAsyncThunk(
     'GetRequests',
     async () =>{
@@ -484,11 +484,11 @@ export const updateTeacher = createAsyncThunk(
 
 
 export const addTeacher = createAsyncThunk(
-    'admin/addTeacher',
+    'teachers/getteatchers',
     async (teacherData) => {
         try {
             const response = await axiosInstance.post(`/api/teachers`, teacherData);
-            return response.data;
+            return response.data.teacher;
         } catch (error) {
             toast.error(`X ${error.response.data.message}`, StyleToast);
             throw error;
@@ -509,7 +509,7 @@ export const addClass = createAsyncThunk(
       }
     }
   );
-  
+
 
 
 export default AdminSlice.reducer;

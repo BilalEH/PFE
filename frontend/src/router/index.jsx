@@ -34,6 +34,8 @@ import TeacherCourses from "../pages/Teacher/TeacherCourses";
 import TeacherHome from "../pages/Teacher/TeacherHome";
 import AdminClasses from "../pages/admin/AdminClasses/AdminClasses";
 import AdminAssign from "../pages/admin/AdminAssign/AdminAssign";
+import TeacherClasses from "../pages/Teacher/TeacherClasses";
+import TeacherMessage from "../pages/Teacher/TeacherMessage";
 
 export const router = createBrowserRouter([
     {
@@ -172,8 +174,13 @@ export const router = createBrowserRouter([
                 element: <TeacherStudents />,
             },
             {
-                path: "/teacher/courses",
-                element: <TeacherCourses />,
+                path: "/teacher/classes",
+                element: <TeacherClasses />,
+            },
+
+            {
+                path: "/teacher/messages",
+                element: <TeacherMessage />,
             },
         ],
     },

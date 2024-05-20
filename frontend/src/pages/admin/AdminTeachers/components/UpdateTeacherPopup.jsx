@@ -1,45 +1,11 @@
-import { Dialog, DialogContent, DialogTitle, TextField } from "@mui/material";
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { addTeacher } from "../../../../api/adminsStore/adminStore";
+import React from "react";
 
-export default function AddTeacherPopup({
+export default function UpdateTeacherPopup({
     handleClose,
     setHandleClose,
     dispatch,
+    teacher,
 }) {
-    const [newTeacherData, setNewTeacherData] = useState({
-        firstName: "",
-        lastName: "",
-        email: "",
-        cin: "",
-        phone: "",
-        password: "",
-        role: "teacher",
-    });
-
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setNewTeacherData((prevData) => ({
-            ...prevData,
-            [name]: value,
-        }));
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        dispatch(addTeacher(newTeacherData));
-        setNewTeacherData({
-            firstName: "",
-            lastName: "",
-            email: "",
-            cin: "",
-            phone: "",
-            password: "",
-            role: "teacher",
-        });
-        setHandleClose(false);
-    };
     return (
         <>
             <Dialog open={handleClose} onClose={() => setHandleClose(false)}>

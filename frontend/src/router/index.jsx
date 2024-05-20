@@ -33,6 +33,7 @@ import TeacherStudents from "../pages/Teacher/TeacherStudents";
 import TeacherCourses from "../pages/Teacher/TeacherCourses";
 import TeacherHome from "../pages/Teacher/TeacherHome";
 import AdminClasses from "../pages/admin/AdminClasses/AdminClasses";
+import AdminAssign from "../pages/admin/AdminAssign/AdminAssign";
 
 export const router = createBrowserRouter([
     {
@@ -95,11 +96,14 @@ export const router = createBrowserRouter([
                 path: "/admin/messages",
                 element: <AdminMessages />,
             },
-{
-            
-            path: "/admin/classes",
-            element: <AdminClasses />,
-        }
+            {
+                path: "/admin/classes",
+                element: <AdminClasses />,
+            },
+            {
+                path: "/admin/assign",
+                element: <AdminAssign />,
+            },
         ],
     },
     {
@@ -111,20 +115,20 @@ export const router = createBrowserRouter([
             },
             {
                 path: "student/profile",
-                element: <StudentProfile/>
+                element: <StudentProfile />,
             },
             {
                 path: "/student/courses",
-                element: <StudentCourse/> 
+                element: <StudentCourse />,
             },
             {
                 path: "/student/seance",
-                element: <StudentSeance/>
+                element: <StudentSeance />,
             },
             {
                 path: "/student/payment",
-                element: <StudentPayment/>
-            }
+                element: <StudentPayment />,
+            },
         ],
     },
     {
@@ -136,45 +140,45 @@ export const router = createBrowserRouter([
             },
             {
                 path: "/parent/profile",
-                element: <ParentProfile/>
+                element: <ParentProfile />,
             },
             {
                 path: "/parent/students",
-                element: <ParentStudents/>
+                element: <ParentStudents />,
             },
             {
                 path: "/parent/courses",
-                element: <ParentCourses/>
+                element: <ParentCourses />,
             },
             {
                 path: "/parent/payment",
-                element: <ParentPayments/>
-            }
+                element: <ParentPayments />,
+            },
         ],
     },
     {
-        element: <TeacherLayout/>,
+        element: <TeacherLayout />,
         children: [
             {
                 path: "/teacher",
-                element: <TeacherHome/>
+                element: <TeacherHome />,
             },
             {
                 path: "/teacher/profile",
-                element: <TeacherProfile/>
+                element: <TeacherProfile />,
             },
             {
                 path: "/teacher/students",
-                element: <TeacherStudents/>
+                element: <TeacherStudents />,
             },
             {
                 path: "/teacher/courses",
-                element: <TeacherCourses/>
-            }
-        ]
+                element: <TeacherCourses />,
+            },
+        ],
     },
     {
         path: "*",
-        element: <NotFound/>
-    }
+        element: <NotFound />,
+    },
 ]);

@@ -110,16 +110,17 @@ const AdminTeachers = () => {
                 <th>Email</th>
                 <th>CIN</th>
                 <th>Phone</th>
-                {/* Add more table headers as needed */}
+                <th>action</th>
               </tr>
             </thead>
             <tbody>
               {teachers.map(teacher => (
-                <tr key={teacher.id}>
-                  <td>{teacher.firstName} {teacher.lastName}</td>
-                  <td>{teacher.email}</td>
-                  <td>{teacher.cin}</td>
-                  <td>{teacher.phone}</td>
+                <tr key={teacher.user_id.id}>
+                  <td>{teacher.user_id.firstName} {teacher.user_id.lastName}</td>
+                  <td>{teacher.user_id.email}</td>
+                  <td>{teacher.user_id.cin}</td>
+                  <td>{teacher.user_id.phone}</td>
+                  <td><button>delete</button> <button>update</button></td>
                   {/* Add more table cells as needed */}
                 </tr>
               ))}

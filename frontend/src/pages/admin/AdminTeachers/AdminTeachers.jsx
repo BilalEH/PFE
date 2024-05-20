@@ -103,12 +103,28 @@ const AdminTeachers = () => {
         {status === 'loading' && <p>Loading...</p>}
         {status === 'failed' && <p>Error fetching teachers</p>}
         {teachers && teachers.length > 0 ? (
-          teachers.map(teacher => (
-            <div key={teacher.id}>
-              <h2>{teacher.name}</h2>
-              {/* {teacher.cin ? <p>CIN: {teacher.cin}</p> : <p>No CIN available</p>} */}
-            </div>
-          ))
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>CIN</th>
+                <th>Phone</th>
+                {/* Add more table headers as needed */}
+              </tr>
+            </thead>
+            <tbody>
+              {teachers.map(teacher => (
+                <tr key={teacher.id}>
+                  <td>{teacher.firstName} {teacher.lastName}</td>
+                  <td>{teacher.email}</td>
+                  <td>{teacher.cin}</td>
+                  <td>{teacher.phone}</td>
+                  {/* Add more table cells as needed */}
+                </tr>
+              ))}
+            </tbody>
+          </table>
         ) : (
           <p>No teachers available</p>
         )}

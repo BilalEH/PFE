@@ -15,6 +15,9 @@ export const ParentsSlice=createSlice({
         action_status:''
     },
     extraReducers:(builder)=>{
+        builder.addCase(addRequest.rejected, (state) => {
+            state.action_status = 'failed';
+        });
         // get courses
         builder.addCase(PGetCourses.pending, (state) => {
             state.status = 'loading';
@@ -200,12 +203,41 @@ export const PDeleteMessage=createAsyncThunk(
         .catch(err=>{
             toast.error(`X ${err.response.data.message}`, StyleToast);
         })
-        .then((res) => {
+        .then(() => {
             return data=id;
         })
         return data;
     }
 )
+// add request to join in course
+export const addRequest=createAsyncThunk(
+    'Parent/addRequest',
+    async (Ele) =>{
+        let data=null;
+        await axiosInstance.post(`/api/courses/add-request/${Ele.id}`,Ele.data)
+        .catch(err=>{
+            toast.error(`X ${err.response.data.message}`, StyleToast);
+        })
+        .then(() => {
+            return toast.success(`Application under review`, StyleToast);
+        })
+        return data;
+    }
+)
+// export const RemoveRequest=createAsyncThunk(
+//     'Parent/RemoveRequest',
+//     async (Ele) =>{
+//         let data=null;
+//         await axiosInstance.post(`/api/messages/${Ele.id}`)
+//         .catch(err=>{
+//             toast.error(`X ${err.response.data.message}`, StyleToast);
+//         })
+//         .then(() => {
+//             return data=id;
+//         })
+//         return data;
+//     }
+// )
 
 
 

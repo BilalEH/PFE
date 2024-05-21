@@ -95,6 +95,17 @@ export const ParentsSlice=createSlice({
         builder.addCase(PRemoveStudentInClasses.rejected, (state) => {
             state.action_status = 'succeeded';
         });
+        // parent add student 
+        builder.addCase(PAddStudent.pending, (state) => {
+            state.action_status = 'loading';
+        });
+        builder.addCase(PAddStudent.fulfilled, (state,action) => {
+            state.students=[...state.students,action.payload];
+            state.action_status = 'succeeded';
+        });
+        builder.addCase(PAddStudent.rejected, (state) => {
+            state.action_status = 'succeeded';
+        });
     }
 })
 
@@ -238,6 +249,26 @@ export const addRequest=createAsyncThunk(
 //         return data;
 //     }
 // )
+
+    // parent add child
+export const PAddStudent=createAsyncThunk(
+    'Parent/addStudent',
+    async (Ele) =>{
+        let data=null;
+        const toastId = toast.loading('Loading...',StyleToast);
+        await axiosInstance.post(`/api/parent/add-childrens/${Ele.id}`,Ele.data)
+        .catch(err=>{
+            toast.dismiss(toastId);
+            toast.error(`X ${err.response.data.message}`, StyleToast);
+        })
+        .then((res) => {
+            toast.dismiss(toastId);
+            toast.success(`student added successfully`, StyleToast);
+            return data=res.data.student;
+        })
+        return data;
+    }
+)
 
 
 

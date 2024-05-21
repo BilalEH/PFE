@@ -37,6 +37,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::put("/parents/restore/{id}", [AbsparentController::class, 'restore']);
     Route::get('parent/deleted', [AbsparentController::class, "deleted"]);
     Route::get('parent/childrens/{id}', [AbsparentController::class, "HisChildrensList"]);
+    Route::post('parent/add-childrens/{id}', [AbsparentController::class, "AddStduentsToParent"]);
     // ------------------------------courses----------------------------------------------
     Route::apiResource("/courses", CourseController::class);
     Route::post('courses/add-request/{id}', [CourseController::class, "AddJoinRequest"]);

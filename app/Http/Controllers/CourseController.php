@@ -6,6 +6,7 @@ use App\Http\Resources\CouresRequeres;
 use App\Http\Resources\CourseResource;
 use App\Models\Course;
 use App\Models\Student;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
@@ -58,11 +59,17 @@ class CourseController extends Controller
     public function AddJoinRequest(string $id, Request $request)
     {
         $request->validate([
-            'student_id' => 'required|exists:students,id',
+            'student_id' => 'required',
         ]);
         try {
             $course = Course::findOrFail($id);
-            $course->requests()->attach($request->student_id, ['student_id' => $request->student_id]);
+            $StuTest = Student::find($request->student_id);
+            if ($StuTest) {
+                $course->requests()->attach($request->student_id, ['student_id' => $request->student_id]);
+            } else {
+                $Stu = Student::where('user_id', $request->student_id)->first();
+                $course->requests()->attach($request->student_id, ['student_id' => $Stu->id]);
+            }
             return response()->json(CouresRequeres::collection($course->requests), 201);
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);
@@ -71,16 +78,20 @@ class CourseController extends Controller
     public function RemoveJoinRequest(string $id, Request $request)
     {
         $request->validate([
-            "student_id" => "required|exists:students,id",
+            "student_id" => "required",
         ]);
         try {
             $course = Course::findOrFail($id);
-            $course->requests()->detach($request->student_id);
+            $StuTest = Student::findOrFail($request->student_id);
+            if ($StuTest) {
+                $course->requests()->detach($request->student_id);
+            } else {
+                $Stu = Student::where('user_id', $request->student_id)->first();
+                $course->requests()->detach($Stu->id);
+            }
             return response()->json(CouresRequeres::collection($course->requests), 200);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json(['message' => 'Course not found'], 404);
-        } catch (\Exception $e) {
-            return response()->json(['message' => $e->getMessage()], 500);
         }
     }
 }

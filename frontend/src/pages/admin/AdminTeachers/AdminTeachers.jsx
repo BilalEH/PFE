@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AddTeacherPopup from "./components/AddTeacherPopup";
 import "./style/AdminTeacher.css";
 import {
     GetTeachers,
-    deleteTeacher,
+    // deleteTeacher,
 } from "../../../api/adminsStore/adminStore";
 import {
     Paper,
@@ -33,7 +33,7 @@ const AdminTeachers = () => {
 
     const columns = [
         { id: "actions", name: "" },
-        { id: "firstName", name: "CIN" },
+        { id: "CIN", name: "CIN" },
         { id: "firstName", name: "First name" },
         { id: "lastName", name: "Last name" },
         { id: "email", name: "Email" },
@@ -47,7 +47,7 @@ const AdminTeachers = () => {
     function handlePageChange(event, newPage) {
         setpage(newPage);
     }
-    function handleRowChange(event, newRow) {
+    function handleRowChange(event) {
         setrowPerPage(event.target.value);
         setpage(0);
     }
@@ -154,7 +154,7 @@ const AdminTeachers = () => {
                                                     page * rowPerPage +
                                                         rowPerPage
                                                 )
-                                                .map((row, i) => {
+                                                .map((row) => {
                                                     return (
                                                         <TableRow key={row.id}>
                                                             <TableCell

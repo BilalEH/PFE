@@ -18,7 +18,7 @@ function ParentCouresList({CouresData,studentData}) {
             console.log('no student selected');
         }
     }
-    const StudentData=studentData;
+    const StudentData=studentData.filter(e=>e.status===1);
     return (
         <>
             {

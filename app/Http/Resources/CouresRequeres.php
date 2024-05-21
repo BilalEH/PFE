@@ -16,7 +16,6 @@ class CouresRequeres extends JsonResource
     public function toArray(Request $request): array
     {
         $data = parent::toArray($request);
-        $data['test']='messi';
         $data['pivot']['student_id'] = Student::find($data['pivot']['student_id']);
         return $data;
     }

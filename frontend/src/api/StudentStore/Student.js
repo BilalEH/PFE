@@ -98,4 +98,21 @@ export const SStudentClasses = createAsyncThunk(
     }
 );
 
+// add request to join in course
+export const SAddRequest=createAsyncThunk(
+    'Student/addRequest',
+    async (Ele) =>{
+        let data=null;
+        await axiosInstance.post(`/api/courses/add-request/${Ele.id}`,Ele.data)
+        .catch(err=>{
+            return toast.error(`X ${err.response.data.message}`, StyleToast);
+        })
+        .then(() => {
+            return toast.success(`Application under review`, StyleToast);
+        })
+        return data;
+    }
+)
+
+
 export default StudentsSlice;

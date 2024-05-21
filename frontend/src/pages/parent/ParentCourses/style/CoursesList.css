@@ -1,0 +1,26 @@
+.course-reserve {
+    background: none;
+    border: 0;
+    padding: 0;
+    color: #19647e;
+    text-decoration: none;
+    transition: 100ms all ease-out;
+}
+
+.course-reserve:hover {
+    color: #0f3f4e;
+    text-decoration: underline;
+}
+
+.popup-reserve-btns>button {
+    width: 48%;
+    padding: 8px;
+    border-radius: 16px;
+    font-size: 24px;
+    transition: 100ms all ease-out;
+}
+
+.popup-reserve-btns {
+    display: flex;
+    justify-content: space-between;
+}

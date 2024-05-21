@@ -13,6 +13,7 @@ import {
 import PopupStudiantCourses from "./PopupStudiantCourses";
 import { useState } from "react";
 import StuCourseList from "./StuCourList";
+import ParentEmptyStudentsPage from "./ParentEmptyStudentsPage";
 
 function P_StudentsList({ StudentsData }) {
     const [handleClose, sethandleClose] = useState(false);
@@ -79,114 +80,118 @@ function P_StudentsList({ StudentsData }) {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {StudentsData.slice(
-                                page * rowPerPage,
-                                page * rowPerPage + rowPerPage
-                            ).map((row, i) => (
-                                <TableRow key={i}>
-                                    <TableCell
-                                        style={{
-                                            padding: "22px 18px",
-                                            fontFamily: "Montserrat",
-                                            fontSize: "16px",
-                                        }}
-                                    >
-                                        {row.user_id.firstName}
-                                    </TableCell>
-                                    <TableCell
-                                        style={{
-                                            padding: "22px 18px",
-                                            fontFamily: "Montserrat",
-                                            fontSize: "16px",
-                                        }}
-                                    >
-                                        {row.user_id.lastName}
-                                    </TableCell>
-                                    <TableCell
-                                        style={{
-                                            padding: "22px 18px",
-                                            fontFamily: "Montserrat",
-                                            fontSize: "16px",
-                                        }}
-                                    >
-                                        {row.user_id.email}
-                                    </TableCell>
-                                    <TableCell
-                                        style={{
-                                            padding: "22px 18px",
-                                            fontFamily: "Montserrat",
-                                            fontSize: "16px",
-                                        }}
-                                    >
-                                        {row.user_id.phone}
-                                    </TableCell>
-                                    <TableCell
-                                        style={{
-                                            padding: "22px 18px",
-                                            fontFamily: "Montserrat",
-                                            fontSize: "16px",
-                                        }}
-                                    >
-                                        {row.user_id.cin
-                                            ? row.user_id.cin
-                                            : "N/A"}
-                                    </TableCell>
-                                    <TableCell
-                                        style={{
-                                            padding: "22px 18px",
-                                            fontFamily: "Montserrat",
-                                            fontSize: "16px",
-                                        }}
-                                    >
-                                        {row.dateN}
-                                    </TableCell>
-                                    <TableCell
-                                        style={{
-                                            padding: "22px 18px",
-                                            fontFamily: "Montserrat",
-                                            fontSize: "16px",
-                                        }}
-                                    >
-                                        {row.status == 1
-                                            ? "verifie"
-                                            : "non verifie"}
-                                    </TableCell>
-                                    <TableCell
-                                        style={{
-                                            padding: "22px 18px",
-                                            fontFamily: "Montserrat",
-                                            fontSize: "16px",
-                                        }}
-                                    >
-                                        <Tooltip
-                                            title={`List of courses the ${row.user_id.firstName} is taking`}
-                                            arrow
+                            {StudentsData.length === 0 ? (
+                                <ParentEmptyStudentsPage />
+                            ) : (
+                                StudentsData.slice(
+                                    page * rowPerPage,
+                                    page * rowPerPage + rowPerPage
+                                ).map((row, i) => (
+                                    <TableRow key={i}>
+                                        <TableCell
+                                            style={{
+                                                padding: "22px 18px",
+                                                fontFamily: "Montserrat",
+                                                fontSize: "16px",
+                                            }}
                                         >
-                                            <Button
-                                                disabled={row.status == 0}
-                                                style={
-                                                    row.status == 1
-                                                        ? {
-                                                              backgroundColor:
-                                                                  "#19647e",
-                                                              color: "white",
-                                                          }
-                                                        : {}
-                                                }
-                                                variant="contained"
-                                                onClick={() =>
-                                                    ShowStudCourns(
-                                                        row.id,
-                                                        `${row.user_id.firstName} ${row.user_id.lastName}`
-                                                    )
-                                                }
+                                            {row.user_id.firstName}
+                                        </TableCell>
+                                        <TableCell
+                                            style={{
+                                                padding: "22px 18px",
+                                                fontFamily: "Montserrat",
+                                                fontSize: "16px",
+                                            }}
+                                        >
+                                            {row.user_id.lastName}
+                                        </TableCell>
+                                        <TableCell
+                                            style={{
+                                                padding: "22px 18px",
+                                                fontFamily: "Montserrat",
+                                                fontSize: "16px",
+                                            }}
+                                        >
+                                            {row.user_id.email}
+                                        </TableCell>
+                                        <TableCell
+                                            style={{
+                                                padding: "22px 18px",
+                                                fontFamily: "Montserrat",
+                                                fontSize: "16px",
+                                            }}
+                                        >
+                                            {row.user_id.phone}
+                                        </TableCell>
+                                        <TableCell
+                                            style={{
+                                                padding: "22px 18px",
+                                                fontFamily: "Montserrat",
+                                                fontSize: "16px",
+                                            }}
+                                        >
+                                            {row.user_id.cin
+                                                ? row.user_id.cin
+                                                : "N/A"}
+                                        </TableCell>
+                                        <TableCell
+                                            style={{
+                                                padding: "22px 18px",
+                                                fontFamily: "Montserrat",
+                                                fontSize: "16px",
+                                            }}
+                                        >
+                                            {row.dateN}
+                                        </TableCell>
+                                        <TableCell
+                                            style={{
+                                                padding: "22px 18px",
+                                                fontFamily: "Montserrat",
+                                                fontSize: "16px",
+                                            }}
+                                        >
+                                            {row.status == 1
+                                                ? "verifie"
+                                                : "non verifie"}
+                                        </TableCell>
+                                        <TableCell
+                                            style={{
+                                                padding: "22px 18px",
+                                                fontFamily: "Montserrat",
+                                                fontSize: "16px",
+                                            }}
+                                        >
+                                            <Tooltip
+                                                title={`List of courses the ${row.user_id.firstName} is taking`}
+                                                arrow
                                             >
-                                                courses
-                                            </Button>
-                                        </Tooltip>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
+                                                <Button
+                                                    disabled={row.status == 0}
+                                                    style={
+                                                        row.status == 1
+                                                            ? {
+                                                                  backgroundColor:
+                                                                      "#19647e",
+                                                                  color: "white",
+                                                              }
+                                                            : {}
+                                                    }
+                                                    variant="contained"
+                                                    onClick={() =>
+                                                        ShowStudCourns(
+                                                            row.id,
+                                                            `${row.user_id.firstName} ${row.user_id.lastName}`
+                                                        )
+                                                    }
+                                                >
+                                                    courses
+                                                </Button>
+                                            </Tooltip>
+                                        </TableCell>
+                                    </TableRow>
+                                ))
+                            )}
                         </TableBody>
                     </Table>
                 </TableContainer>

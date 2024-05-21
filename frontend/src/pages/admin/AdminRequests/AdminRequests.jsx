@@ -56,15 +56,7 @@ export default function AdminRequests() {
                         <option value="students">student</option>
                     </select> */}
             {RequestsData.status_request === "succeeded" ? (
-                studentRows.length != 0 ? (
-                    <RequestsList studentRows={studentRows} />
-                ) : (
-                    <div>
-                        <Alert severity="warning">
-                            There are no requests at the moment.
-                        </Alert>
-                    </div>
-                )
+                <RequestsList studentRows={studentRows} />
             ) : RequestsData.status_request === "loading" ? (
                 <div className="loading_error_container">
                     <CircularProgress size={50} />

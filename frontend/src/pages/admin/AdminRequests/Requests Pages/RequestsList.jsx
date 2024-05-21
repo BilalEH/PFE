@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import AcceptPopup from "../AcceptPopup";
+import EmptyRequestsPage from "../components/EmptyRequestsPage";
 
 function RequestsList({ studentRows }) {
     const [handleClose, setHandleClose] = useState(false);
@@ -69,7 +70,9 @@ function RequestsList({ studentRows }) {
                         </TableHead>
 
                         <TableBody>
-                            {studentRows &&
+                            {studentRows.length === 0 ? (
+                                <EmptyRequestsPage />
+                            ) : (
                                 studentRows
                                     .slice(
                                         page * rowPerPage,
@@ -151,7 +154,8 @@ function RequestsList({ studentRows }) {
                                                 </TableCell>
                                             </TableRow>
                                         );
-                                    })}
+                                    })
+                            )}
                         </TableBody>
                     </Table>
                 </TableContainer>

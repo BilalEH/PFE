@@ -1,10 +1,23 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GetParents, deleteParent } from "../../../api/adminsStore/adminStore";
-import {Alert,CircularProgress,Paper,Table,TableBody,TableCell,TableContainer,TableHead,TablePagination,TableRow} from "@mui/material";
+import {
+    Alert,
+    CircularProgress,
+    Paper,
+    Tab,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TablePagination,
+    TableRow,
+} from "@mui/material";
 import UpdateDeletePopup from "../../../layouts/UpdatePopup";
 import ConfDelete from "./ConfDelete";
 import UpdateParent from "./updateParent";
+import EmptyParentsPage from "./components/EmptyParentsPage";
 // import "./style/pages.css"
 
 export default function AdminParents() {
@@ -80,52 +93,52 @@ export default function AdminParents() {
     return (
         <div>
             <div className="page-title">List of Parents</div>
-            {parentsData.status_parent === "loading" ? (
-                <div className="w-100 text-center">
-                    <CircularProgress />
-                </div>
-            ) : parentsData.status_parent === "failed" ? (
-                <div>
-                    <Alert severity="error">Error</Alert>
-                </div>
-            ) : parentsData.parents.length === 0 ? (
-                <div className="d-flex justify-content-center">
-                    <Alert className="w-50" severity="warning">
-                        pas des donnes
-                    </Alert>
-                </div>
-            ) : (
-                <Paper
-                    style={{
-                        background: "none",
-                        border: "2px solid #afafaf",
-                        borderRadius: "12px",
-                        overflow: "hidden",
-                    }}
-                    sx={{ width: "100%" }}
-                >
-                    <TableContainer>
-                        <Table className="">
-                            <TableHead>
-                                <TableRow>
-                                    {columns.map((col) => (
-                                        <TableCell
-                                            style={{
-                                                padding: "22px 18px",
-                                                fontWeight: "bold",
-                                                fontFamily: "Montserrat",
-                                                fontSize: "16px",
-                                            }}
-                                            key={col.id}
-                                        >
-                                            {col.name}
-                                        </TableCell>
-                                    ))}
-                                </TableRow>
-                            </TableHead>
+            <Paper
+                style={{
+                    background: "none",
+                    border: "2px solid #afafaf",
+                    borderRadius: "12px",
+                    overflow: "hidden",
+                }}
+                sx={{ width: "100%" }}
+            >
+                <TableContainer>
+                    <Table className="">
+                        <TableHead>
+                            <TableRow>
+                                {columns.map((col) => (
+                                    <TableCell
+                                        style={{
+                                            padding: "22px 18px",
+                                            fontWeight: "bold",
+                                            fontFamily: "Montserrat",
+                                            fontSize: "16px",
+                                        }}
+                                        key={col.id}
+                                    >
+                                        {col.name}
+                                    </TableCell>
+                                ))}
+                            </TableRow>
+                        </TableHead>
 
-                            <TableBody>
-                                {parentsData.parents
+                        <TableBody>
+                            {parentsData.status_parent === "loading" ? (
+                                <TableRow>
+                                    <TableCell colSpan={6}>
+                                        <div className="w-100 text-center py-5">
+                                            <CircularProgress />
+                                        </div>
+                                    </TableCell>
+                                </TableRow>
+                            ) : parentsData.status_parent === "failed" ? (
+                                <div>
+                                    <Alert severity="error">Error</Alert>
+                                </div>
+                            ) : parentsData.parents.length === 0 ? (
+                                <EmptyParentsPage />
+                            ) : (
+                                parentsData.parents
                                     .slice(
                                         page * rowPerPage,
                                         page * rowPerPage + rowPerPage
@@ -215,25 +228,25 @@ export default function AdminParents() {
                                                 </TableCell>
                                             </TableRow>
                                         );
-                                    })}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                    <TablePagination
-                        style={{
-                            paddingTop: "20px",
-                            paddingBottom: "10px",
-                        }}
-                        rowsPerPageOptions={[1, 5]}
-                        rowsPerPage={rowPerPage}
-                        page={page}
-                        count={parentsData.parents.length}
-                        component="div"
-                        onPageChange={handlePageChange}
-                        onRowsPerPageChange={handleRowChange}
-                    ></TablePagination>
-                </Paper>
-            )}
+                                    })
+                            )}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                <TablePagination
+                    style={{
+                        paddingTop: "20px",
+                        paddingBottom: "10px",
+                    }}
+                    rowsPerPageOptions={[1, 5]}
+                    rowsPerPage={rowPerPage}
+                    page={page}
+                    count={parentsData.parents.length}
+                    component="div"
+                    onPageChange={handlePageChange}
+                    onRowsPerPageChange={handleRowChange}
+                ></TablePagination>
+            </Paper>
             <UpdateDeletePopup
                 handleClose={UpdatePop}
                 setHandleClose={setUpdatePop}

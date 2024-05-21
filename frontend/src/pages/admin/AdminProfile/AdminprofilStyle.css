@@ -1,0 +1,44 @@
+/* AdminProfile.css */
+
+.card-container {
+    width: 350px; /* Adjusted width for better content alignment */
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 30px; /* Increased padding for better content spacing */
+    margin: 20px auto;
+    transition: transform 0.3s ease;
+  }
+  
+  .card-container:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .card-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .profile-info p {
+    margin-bottom: 16px; /* Adjusted margin for better spacing */
+    font-size: 16px;
+    color: #333333; /* Adjusted color for better contrast */
+  }
+  
+  .profile-info strong {
+    font-weight: bold;
+    color: #222222;
+  }
+  
+  .error-message {
+    color: red;
+    font-weight: bold;
+  }
+  
+  .loading-spinner {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  

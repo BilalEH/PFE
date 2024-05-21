@@ -2,13 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\StudentClasses;
 use App\Http\Resources\TeacherResource;
+use App\Models\Student;
 use App\Models\Teacher;
 use App\Models\User; // Import the User model
 use Illuminate\Http\Request;
 
 class TeacherController extends Controller
 {
+
+
+    public function GetClassesStu(string $id)
+    {
+        $student = Student::find($id);
+        if (!$student) {
+            return response()->json(['message' => 'Student not found'], 404);
+        }
+        return response()->json(['classes' => StudentClasses::collection($student->classes)], 200);
+    }
     /**
      * Display a listing of the resource.
      */
@@ -78,4 +90,7 @@ class TeacherController extends Controller
 
         return response()->json(['message' => 'Teacher deleted successfully'], 200);
     }
+
+    
 }
+

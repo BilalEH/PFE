@@ -86,7 +86,9 @@ function RequestsList({ studentRows }) {
                                                         fontSize: "16px",
                                                     }}
                                                 >
-                                                    {row.user_id.cin}
+                                                    {row.user_id.cin
+                                                        ? row.user_id.cin
+                                                        : "N/A"}
                                                 </TableCell>
                                                 <TableCell
                                                     style={{

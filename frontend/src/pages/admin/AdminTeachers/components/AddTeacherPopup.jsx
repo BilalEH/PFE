@@ -16,6 +16,8 @@ export default function AddTeacherPopup({
         password: "",
     });
 
+    const [errors, setErrors] = useState({});
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setNewTeacherData((prevData) => ({
@@ -26,17 +28,57 @@ export default function AddTeacherPopup({
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(addTeacher(newTeacherData));
-        setNewTeacherData({
-            firstName: "",
-            lastName: "",
-            email: "",
-            cin: "",
-            phone: "",
-            password: "",
-        });
-        setHandleClose(false);
+        if (validateForm()) {
+            dispatch(addTeacher(newTeacherData));
+            setNewTeacherData({
+                firstName: "",
+                lastName: "",
+                email: "",
+                cin: "",
+                phone: "",
+                password: "",
+            });
+            setHandleClose(false);
+        }
     };
+
+    const validateForm = () => {
+        const errorsObj = {};
+        const phoneRegex = /^(05|06|07)[0-9]{8}$/;
+        const cinRegex = /^[A-Za-z]{1,2}[0-9]{2,7}$/;
+
+        if (!newTeacherData.firstName.trim()) {
+            errorsObj.firstName = "First name is required";
+        }
+
+        if (!newTeacherData.lastName.trim()) {
+            errorsObj.lastName = "Last name is required";
+        }
+
+        if (!newTeacherData.email.trim()) {
+            errorsObj.email = "Email is required";
+        }
+
+        if (!newTeacherData.cin.trim()) {
+            errorsObj.cin = "CIN is required";
+        } else if (!cinRegex.test(newTeacherData.cin)) {
+            errorsObj.cin = "Invalid CIN format";
+        }
+
+        if (!newTeacherData.phone.trim()) {
+            errorsObj.phone = "Phone is required";
+        } else if (!phoneRegex.test(newTeacherData.phone)) {
+            errorsObj.phone = "Invalid phone number format";
+        }
+
+        if (!newTeacherData.password.trim()) {
+            errorsObj.password = "Password is required";
+        }
+
+        setErrors(errorsObj);
+        return Object.keys(errorsObj).length === 0;
+    };
+
     return (
         <>
             <Dialog open={handleClose} onClose={() => setHandleClose(false)}>
@@ -53,8 +95,9 @@ export default function AddTeacherPopup({
                                         label="First name"
                                         name="firstName"
                                         value={newTeacherData.firstName}
-                                        placeholder="ex: Saad"
                                         onChange={handleInputChange}
+                                        error={!!errors.firstName}
+                                        helperText={errors.firstName}
                                         required
                                     />
                                 </div>
@@ -65,8 +108,9 @@ export default function AddTeacherPopup({
                                         type="text"
                                         name="lastName"
                                         value={newTeacherData.lastName}
-                                        placeholder="ex: Elhafyan"
                                         onChange={handleInputChange}
+                                        error={!!errors.lastName}
+                                        helperText={errors.lastName}
                                         required
                                     />
                                 </div>
@@ -77,8 +121,9 @@ export default function AddTeacherPopup({
                                 type="email"
                                 name="email"
                                 value={newTeacherData.email}
-                                placeholder="ex: dirassa@gmail.com"
                                 onChange={handleInputChange}
+                                error={!!errors.email}
+                                helperText={errors.email}
                                 required
                             />
                             <TextField
@@ -87,8 +132,9 @@ export default function AddTeacherPopup({
                                 type="text"
                                 name="cin"
                                 value={newTeacherData.cin}
-                                placeholder="ex: K000000"
                                 onChange={handleInputChange}
+                                error={!!errors.cin}
+                                helperText={errors.cin}
                                 required
                             />
                             <TextField
@@ -97,8 +143,9 @@ export default function AddTeacherPopup({
                                 type="text"
                                 name="phone"
                                 value={newTeacherData.phone}
-                                placeholder="ex: 0600000000"
                                 onChange={handleInputChange}
+                                error={!!errors.phone}
+                                helperText={errors.phone}
                                 required
                             />
                             <TextField
@@ -107,8 +154,9 @@ export default function AddTeacherPopup({
                                 type="password"
                                 name="password"
                                 value={newTeacherData.password}
-                                placeholder=""
                                 onChange={handleInputChange}
+                                error={!!errors.password}
+                                helperText={errors.password}
                                 required
                             />
                             <div className="add-teacher-popup-btns">

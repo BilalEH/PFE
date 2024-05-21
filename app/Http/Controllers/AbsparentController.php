@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Resources\ParentResource;
 use App\Http\Resources\StudentResource;
 use App\Models\Absparent;
+use App\Models\Student;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AbsparentController extends Controller
 {
@@ -105,6 +107,27 @@ class AbsparentController extends Controller
             } else {
                 return response()->json(['message' => 'parent not found'], 404);
             }
+        } catch (Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 404);
+        }
+    }
+    public function AddStduentsToParent(Request $request, $id)
+    {
+        $data = $request->validate([
+            'firstName' => ['required', 'string', 'max:255'],
+            'lastName' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+            'phone' => ['required', 'string', 'regex:/(^0)[0-9]{9}$/', 'min:10', 'max:10'],
+            'password' => ['required', 'string', 'min:8'],
+        ]);
+        try {
+            $data['password'] = Hash::make($request->password);
+            $data['avatar'] = "https://ui-avatars.com/api/?uppercase=false&name=$request->first_name+$request->last_name&background=04F17A&color=19647E";
+            $data['role'] = 'student';
+            $user = User::create($data);
+            $par = Absparent::where('user_id', $id)->first();
+            $stu = Student::create(['user_id' => $user->id, 'dateN' => now(), 'absparent_id' => $par->id]);
+            return response()->json(['student' => new StudentResource($stu)], 200);
         } catch (Exception $e) {
             return response()->json(['message' => $e->getMessage()], 404);
         }

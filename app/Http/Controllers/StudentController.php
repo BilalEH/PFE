@@ -54,34 +54,34 @@ class StudentController extends Controller
 
     public function update(Request $request, $id)
     {
+        $data = $request->validate([
+            'firstName' => 'string|max:255',
+            'lastName' => 'string|max:255',
+            'dateN' => 'date',
+            'cin' => 'nullable|string|max:8',
+            'password' => 'nullable|string|min:8|max:255',
+            'phone' => 'string|regex:/(^0)[0-9]{9}$/|min:10|max:10',
+            'email' => 'email'
+        ]);
         try {
-            $data = $request->validate([
-                'user_id' => 'required|exists:users,id|integer',
-                'phone' => 'string|regex:/(^0)[0-9]{9}$/|min:10|max:10',
-                'email' => 'email|unique:users,email'
-            ]);
-            $userData = User::find($request->user_id);
-            if ($userData) {
-                if ($userData->role === 'student') {
-                    $student = Student::find($id);
-                    if (!$student) {
-                        return response()->json(['message' => 'Student not found'], 404);
-                    }
-                    $student->update($data);
-                    return response()->json($student, 200);
-                }
-            }
+            $student = Student::findOrFail($id);
+            $user = User::find($student->user_id);
+            if ($data['password']) {
+                $data['password'] = bcrypt($data['password']);
+            } else {
+                $data['password'] = $user->password;
+            };
+            if (!$data['cin']) {
+                $data['cin'] = $user->cin;
+            };
+            $user->update($data);
+            $student->update($data);
+            return response()->json(['student' => new StudentResource($student)], 200);
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 404);
-        }
+        };
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         try {

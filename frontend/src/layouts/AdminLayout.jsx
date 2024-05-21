@@ -144,10 +144,7 @@ export default function AdminLayout() {
 
                     <div
                         className={`dashElement ${
-                            pathname == "/admin/parents"
-                                ? "dashElementActive"
-                                : ""
-                        }`}
+                            pathname == "/admin/requests_courses"? "dashElementActive": ""}`}
                     >
                         <Link to="/admin/requests_courses">
                             <div className="d-flex align-items-center justify-content-between  p-3 h-100">
@@ -203,7 +200,11 @@ export default function AdminLayout() {
                         </Link>
                     </div>
 
-                    <div className="dashElement">
+                    <div className={`dashElement ${
+                            pathname == "/admin/Classes"
+                                ? "dashElementActive"
+                                : ""
+                        }`}>
                         <Link to="/admin/Classes">
                             <div className="d-flex align-items-center justify-content-between p-3 h-100">
                                 <div>Classes</div>

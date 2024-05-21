@@ -9,7 +9,7 @@ export default function UpdateTeacherPopup({
     teacher,
 }) {
     const [newTeacherData, setNewTeacherData] = useState({});
-    const dispatch=useDispatch();
+    const dispatch = useDispatch();
     useEffect(() => {
         setNewTeacherData({
             firstName: teacher ? teacher.user_id.firstName : "",
@@ -23,12 +23,17 @@ export default function UpdateTeacherPopup({
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setNewTeacherData((prevData) => ({...prevData,[name]: value,}));
+        setNewTeacherData((prevData) => ({ ...prevData, [name]: value }));
     };
 
     function handleSubmit(e) {
         e.preventDefault();
-        dispatch(updateTeacher({teacherId:teacher.id,updatedTeacher:newTeacherData}));
+        dispatch(
+            updateTeacher({
+                teacherId: teacher.id,
+                updatedTeacher: newTeacherData,
+            })
+        );
         setHandleClose(false);
     }
 

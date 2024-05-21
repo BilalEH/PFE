@@ -96,7 +96,7 @@ export default function AdminCourses() {
       <form onSubmit={handleSubmit} className="course-form">
         <input type="text" name="courseName" value={formData.courseName} onChange={handleChange} placeholder="Course Name" />
         <input type="text" name="niveau" value={formData.niveau} onChange={handleChange} placeholder="Niveau" />
-        <input type="number" name="amount" value={formData.amount} onChange={handleChange} placeholder="Amount" />   
+        <input type="number" name="amount" value={formData.amount} onChange={handleChange} placeholder="Amount" />
        <textarea name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
        <br/>
 

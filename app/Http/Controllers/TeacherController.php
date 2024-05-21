@@ -44,26 +44,28 @@ class TeacherController extends Controller
     }
     public function update(Request $request, string $id)
     {
-        $request->validate([
-            'firstName' => 'string|max:255',
-            'lastName' => 'string|max:255',
-            'email' => 'string|email|max:255|unique:users',
-            'cin' => 'string|max:255|unique:users',
-            'phone' => 'string|max:255',
-            'password' => 'string|min:8',
+        $data = $request->validate([
+            'firstName' => 'nullable|string|max:255',
+            'lastName' => 'nullable|string|max:255',
+            'email' => 'nullable|string|email|max:255',
+            'cin' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:255',
+            'password' => 'nullable|string|min:8',
         ]);
-
         $teacher = Teacher::findOrFail($id);
-        $user = User::where('id', $teacher->user_id)->first()->update([
-            'firstName' => $request->firstName,
-            'lastName' => $request->lastName,
-            'email' => $request->email,
-            'cin' => $request->cin,
-            'avatar' => "https://ui-avatars.com/api/?uppercase=false&name=$request->firstName+$request->lastName&background=19647E&color=FFFDFD",
-            'phone' => $request->phone,
-            'password' => bcrypt($request->password),
-        ]);
-        return response()->json(['teacher' => new TeacherResource($teacher)], 200);
+        $user = User::where('id', $teacher->user_id)->first();
+        if ($user) {
+            $data['avatar'] = "https://ui-avatars.com/api/?uppercase=false&name=$request->firstName+$request->lastName&background=F63E02&color=FFFDFD";
+            if (!$request->password) {
+                $data['password'] = $user->password;
+            } else {
+                $data['password'] = bcrypt($request->password);
+            }
+            $user->update($data);
+            return response()->json(['teacher' => new TeacherResource($teacher)], 200);
+        } else {
+            return response()->json(['error' => 'User not found'], 404);
+        }
     }
 
     public function destroy(string $id)

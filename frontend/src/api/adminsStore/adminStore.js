@@ -88,6 +88,17 @@ export const AdminSlice=createSlice({
         builder.addCase(updateStudent.rejected, (state) => {
             state.action_status = 'failed';
         })
+        //updating teacher
+        builder.addCase(updateTeacher.pending, (state) => {
+            state.action_status = 'loading';
+        });
+        builder.addCase(updateTeacher.fulfilled, (state, action) => {
+            state.action_status = 'succeeded';
+            state.teachers=state.teachers.map(e=>e.id===action.payload.id?action.payload:e);
+        });
+        builder.addCase(updateTeacher.rejected, (state) => {
+            state.action_status = 'failed';
+        });
         // --------------------------------------Add
         // add teacher
         builder.addCase(addTeacher.pending, (state) => {
@@ -100,20 +111,6 @@ export const AdminSlice=createSlice({
             state.teachers.push(newTeacher);
         });
         builder.addCase(addTeacher.rejected, (state) => {
-            state.action_status = 'failed';
-        });
-        // Add cases for updating teacher
-        builder.addCase(updateTeacher.pending, (state) => {
-            state.action_status = 'loading';
-        });
-        builder.addCase(updateTeacher.fulfilled, (state, action) => {
-            state.action_status = 'succeeded';
-            const updatedTeacherIndex = state.teachers.findIndex(teacher => teacher.id === action.payload.teacherId);
-            if (updatedTeacherIndex !== -1) {
-                state.teachers[updatedTeacherIndex] = action.payload.updatedTeacher;
-            }
-        });
-        builder.addCase(updateTeacher.rejected, (state) => {
             state.action_status = 'failed';
         });
         // Add classes
@@ -340,11 +337,14 @@ export const AccepteUsers=createAsyncThunk(
     'AccepteUsers',
     async (Ele) =>{
         let data=null;
+        const toastId = toast.loading('Loading...',StyleToast);
         await axiosInstance.get(`/api/admin/acceptuser/${Ele.id}`)
         .catch(err=>{
+            toast.dismiss(toastId);
             toast.error(`X ${err.response.data.message}`, StyleToast);
         })
         .then((res) => {
+            toast.dismiss(toastId);
             toast.success(`X ${res.data.message}`, StyleToast);
             data=Ele
         })
@@ -375,10 +375,13 @@ export const GetUserMessages=createAsyncThunk(
 export const addCourse = createAsyncThunk(
     'admin/addCourse',
     async (courseData) => {
+        const toastId = toast.loading('Loading...',StyleToast);
         try {
             const response = await axiosInstance.post(`/api/courses`, courseData);
+            toast.dismiss(toastId);
             return response.data;
         } catch (error) {
+            toast.dismiss(toastId);
             toast.error(`X ${error.response.data.message}`, StyleToast);
             throw error;
         }
@@ -389,10 +392,13 @@ export const addCourse = createAsyncThunk(
 export const deleteCourse = createAsyncThunk(
     'admin/deleteCourse',
     async (courseId) => {
+        const toastId = toast.loading('Loading...',StyleToast);
         try {
             await axiosInstance.delete(`/api/courses/${courseId}`);
+            toast.dismiss(toastId);
             return courseId;
         } catch (error) {
+            toast.dismiss(toastId);
             toast.error(`X ${error.response.data.message}`, StyleToast);
             throw error;
         }
@@ -402,10 +408,13 @@ export const deleteCourse = createAsyncThunk(
 export const updateCourse = createAsyncThunk(
     'admin/updateCourse',
     async ({ courseId, updatedCourse }) => {
+        const toastId = toast.loading('Loading...',StyleToast);
         try {
             const response = await axiosInstance.put(`/api/courses/${courseId}`, updatedCourse);
+            toast.dismiss(toastId);
             return response.data;
         } catch (error) {
+            toast.dismiss(toastId);
             toast.error(`X ${error.response.data.message}`, StyleToast);
             throw error;
         }
@@ -421,11 +430,14 @@ export const updateCourse = createAsyncThunk(
 export const deleteStudent = createAsyncThunk(
     'admin/deleteStudent',
     async (studentId) => {
+        const toastId = toast.loading('Loading...',StyleToast);
         await axiosInstance.delete(`/api/studients/${studentId}`)
-            .catch(err => {
-                toast.error(`X ${err.response.data.message}`, StyleToast);
-                throw err;
-            }).then(() => {
+        .catch(err => {
+            toast.dismiss(toastId);
+            toast.error(`X ${err.response.data.message}`, StyleToast);
+            throw err;
+        }).then(() => {
+                toast.dismiss(toastId);
                 toast.success(`X ${"Student deleted successfully"}`, StyleToast);
             });
         return { studentId };
@@ -435,13 +447,17 @@ export const deleteStudent = createAsyncThunk(
 export const updateStudent = createAsyncThunk(
     'admin/updateStudent',
     async ({ studentId, updatedStudent }) => {
-        // Make an API call to update the student
+        const toastId = toast.loading('Loading...',StyleToast);
         await axiosInstance.put(`/api/students/${studentId}`, updatedStudent)
-            .catch(err => {
-                toast.error(`X ${err.response.data.message}`, StyleToast);
-                throw err;
-            });
-        return { studentId, updatedStudent };
+        .catch(err => {
+            toast.dismiss(toastId);
+            toast.error(`X ${err.response.data.message}`, StyleToast);
+            throw err;
+        }).then(() => {
+            toast.dismiss(toastId);
+            toast.success(`X ${"Student deleted successfully"}`, StyleToast);
+            return { studentId, updatedStudent };
+        });
     }
 );
 
@@ -449,10 +465,13 @@ export const updateStudent = createAsyncThunk(
 export const deleteParent = createAsyncThunk(
     'admin/deleteParent',
     async (parentId) => {
+        const toastId = toast.loading('Loading...',StyleToast);
         try {
-            await axiosInstance.delete(`/api/parents/${parentId}`);
-            return { parentId };
-        } catch (error) {
+        await axiosInstance.delete(`/api/parents/${parentId}`);
+        toast.dismiss(toastId);
+        return { parentId };
+    } catch (error) {
+            toast.dismiss(toastId);
             toast.error(`X ${error.response.data.message}`, StyleToast);
             throw error;
         }
@@ -462,10 +481,13 @@ export const deleteParent = createAsyncThunk(
 export const updateParent = createAsyncThunk(
     'admin/updateParent',
     async ({ parentId, updatedParent }) => {
+        const toastId = toast.loading('Loading...',StyleToast);
         try {
             await axiosInstance.put(`/api/parents/${parentId}`, updatedParent);
+            toast.dismiss(toastId);
             return { parentId, updatedParent };
         } catch (error) {
+            toast.dismiss(toastId);
             toast.error(`X ${error.response.data.message}`, StyleToast);
             throw error;
         }
@@ -496,9 +518,9 @@ export const updateTeacher = createAsyncThunk(
     async ({ teacherId, updatedTeacher }) => {
         const toastId = toast.loading('Loading...',StyleToast);
         try {
-            await axiosInstance.put(`/api/teachers/${teacherId}`, updatedTeacher);
+            const data =await axiosInstance.put(`/api/teachers/${teacherId}`, updatedTeacher);
             toast.dismiss(toastId);
-            return { teacherId, updatedTeacher };
+            return data.data.teacher;
         } catch (error) {
             toast.error(`X ${error.response.data.message}`, StyleToast);
             toast.dismiss(toastId);
@@ -539,10 +561,13 @@ export const AdminGetClasses = createAsyncThunk(
     export const addClass = createAsyncThunk(
     "admin/addClass",
     async (classData) => {
-    try {
+        const toastId = toast.loading('Loading...',StyleToast);
+        try {
         const response = await axiosInstance.post(`/api/classes`, classData);
+        toast.dismiss(toastId);
         return response.data;
     } catch (error) {
+        toast.dismiss(toastId);
         toast.error(`X ${error.response.data.message}`, StyleToast);
         throw error;
     }

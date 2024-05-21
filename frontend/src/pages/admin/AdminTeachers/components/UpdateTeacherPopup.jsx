@@ -1,5 +1,7 @@
 import { Dialog, DialogContent, DialogTitle, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import { updateTeacher } from "../../../../api/adminsStore/adminStore";
+import { useDispatch } from "react-redux";
 
 export default function UpdateTeacherPopup({
     handleClose,
@@ -7,7 +9,7 @@ export default function UpdateTeacherPopup({
     teacher,
 }) {
     const [newTeacherData, setNewTeacherData] = useState({});
-
+    const dispatch=useDispatch();
     useEffect(() => {
         setNewTeacherData({
             firstName: teacher ? teacher.user_id.firstName : "",
@@ -16,20 +18,17 @@ export default function UpdateTeacherPopup({
             cin: teacher ? teacher.user_id.cin : "",
             phone: teacher ? teacher.user_id.phone : "",
             password: "",
-            role: "teacher",
         });
     }, [teacher]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setNewTeacherData((prevData) => ({
-            ...prevData,
-            [name]: value,
-        }));
+        setNewTeacherData((prevData) => ({...prevData,[name]: value,}));
     };
 
     function handleSubmit(e) {
         e.preventDefault();
+        dispatch(updateTeacher({teacherId:teacher.id,updatedTeacher:newTeacherData}));
         setHandleClose(false);
     }
 
@@ -69,7 +68,6 @@ export default function UpdateTeacherPopup({
                                             value={newTeacherData.firstName}
                                             placeholder="ex: Saad"
                                             onChange={handleInputChange}
-                                            required
                                         />
                                     </div>
                                     <div className="col-6">
@@ -81,7 +79,6 @@ export default function UpdateTeacherPopup({
                                             value={newTeacherData.lastName}
                                             placeholder="ex: Elhafyan"
                                             onChange={handleInputChange}
-                                            required
                                         />
                                     </div>
                                 </div>
@@ -93,7 +90,6 @@ export default function UpdateTeacherPopup({
                                     value={newTeacherData.email}
                                     placeholder="ex: dirassa@gmail.com"
                                     onChange={handleInputChange}
-                                    required
                                 />
                                 <TextField
                                     className="w-100 my-3"
@@ -103,7 +99,6 @@ export default function UpdateTeacherPopup({
                                     value={newTeacherData.cin}
                                     placeholder="ex: K000000"
                                     onChange={handleInputChange}
-                                    required
                                 />
                                 <TextField
                                     className="w-100 my-3"
@@ -113,7 +108,6 @@ export default function UpdateTeacherPopup({
                                     value={newTeacherData.phone}
                                     placeholder="ex: 0600000000"
                                     onChange={handleInputChange}
-                                    required
                                 />
                                 <TextField
                                     className="w-100 my-3"
@@ -123,7 +117,6 @@ export default function UpdateTeacherPopup({
                                     value={newTeacherData.password}
                                     placeholder=""
                                     onChange={handleInputChange}
-                                    required
                                 />
                                 <div className="add-teacher-popup-btns">
                                     <button

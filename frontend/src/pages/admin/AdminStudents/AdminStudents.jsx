@@ -94,7 +94,7 @@ export default function AdminStudents() {
     if (studentsData.status_student === "failed") {
         return <Alert severity="error">Error loading data.</Alert>;
     } else if (studentsData.status_student === "loading") {
-        return <CircularProgress size={50} />;
+        return <div className="loading_error_container"><CircularProgress size={50} /></div>;
     } else if (studentsData.students.length === 0) {
         return <Alert severity="warning">No data available.</Alert>;
     }

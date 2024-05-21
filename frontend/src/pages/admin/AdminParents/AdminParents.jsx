@@ -1,22 +1,18 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { GetParents, deleteParent } from "../../../api/adminsStore/adminStore";
+import { GetParents } from "../../../api/adminsStore/adminStore";
 import {Alert,CircularProgress,Paper,Table,TableBody,TableCell,TableContainer,TableHead,TablePagination,TableRow} from "@mui/material";
-import UpdateDeletePopup from "../../../layouts/UpdatePopup";
-import ConfDelete from "./ConfDelete";
-import UpdateParent from "./updateParent";
-// import "./style/pages.css"
-
+import DeleteParentPopup from "./components/DeleteParentPopup";
+import UpdateParentPopup from "./components/UpdateParentPopup";
 export default function AdminParents() {
     const dispatch = useDispatch();
-    const parentsData = useSelector((state) => state.admins);
-    const [deletePop, setDeletePop] = useState(false);
-    const [UpdatePop, setUpdatePop] = useState(false);
-    const [ParDelete, setParDelete] = useState(0);
-    const [ParUpdate, setParUpdate] = useState({ nom: "test" });
-    const [page, setpage] = useState(0);
-    const [rowPerPage, setrowPerPage] = useState(5);
-
+    const { parents, status_parent } = useSelector((state) => state.admins);
+    const [currentPage, setCurrentPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+    const [parentToDelete, setParentToDelete] = useState(null);
+    const [parentToUpdate, setParentToUpdate] = useState(null);
+    const [showUpdateDialog,setShowUpdateDialog]=useState(false);
     const columns = [
         { id: "actions", name: "" },
         { id: "cin", name: "CIN" },
@@ -27,28 +23,19 @@ export default function AdminParents() {
     ];
 
     function handlePageChange(event, newPage) {
-        setpage(newPage);
+        setCurrentPage(newPage);
     }
-    function handleRowChange(event, newRow) {
-        setrowPerPage(event.target.value);
-        setpage(0);
+
+    function handleRowsPerPageChange(event) {
+        setRowsPerPage(event.target.value);
+        setCurrentPage(0);
     }
 
     useEffect(() => {
         dispatch(GetParents());
     }, [dispatch]);
 
-    const handleDelete = () => {
-        dispatch(deleteParent(ParDelete));
-        setDeletePop(false);
-    };
-
-    const handleUpdate = (DataForm) => {
-        setUpdatePop(false);
-        console.log(DataForm);
-    };
-
-    const delete_icone = (
+    const deleteIcon = (
         <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"
@@ -61,7 +48,8 @@ export default function AdminParents() {
             <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
         </svg>
     );
-    const update_icone = (
+
+    const updateIcon = (
         <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"
@@ -77,21 +65,22 @@ export default function AdminParents() {
             />
         </svg>
     );
+
     return (
         <div>
             <div className="page-title">List of Parents</div>
-            {parentsData.status_parent === "loading" ? (
-                <div className="w-100 text-center">
+            {status_parent === "loading" ? (
+                <div className="loading_error_container">
                     <CircularProgress />
                 </div>
-            ) : parentsData.status_parent === "failed" ? (
+            ) : status_parent === "failed" ? (
                 <div>
-                    <Alert severity="error">Error</Alert>
+                    <Alert severity="loading_error_container">Error</Alert>
                 </div>
-            ) : parentsData.parents.length === 0 ? (
-                <div className="d-flex justify-content-center">
-                    <Alert className="w-50" severity="warning">
-                        pas des donnes
+            ) : parents.length === 0 ? (
+                <div className="loading_error_container">
+                    <Alert className="w-50" severity="warning" >
+                        No data
                     </Alert>
                 </div>
             ) : (
@@ -108,7 +97,7 @@ export default function AdminParents() {
                         <Table className="">
                             <TableHead>
                                 <TableRow>
-                                    {columns.map((col) => (
+                                    {columns.map((column) => (
                                         <TableCell
                                             style={{
                                                 padding: "22px 18px",
@@ -116,106 +105,84 @@ export default function AdminParents() {
                                                 fontFamily: "Montserrat",
                                                 fontSize: "16px",
                                             }}
-                                            key={col.id}
+                                            key={column.id}
                                         >
-                                            {col.name}
+                                            {column.name}
                                         </TableCell>
                                     ))}
                                 </TableRow>
                             </TableHead>
 
                             <TableBody>
-                                {parentsData.parents
+                                {parents
                                     .slice(
-                                        page * rowPerPage,
-                                        page * rowPerPage + rowPerPage
+                                        currentPage * rowsPerPage,
+                                        currentPage * rowsPerPage + rowsPerPage
                                     )
-                                    .map((row, i) => {
-                                        return (
-                                            <TableRow key={i}>
-                                                <TableCell
-                                                    style={{
-                                                        padding: "22px 18px",
-                                                        fontFamily:
-                                                            "Montserrat",
-                                                        fontSize: "16px",
-                                                    }}
-                                                >
-                                                    <button
-                                                        className="delete"
-                                                        onClick={() => {
-                                                            setParUpdate(row);
-                                                            setParDelete(
-                                                                parent.id
-                                                            );
-                                                            setDeletePop(true);
-                                                        }}
-                                                    >
-                                                        {delete_icone}
-                                                    </button>
-                                                    <button
-                                                        className="update"
-                                                        onClick={() => {
-                                                            setParUpdate(row);
-                                                            setUpdatePop(true);
-                                                        }}
-                                                    >
-                                                        {update_icone}
-                                                    </button>
-                                                </TableCell>
-                                                <TableCell
-                                                    style={{
-                                                        padding: "22px 18px",
-                                                        fontFamily:
-                                                            "Montserrat",
-                                                        fontSize: "16px",
-                                                    }}
-                                                >
-                                                    {row.user_id.cin}
-                                                </TableCell>
-                                                <TableCell
-                                                    style={{
-                                                        padding: "22px 18px",
-                                                        fontFamily:
-                                                            "Montserrat",
-                                                        fontSize: "16px",
-                                                    }}
-                                                >
-                                                    {row.user_id.firstName}
-                                                </TableCell>
-                                                <TableCell
-                                                    style={{
-                                                        padding: "22px 18px",
-                                                        fontFamily:
-                                                            "Montserrat",
-                                                        fontSize: "16px",
-                                                    }}
-                                                >
-                                                    {row.user_id.lastName}
-                                                </TableCell>
-                                                <TableCell
-                                                    style={{
-                                                        padding: "22px 18px",
-                                                        fontFamily:
-                                                            "Montserrat",
-                                                        fontSize: "16px",
-                                                    }}
-                                                >
-                                                    {row.user_id.email}
-                                                </TableCell>
-                                                <TableCell
-                                                    style={{
-                                                        padding: "22px 18px",
-                                                        fontFamily:
-                                                            "Montserrat",
-                                                        fontSize: "16px",
-                                                    }}
-                                                >
-                                                    {row.user_id.phone}
-                                                </TableCell>
-                                            </TableRow>
-                                        );
-                                    })}
+                                    .map((parent) => (
+                                        <TableRow key={parent.id}>
+                                            <TableCell
+                                                style={{
+                                                    padding: "22px 18px",
+                                                    fontFamily: "Montserrat",
+                                                    fontSize: "16px",
+                                                }}
+                                            >
+                                                <button
+                                                    className="delete" onClick={() => {setParentToDelete(parent);setShowDeleteDialog(true);}}>
+                                                    {deleteIcon}
+                                                </button>
+                                                <button className="update" onClick={() => {setShowUpdateDialog(true);setParentToUpdate(parent)}}>
+                                                    {updateIcon}
+                                                </button>
+                                            </TableCell>
+                                            <TableCell
+                                                style={{
+                                                    padding: "22px 18px",
+                                                    fontFamily: "Montserrat",
+                                                    fontSize: "16px",
+                                                }}
+                                            >
+                                                {parent.user_id.cin}
+                                            </TableCell>
+                                            <TableCell
+                                                style={{
+                                                    padding: "22px 18px",
+                                                    fontFamily: "Montserrat",
+                                                    fontSize: "16px",
+                                                }}
+                                            >
+                                                {parent.user_id.firstName}
+                                            </TableCell>
+                                            <TableCell
+                                                style={{
+                                                    padding: "22px 18px",
+                                                    fontFamily: "Montserrat",
+                                                    fontSize: "16px",
+                                                }}
+                                            >
+                                                {parent.user_id.lastName}
+                                            </TableCell>
+                                            <TableCell
+                                                style={{
+                                                    padding: "22px 18px",
+                                                    fontFamily: "Montserrat",
+                                                    fontSize: "16px",
+                                                }}
+                                            >
+                                                {parent.user_id.email}
+                                            </TableCell>
+                                            <TableCell
+                                                style={{
+                                                    padding: "22px 18px",
+                                                    fontFamily: "Montserrat",
+                                                    fontSize: "16px",
+                                                }}
+                                            >
+                                                {parent.user_id.phone}
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
                             </TableBody>
                         </Table>
                     </TableContainer>
@@ -225,37 +192,17 @@ export default function AdminParents() {
                             paddingBottom: "10px",
                         }}
                         rowsPerPageOptions={[1, 5]}
-                        rowsPerPage={rowPerPage}
-                        page={page}
-                        count={parentsData.parents.length}
+                        rowsPerPage={rowsPerPage}
+                        page={currentPage}
+                        count={parents.length}
                         component="div"
                         onPageChange={handlePageChange}
-                        onRowsPerPageChange={handleRowChange}
-                    ></TablePagination>
+                        onRowsPerPageChange={handleRowsPerPageChange}
+                    />
                 </Paper>
             )}
-            <UpdateDeletePopup
-                handleClose={UpdatePop}
-                setHandleClose={setUpdatePop}
-                title={"Update Parent"}
-            >
-                <UpdateParent
-                    handleUpdate={handleUpdate}
-                    UpdatePop={setUpdatePop}
-                    data={ParUpdate}
-                />
-            </UpdateDeletePopup>
-            <UpdateDeletePopup
-                handleClose={deletePop}
-                setHandleClose={setDeletePop}
-                title={"Deleting parent"}
-            >
-                <ConfDelete
-                    handleDelete={handleDelete}
-                    DeletePop={setDeletePop}
-                    data={ParUpdate}
-                />
-            </UpdateDeletePopup>
+            {showDeleteDialog && parentToDelete && (<DeleteParentPopup open={showDeleteDialog} setOpen={setShowDeleteDialog} parent={parentToDelete}/>)}
+            {showUpdateDialog && parentToUpdate && (<UpdateParentPopup open={showUpdateDialog} setOpen={setShowUpdateDialog} parent={parentToUpdate}/>)}
         </div>
     );
 }

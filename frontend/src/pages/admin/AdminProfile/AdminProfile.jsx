@@ -32,7 +32,7 @@ function AdminProfile() {
               ):('error')
             }
           </div>
-        ):(userData.status_admin==='failed'?(<div className='w-100 d-flex justify-content-center'>No admin data available</div>):(<div className='w-100 d-flex justify-content-center'><CircularProgress/></div>))
+        ):(userData.status_admin==='failed'?(<div className='loading_error_container'>No admin data available</div>):(<div className='loading_error_container'><CircularProgress/></div>))
       }
 </div>
   );

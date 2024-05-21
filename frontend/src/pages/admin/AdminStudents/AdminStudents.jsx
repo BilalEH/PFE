@@ -171,13 +171,7 @@ export default function AdminStudents() {
                                                 fontSize: "16px",
                                             }}
                                         >
-<<<<<<< HEAD
                                             {row.user_id.cin?row.user_id.cin:'N/A'}
-=======
-                                            {row.user_id.cin
-                                                ? row.user_id.cin
-                                                : "N/A"}
->>>>>>> b4e600402530f75ed8d27ef8bae6132f35626eae
                                         </TableCell>
                                         <TableCell
                                             style={{

@@ -141,14 +141,7 @@ export default function AdminLayout() {
 
                     <div
                         className={`dashElement ${
-<<<<<<< HEAD
                             pathname == "/admin/requests_courses"? "dashElementActive": ""}`}
-=======
-                            pathname == "/admin/requests_courses"
-                                ? "dashElementActive"
-                                : ""
-                        }`}
->>>>>>> b4e600402530f75ed8d27ef8bae6132f35626eae
                     >
                         <Link to="/admin/requests_courses">
                             <div className="d-flex align-items-center justify-content-between  p-3 h-100">

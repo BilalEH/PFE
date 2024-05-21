@@ -1,0 +1,14 @@
+.add-student {
+    background-color: #00000000;
+    font-size: 22px;
+    padding: 12px 22px;
+    border: 2px solid #19647e;
+    color: #19647e;
+    border-radius: 16px;
+    transition: 100ms all ease-out;
+}
+
+.add-student:hover {
+    background-color: #19647e;
+    color: #fafafa;
+}

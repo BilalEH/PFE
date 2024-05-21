@@ -9,7 +9,9 @@ export default function UpdateTeacherPopup({
     teacher,
 }) {
     const [newTeacherData, setNewTeacherData] = useState({});
+    const [errors, setErrors] = useState({});
     const dispatch = useDispatch();
+
     useEffect(() => {
         setNewTeacherData({
             firstName: teacher ? teacher.user_id.firstName : "",
@@ -21,20 +23,38 @@ export default function UpdateTeacherPopup({
         });
     }, [teacher]);
 
+    const validatePhone = (phone) => {
+        const phoneRegex = /^(05|06|07)[0-9]{8}$/;
+        return phoneRegex.test(phone);
+    };
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
+        let error = "";
+        if (name === "phone" && !validatePhone(value)) {
+            error = "Invalid Moroccan phone number";
+        } else if (name === "password" && !value) {
+            error = "Password is required";
+        }
+        setErrors((prevErrors) => ({ ...prevErrors, [name]: error }));
         setNewTeacherData((prevData) => ({ ...prevData, [name]: value }));
     };
 
     function handleSubmit(e) {
         e.preventDefault();
-        dispatch(
-            updateTeacher({
-                teacherId: teacher.id,
-                updatedTeacher: newTeacherData,
-            })
+        const hasErrors = Object.values(errors).some((error) => error !== "");
+        const hasEmptyFields = Object.values(newTeacherData).some(
+            (value) => value === ""
         );
-        setHandleClose(false);
+        if (!hasErrors && !hasEmptyFields) {
+            dispatch(
+                updateTeacher({
+                    teacherId: teacher.id,
+                    updatedTeacher: newTeacherData,
+                })
+            );
+            setHandleClose(false);
+        }
     }
 
     const update_icone = (
@@ -113,6 +133,8 @@ export default function UpdateTeacherPopup({
                                     value={newTeacherData.phone}
                                     placeholder="ex: 0600000000"
                                     onChange={handleInputChange}
+                                    error={!!errors.phone}
+                                    helperText={errors.phone}
                                 />
                                 <TextField
                                     className="w-100 my-3"
@@ -122,6 +144,8 @@ export default function UpdateTeacherPopup({
                                     value={newTeacherData.password}
                                     placeholder=""
                                     onChange={handleInputChange}
+                                    error={!!errors.password}
+                                    helperText={errors.password}
                                 />
                                 <div className="add-teacher-popup-btns">
                                     <button

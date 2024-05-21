@@ -1,14 +1,11 @@
 import { Dialog, DialogContent, DialogTitle, TextField } from "@mui/material";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { PAddStudent } from "../../../api/parentsStore/parentStore";
-import useAuthContext from "../../../api/auth";
+import { PAddStudent } from "../../../../api/parentsStore/parentStore";
+import useAuthContext from "../../../../api/auth";
 
-export default function PAddStudentPopup({
-    handleClose,
-    setHandleClose,
-}) {
-    const {importUser}=useAuthContext()
+export default function PAddStudentPopup({ handleClose, setHandleClose }) {
+    const { importUser } = useAuthContext();
     const [newStudentP, setnewStudentP] = useState({
         firstName: "",
         lastName: "",
@@ -16,7 +13,7 @@ export default function PAddStudentPopup({
         phone: "",
         password: "",
     });
-    const dispatch=useDispatch()
+    const dispatch = useDispatch();
     // api/parent/add-childrens/8
     // {
     //     "firstName": "test1",
@@ -35,7 +32,7 @@ export default function PAddStudentPopup({
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(PAddStudent({id:importUser().id,data:newStudentP}))
+        dispatch(PAddStudent({ id: importUser().id, data: newStudentP }));
         setHandleClose(false);
     };
     return (
@@ -136,7 +133,7 @@ export default function PAddStudentPopup({
                                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
                                         <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
                                     </svg>
-                                    <p className="m-0 ms-2">Add teacher</p>
+                                    <p className="m-0 ms-2">Add</p>
                                 </button>
                             </div>
                         </form>

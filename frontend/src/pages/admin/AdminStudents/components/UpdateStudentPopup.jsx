@@ -19,7 +19,6 @@ export default function UpdateStudentPopup({
             phone: student ? student.user_id.phone : "",
             dateN: student ? student.dateN : "",
             password: "",
-            role: "student",
         });
     }, [student]);
 
@@ -39,7 +38,7 @@ export default function UpdateStudentPopup({
                 updatedStudent: newStudentData,
             })
         );
-        handleClose(false);
+        setHandleClose(false);
     };
 
     const cancelIcon = (
@@ -48,7 +47,7 @@ export default function UpdateStudentPopup({
             width="24"
             height="24"
             fill="currentColor"
-            class="bi bi-x-circle"
+            className="bi bi-x-circle"
             viewBox="0 0 16 16"
         >
             <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
@@ -83,17 +82,7 @@ export default function UpdateStudentPopup({
                         <div className="popup-content">
                             <form action="" onSubmit={handleUpdate}>
                                 <div className="popup-inputs row">
-                                    <div className="col-12">
-                                        <TextField
-                                            className="w-100 my-3"
-                                            label="CIN"
-                                            name="cin"
-                                            value={newStudentData.cin}
-                                            placeholder="ex: Elhafyan"
-                                            onChange={handleInputChange}
-                                            required
-                                        />
-                                    </div>
+                                    {student&&!student.user_id.cin?'':<div className="col-12"><TextField required className="w-100 my-3" label="CIN" name="cin" value={newStudentData.cin} placeholder="ex: Elhafyan" onChange={handleInputChange} /></div>}
                                     <div className="col-6">
                                         <TextField
                                             className="w-100 my-3"
@@ -140,6 +129,18 @@ export default function UpdateStudentPopup({
                                     </div>
                                     <div className="col-12">
                                         <TextField
+                                            type="date"
+                                            className="w-100 my-3"
+                                            label="Date of Birth"
+                                            name="dateN"
+                                            value={newStudentData.dateN}
+                                            placeholder=""
+                                            onChange={handleInputChange}
+                                            required
+                                        />
+                                    </div>
+                                    <div className="col-12">
+                                        <TextField
                                             type="password"
                                             className="w-100 my-3"
                                             label="Password"
@@ -147,7 +148,6 @@ export default function UpdateStudentPopup({
                                             value={newStudentData.password}
                                             placeholder=""
                                             onChange={handleInputChange}
-                                            required
                                         />
                                     </div>
                                 </div>

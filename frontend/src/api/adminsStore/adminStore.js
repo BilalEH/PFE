@@ -80,10 +80,8 @@ export const AdminSlice=createSlice({
         })
         builder.addCase(updateStudent.fulfilled, (state, action) => {
             state.action_status = 'succeeded';
-            const updatedStudentIndex = state.students.findIndex(student => student.id === action.payload.studentId);
-            if (updatedStudentIndex !== -1) {
-                state.students[updatedStudentIndex] = action.payload.updatedStudent;
-            }
+            console.log(action);
+            state.students=state.students.map(e=>e.id===action.payload.id?action.payload:e);
         })
         builder.addCase(updateStudent.rejected, (state) => {
             state.action_status = 'failed';
@@ -447,17 +445,18 @@ export const deleteStudent = createAsyncThunk(
 export const updateStudent = createAsyncThunk(
     'admin/updateStudent',
     async ({ studentId, updatedStudent }) => {
+        let data=null;
         const toastId = toast.loading('Loading...',StyleToast);
-        await axiosInstance.put(`/api/students/${studentId}`, updatedStudent)
+        await axiosInstance.put(`/api/studients/${studentId}`, updatedStudent)
         .catch(err => {
             toast.dismiss(toastId);
             toast.error(`X ${err.response.data.message}`, StyleToast);
-            throw err;
-        }).then(() => {
+        }).then((res) => {
             toast.dismiss(toastId);
-            toast.success(`X ${"Student deleted successfully"}`, StyleToast);
-            return { studentId, updatedStudent };
+            toast.success(`X ${"Student updated successfully"}`, StyleToast);
+            return data= res.data.student;
         });
+        return data
     }
 );
 

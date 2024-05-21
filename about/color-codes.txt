@@ -1,0 +1,3 @@
+color pallets codes :
+primary : #19647e, hover : #0f3f4e
+delete : #F63E02, hover: #a12800

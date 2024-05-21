@@ -37,6 +37,7 @@ export default function AdminStudents() {
         { id: "cin", name: "CIN" },
         { id: "firstName", name: "First name" },
         { id: "lastName", name: "Last name" },
+        { id: "parent", name: "Parent" },
         { id: "dateN", name: "Birth date" },
         { id: "email", name: "Email" },
         { id: "phone", name: "Phone" },
@@ -170,7 +171,7 @@ export default function AdminStudents() {
                                                 fontSize: "16px",
                                             }}
                                         >
-                                            {row.user_id.cin}
+                                            {row.user_id.cin?row.user_id.cin:'N/A'}
                                         </TableCell>
                                         <TableCell
                                             style={{
@@ -189,6 +190,15 @@ export default function AdminStudents() {
                                             }}
                                         >
                                             {row.user_id.lastName}
+                                        </TableCell>
+                                        <TableCell
+                                            style={{
+                                                padding: "22px 18px",
+                                                fontFamily: "Montserrat",
+                                                fontSize: "16px",
+                                            }}
+                                        >
+                                            {row.absparent_id?(row.absparent_id.user_id.firstName + ' '+row.absparent_id.user_id.lastName):'N/A'}
                                         </TableCell>
                                         <TableCell
                                             style={{

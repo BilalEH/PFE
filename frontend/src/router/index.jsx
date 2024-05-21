@@ -25,7 +25,7 @@ import TeacherProfile from "../pages/Teacher/TeacherProfile";
 import StudentCourse from "../pages/student/StudentCourse";
 import StudentSeance from "../pages/student/StudentSeance";
 import StudentPayment from "../pages/student/StudentPayment";
-import ParentStudents from "../pages/parent/ParentStudents";
+import ParentStudents from "../pages/parent/parentStudents/ParentStudents";
 import ParentCourses from "../pages/parent/ParentCourses";
 import ParentPayments from "../pages/parent/ParentPayments";
 import TeacherLayout from "../layouts/TeacherLayout";
@@ -109,12 +109,10 @@ export const router = createBrowserRouter([
                 element: <AdminAssign />,
             },
 
-
             {
                 path: "/admin/requests_courses",
                 element: <AdminRequestsCourses />,
             },
-        
         ],
     },
     {

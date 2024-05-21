@@ -44,29 +44,36 @@ class AbsparentController extends Controller
 
     public function update(Request $request, $id)
     {
+        $data = $request->validate([
+            'firstName' => ['nullable', 'string', 'max:255'],
+            'lastName' => ['nullable', 'string', 'max:255'],
+            'email' => ['nullable', 'string', 'email', 'max:255'],
+            'phone' => ['nullable', 'string', 'regex:/(^0)[0-9]{9}$/', 'min:10', 'max:10'],
+            'password' => ['nullable', 'string', 'min:8'],
+            'cin' => ['nullable', 'string'],
+        ]);
         try {
-            $data = $request->validate([
-                'email' => 'email',
-                'phone' => 'regex:/(^0)[0-9]{9}$/|min:10|max:10',
-            ]);
             $parent = Absparent::findOrFail($id);
-            $UserData = User::find($request->parent->user_id);
-            if ($UserData) {
-                $UserData->update($data);
-                return response()->json($parent, 200);
-            };
-        } catch (\Exception $e) {
+            $user = User::findOrFail($parent->user_id);
+            if ($data['password']) {
+                $data['password'] = Hash::make($request->password);
+            } else {
+                $data['password'] = $user->password;
+            }
+            $user->update($data);
+            return response()->json(['parent' => new ParentResource($parent)], 200);
+        } catch (Exception $e) {
             return response()->json(['message' => $e->getMessage()], 404);
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy($id)
     {
         try {
             $parent = Absparent::findOrFail($id);
+            $user = User::find($parent->user_id);
+            $user->delete();
             $parent->delete();
             return response()->json($parent, 204);
         } catch (Exception $e) {

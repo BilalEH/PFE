@@ -66,10 +66,7 @@ export const AdminSlice=createSlice({
         });
         builder.addCase(updateParent.fulfilled, (state, action) => {
             state.action_status = 'succeeded';
-            const updatedParentIndex = state.parents.findIndex(parent => parent.id === action.payload.parentId);
-            if (updatedParentIndex !== -1) {
-                state.parents[updatedParentIndex] = action.payload.updatedParent;
-            }
+            state.parents=state.parents.map(e=>e.id===action.payload.id?action.payload:e);
         });
         builder.addCase(updateParent.rejected, (state) => {
             state.action_status = 'failed';
@@ -410,6 +407,7 @@ export const updateCourse = createAsyncThunk(
         try {
             const response = await axiosInstance.put(`/api/courses/${courseId}`, updatedCourse);
             toast.dismiss(toastId);
+            toast.success(`course updated successfully`, StyleToast);
             return response.data;
         } catch (error) {
             toast.dismiss(toastId);
@@ -482,9 +480,10 @@ export const updateParent = createAsyncThunk(
     async ({ parentId, updatedParent }) => {
         const toastId = toast.loading('Loading...',StyleToast);
         try {
-            await axiosInstance.put(`/api/parents/${parentId}`, updatedParent);
+            const { data } = await axiosInstance.put(`/api/parents/${parentId}`, updatedParent);
             toast.dismiss(toastId);
-            return { parentId, updatedParent };
+            toast.success(`X ${"Parent updated successfully"}`, StyleToast);
+            return data.parent;
         } catch (error) {
             toast.dismiss(toastId);
             toast.error(`X ${error.response.data.message}`, StyleToast);

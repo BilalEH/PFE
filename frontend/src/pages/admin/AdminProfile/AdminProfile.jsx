@@ -37,9 +37,9 @@ function AdminProfile() {
           )}
         </div>
       ) : userData.status_admin === 'failed' ? (
-        <div className="error-message">No admin data available</div>
+        <div className="error-message loading_error_container">No admin data available</div>
       ) : (
-        <div className="loading-spinner"><CircularProgress /></div>
+        <div className="loading-spinner loading_error_container"><CircularProgress /></div>
       )}
     </div>
   );

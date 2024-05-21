@@ -22,14 +22,13 @@ import EmptyParentsPage from "./components/EmptyParentsPage";
 
 export default function AdminParents() {
     const dispatch = useDispatch();
-    const parentsData = useSelector((state) => state.admins);
-    const [deletePop, setDeletePop] = useState(false);
-    const [UpdatePop, setUpdatePop] = useState(false);
-    const [ParDelete, setParDelete] = useState(0);
-    const [ParUpdate, setParUpdate] = useState({ nom: "test" });
-    const [page, setpage] = useState(0);
-    const [rowPerPage, setrowPerPage] = useState(5);
-
+    const { parents, status_parent } = useSelector((state) => state.admins);
+    const [currentPage, setCurrentPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+    const [parentToDelete, setParentToDelete] = useState(null);
+    const [parentToUpdate, setParentToUpdate] = useState(null);
+    const [showUpdateDialog, setShowUpdateDialog] = useState(false);
     const columns = [
         { id: "actions", name: "" },
         { id: "cin", name: "CIN" },
@@ -40,28 +39,19 @@ export default function AdminParents() {
     ];
 
     function handlePageChange(event, newPage) {
-        setpage(newPage);
+        setCurrentPage(newPage);
     }
-    function handleRowChange(event, newRow) {
-        setrowPerPage(event.target.value);
-        setpage(0);
+
+    function handleRowsPerPageChange(event) {
+        setRowsPerPage(event.target.value);
+        setCurrentPage(0);
     }
 
     useEffect(() => {
         dispatch(GetParents());
     }, [dispatch]);
 
-    const handleDelete = () => {
-        dispatch(deleteParent(ParDelete));
-        setDeletePop(false);
-    };
-
-    const handleUpdate = (DataForm) => {
-        setUpdatePop(false);
-        console.log(DataForm);
-    };
-
-    const delete_icone = (
+    const deleteIcon = (
         <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"
@@ -74,7 +64,8 @@ export default function AdminParents() {
             <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
         </svg>
     );
-    const update_icone = (
+
+    const updateIcon = (
         <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"
@@ -90,6 +81,7 @@ export default function AdminParents() {
             />
         </svg>
     );
+
     return (
         <div>
             <div className="page-title">List of Parents</div>
@@ -140,8 +132,8 @@ export default function AdminParents() {
                             ) : (
                                 parentsData.parents
                                     .slice(
-                                        page * rowPerPage,
-                                        page * rowPerPage + rowPerPage
+                                        currentPage * rowsPerPage,
+                                        currentPage * rowsPerPage + rowsPerPage
                                     )
                                     .map((row, i) => {
                                         return (

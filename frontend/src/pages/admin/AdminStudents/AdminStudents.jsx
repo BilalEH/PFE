@@ -20,6 +20,7 @@ import {
 import ConfDelete from "./ConfDelete";
 import UpdateStudentPopup from "./components/UpdateStudentPopup";
 import "./style/AdminStudents.css";
+import DeleteStudentPopup from "./components/DeleteStudentPopup";
 
 export default function AdminStudents() {
     const [studentRows, setStudentRows] = useState([]);
@@ -29,6 +30,7 @@ export default function AdminStudents() {
     const [rowPerPage, setRowPerPage] = useState(5);
     const [studentSelected, setStudentSelected] = useState();
     const [handleUpdateClose, sethandleUpdateClose] = useState(false);
+    const [handleDeleteClose, setHandleDeleteClose] = useState(false);
 
     const columns = [
         { id: "actions", name: "" },
@@ -47,10 +49,6 @@ export default function AdminStudents() {
     useEffect(() => {
         setStudentRows(studentsData.students);
     }, [studentsData]);
-
-    const handleDelete = (studentId) => {
-        dispatch(deleteStudent(studentId));
-    };
 
     const handlePageChange = (event, newPage) => {
         setPage(newPage);
@@ -148,17 +146,18 @@ export default function AdminStudents() {
                                         >
                                             <button
                                                 className="delete"
-                                                onClick={() =>
-                                                    handleDelete(row.id)
-                                                }
+                                                onClick={() => {
+                                                    setStudentSelected(row);
+                                                    setHandleDeleteClose(true);
+                                                }}
                                             >
                                                 {deleteIcon}
                                             </button>
                                             <button
                                                 className="update"
                                                 onClick={() => {
-                                                    sethandleUpdateClose(true);
                                                     setStudentSelected(row);
+                                                    sethandleUpdateClose(true);
                                                 }}
                                             >
                                                 {updateIcon}
@@ -237,6 +236,12 @@ export default function AdminStudents() {
             <UpdateStudentPopup
                 handleClose={handleUpdateClose}
                 setHandleClose={sethandleUpdateClose}
+                student={studentSelected}
+                dispatch={dispatch}
+            />
+            <DeleteStudentPopup
+                handleClose={handleDeleteClose}
+                setHandleClose={setHandleDeleteClose}
                 student={studentSelected}
                 dispatch={dispatch}
             />

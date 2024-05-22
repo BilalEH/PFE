@@ -1,6 +1,8 @@
 import { Dialog, DialogContent, DialogTitle, TextField } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { addCourse } from "../../../../api/adminsStore/adminStore";
+import { toast } from 'react-toastify';
+import { StyleToast } from "../../../../layouts/Layout";
 
 export default function AddCoursePopup({
     handleClose,
@@ -55,6 +57,16 @@ export default function AddCoursePopup({
         setHandleClose(false);
     };
 
+    useEffect(()=>{
+        if(validationErrors.length > 0){
+            {validationErrors.map(
+                (error) => (
+                    toast.error(error, StyleToast)
+                )
+            )}
+        }
+    },[validationErrors])
+
     return (
         <>
             <Dialog open={handleClose} onClose={() => setHandleClose(false)}>
@@ -65,31 +77,6 @@ export default function AddCoursePopup({
                     <DialogContent>
                         <div className="popup-content">
                             <div className="popup-form">
-                                <div className="form-errors">
-                                    {validationErrors.length > 0 && (
-                                        <div
-                                            style={{
-                                                backgroundColor:
-                                                    "rgba(255, 0, 0, 0.3)",
-                                                color: "white",
-                                                padding: "10px",
-                                                borderRadius: "5px",
-                                                margin: "10px 0",
-                                            }}
-                                        >
-                                            <strong>Error:</strong>
-                                            <ul>
-                                                {validationErrors.map(
-                                                    (error, index) => (
-                                                        <li key={index}>
-                                                            {error}
-                                                        </li>
-                                                    )
-                                                )}
-                                            </ul>
-                                        </div>
-                                    )}
-                                </div>
                                 <form onSubmit={handleSubmit} className="w-100">
                                     <div className="my-3 w-100">
                                         <TextField

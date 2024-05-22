@@ -61,6 +61,17 @@ export const AdminSlice=createSlice({
         builder.addCase(deleteStudent.rejected, (state) => {
             state.action_status = 'failed';
         })
+        // delete course
+        builder.addCase(deleteCourse.pending, (state) => {
+            state.action_status = 'loading';
+        })
+        builder.addCase(deleteCourse.fulfilled, (state, action) => {
+            state.action_status = 'succeeded';
+            state.courses = state.courses.filter(student => student.id !== action.payload);
+        })
+        builder.addCase(deleteCourse.rejected, (state) => {
+            state.action_status = 'failed';
+        })
         // --------------------------------------Update
         // update parent
         builder.addCase(updateParent.pending, (state) => {
@@ -415,6 +426,7 @@ export const deleteCourse = createAsyncThunk(
         try {
             await axiosInstance.delete(`/api/courses/${courseId}`);
             toast.dismiss(toastId);
+            toast.success(`course deleted successfully`, StyleToast);
             return courseId;
         } catch (error) {
             toast.dismiss(toastId);

@@ -46,6 +46,7 @@ export default function UpdateTeacherPopup({
         const hasEmptyFields = Object.values(newTeacherData).some(
             (value) => value === ""
         );
+        console.log(hasEmptyFields, hasErrors);
         if (!hasErrors && !hasEmptyFields) {
             dispatch(
                 updateTeacher({
@@ -78,7 +79,7 @@ export default function UpdateTeacherPopup({
         <>
             <Dialog open={handleClose} onClose={() => setHandleClose(false)}>
                 {teacher && (
-                    <div className="popup-container">
+                    <div className="popup-container" style={{padding:"13px"}}>
                         <DialogTitle>
                             <div className="popup-title">Update Teacher</div>
                         </DialogTitle>
@@ -144,8 +145,6 @@ export default function UpdateTeacherPopup({
                                     value={newTeacherData.password}
                                     placeholder=""
                                     onChange={handleInputChange}
-                                    error={!!errors.password}
-                                    helperText={errors.password}
                                 />
                                 <div className="add-teacher-popup-btns">
                                     <button

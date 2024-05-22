@@ -1,7 +1,18 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GetParents } from "../../../api/adminsStore/adminStore";
-import {Alert,CircularProgress,Paper,Table,TableBody,TableCell,TableContainer,TableHead,TablePagination,TableRow} from "@mui/material";
+import {
+    Alert,
+    CircularProgress,
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TablePagination,
+    TableRow,
+} from "@mui/material";
 import DeleteParentPopup from "./components/DeleteParentPopup";
 import UpdateParentPopup from "./components/UpdateParentPopup";
 export default function AdminParents() {
@@ -12,7 +23,8 @@ export default function AdminParents() {
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
     const [parentToDelete, setParentToDelete] = useState(null);
     const [parentToUpdate, setParentToUpdate] = useState(null);
-    const [showUpdateDialog,setShowUpdateDialog]=useState(false);
+    const [showUpdateDialog, setShowUpdateDialog] = useState(false);
+
     const columns = [
         { id: "actions", name: "" },
         { id: "cin", name: "CIN" },
@@ -79,130 +91,170 @@ export default function AdminParents() {
                 </div>
             ) : parents.length === 0 ? (
                 <div className="loading_error_container">
-                    <Alert className="w-50" severity="warning" >
+                    <Alert className="w-50" severity="warning">
                         No data
                     </Alert>
                 </div>
             ) : (
-                <Paper
-                    style={{
-                        background: "none",
-                        border: "2px solid #afafaf",
-                        borderRadius: "12px",
-                        overflow: "hidden",
-                    }}
-                    sx={{ width: "100%" }}
-                >
-                    <TableContainer>
-                        <Table className="">
-                            <TableHead>
-                                <TableRow>
-                                    {columns.map((column) => (
-                                        <TableCell
-                                            style={{
-                                                padding: "22px 18px",
-                                                fontWeight: "bold",
-                                                fontFamily: "Montserrat",
-                                                fontSize: "16px",
-                                            }}
-                                            key={column.id}
-                                        >
-                                            {column.name}
-                                        </TableCell>
-                                    ))}
-                                </TableRow>
-                            </TableHead>
-
-                            <TableBody>
-                                {parents
-                                    .slice(
-                                        currentPage * rowsPerPage,
-                                        currentPage * rowsPerPage + rowsPerPage
-                                    )
-                                    .map((parent) => (
-                                        <TableRow key={parent.id}>
-                                            <TableCell
-                                                style={{
-                                                    padding: "22px 18px",
-                                                    fontFamily: "Montserrat",
-                                                    fontSize: "16px",
-                                                }}
-                                            >
-                                                <button
-                                                    className="delete" onClick={() => {setParentToDelete(parent);setShowDeleteDialog(true);}}>
-                                                    {deleteIcon}
-                                                </button>
-                                                <button className="update" onClick={() => {setShowUpdateDialog(true);setParentToUpdate(parent)}}>
-                                                    {updateIcon}
-                                                </button>
-                                            </TableCell>
-                                            <TableCell
-                                                style={{
-                                                    padding: "22px 18px",
-                                                    fontFamily: "Montserrat",
-                                                    fontSize: "16px",
-                                                }}
-                                            >
-                                                {parent.user_id.cin}
-                                            </TableCell>
-                                            <TableCell
-                                                style={{
-                                                    padding: "22px 18px",
-                                                    fontFamily: "Montserrat",
-                                                    fontSize: "16px",
-                                                }}
-                                            >
-                                                {parent.user_id.firstName}
-                                            </TableCell>
-                                            <TableCell
-                                                style={{
-                                                    padding: "22px 18px",
-                                                    fontFamily: "Montserrat",
-                                                    fontSize: "16px",
-                                                }}
-                                            >
-                                                {parent.user_id.lastName}
-                                            </TableCell>
-                                            <TableCell
-                                                style={{
-                                                    padding: "22px 18px",
-                                                    fontFamily: "Montserrat",
-                                                    fontSize: "16px",
-                                                }}
-                                            >
-                                                {parent.user_id.email}
-                                            </TableCell>
-                                            <TableCell
-                                                style={{
-                                                    padding: "22px 18px",
-                                                    fontFamily: "Montserrat",
-                                                    fontSize: "16px",
-                                                }}
-                                            >
-                                                {parent.user_id.phone}
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                    <TablePagination
+                <>
+                    <Paper
                         style={{
-                            paddingTop: "20px",
-                            paddingBottom: "10px",
+                            background: "none",
+                            border: "2px solid #afafaf",
+                            borderRadius: "12px",
+                            overflow: "hidden",
                         }}
-                        rowsPerPageOptions={[1, 5]}
-                        rowsPerPage={rowsPerPage}
-                        page={currentPage}
-                        count={parents.length}
-                        component="div"
-                        onPageChange={handlePageChange}
-                        onRowsPerPageChange={handleRowsPerPageChange}
-                    />
-                </Paper>
+                        sx={{ width: "100%" }}
+                    >
+                        <TableContainer>
+                            <Table className="">
+                                <TableHead>
+                                    <TableRow>
+                                        {columns.map((column) => (
+                                            <TableCell
+                                                style={{
+                                                    padding: "22px 18px",
+                                                    fontWeight: "bold",
+                                                    fontFamily: "Montserrat",
+                                                    fontSize: "16px",
+                                                }}
+                                                key={column.id}
+                                            >
+                                                {column.name}
+                                            </TableCell>
+                                        ))}
+                                    </TableRow>
+                                </TableHead>
+
+                                <TableBody>
+                                    {parents
+                                        .slice(
+                                            currentPage * rowsPerPage,
+                                            currentPage * rowsPerPage +
+                                                rowsPerPage
+                                        )
+                                        .map((parent) => (
+                                            <TableRow key={parent.id}>
+                                                <TableCell
+                                                    style={{
+                                                        padding: "22px 18px",
+                                                        fontFamily:
+                                                            "Montserrat",
+                                                        fontSize: "16px",
+                                                    }}
+                                                >
+                                                    <button
+                                                        className="delete"
+                                                        onClick={() => {
+                                                            setParentToDelete(
+                                                                parent
+                                                            );
+                                                            setShowDeleteDialog(
+                                                                true
+                                                            );
+                                                        }}
+                                                    >
+                                                        {deleteIcon}
+                                                    </button>
+                                                    <button
+                                                        className="update"
+                                                        onClick={() => {
+                                                            setShowUpdateDialog(
+                                                                true
+                                                            );
+                                                            setParentToUpdate(
+                                                                parent
+                                                            );
+                                                        }}
+                                                    >
+                                                        {updateIcon}
+                                                    </button>
+                                                </TableCell>
+                                                <TableCell
+                                                    style={{
+                                                        padding: "22px 18px",
+                                                        fontFamily:
+                                                            "Montserrat",
+                                                        fontSize: "16px",
+                                                    }}
+                                                >
+                                                    {parent.user_id.cin}
+                                                </TableCell>
+                                                <TableCell
+                                                    style={{
+                                                        padding: "22px 18px",
+                                                        fontFamily:
+                                                            "Montserrat",
+                                                        fontSize: "16px",
+                                                    }}
+                                                >
+                                                    {parent.user_id.firstName}
+                                                </TableCell>
+                                                <TableCell
+                                                    style={{
+                                                        padding: "22px 18px",
+                                                        fontFamily:
+                                                            "Montserrat",
+                                                        fontSize: "16px",
+                                                    }}
+                                                >
+                                                    {parent.user_id.lastName}
+                                                </TableCell>
+                                                <TableCell
+                                                    style={{
+                                                        padding: "22px 18px",
+                                                        fontFamily:
+                                                            "Montserrat",
+                                                        fontSize: "16px",
+                                                    }}
+                                                >
+                                                    {parent.user_id.email}
+                                                </TableCell>
+                                                <TableCell
+                                                    style={{
+                                                        padding: "22px 18px",
+                                                        fontFamily:
+                                                            "Montserrat",
+                                                        fontSize: "16px",
+                                                    }}
+                                                >
+                                                    {parent.user_id.phone}
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                        <TablePagination
+                            style={{
+                                paddingTop: "20px",
+                                paddingBottom: "10px",
+                            }}
+                            rowsPerPageOptions={[1, 5]}
+                            rowsPerPage={rowsPerPage}
+                            page={currentPage}
+                            count={parents.length}
+                            component="div"
+                            onPageChange={handlePageChange}
+                            onRowsPerPageChange={handleRowsPerPageChange}
+                        />
+                    </Paper>
+                </>
             )}
-            {showDeleteDialog && parentToDelete && (<DeleteParentPopup open={showDeleteDialog} setOpen={setShowDeleteDialog} parent={parentToDelete}/>)}
-            {showUpdateDialog && parentToUpdate && (<UpdateParentPopup open={showUpdateDialog} setOpen={setShowUpdateDialog} parent={parentToUpdate}/>)}
+            {showDeleteDialog && parentToDelete && (
+                <DeleteParentPopup
+                    open={showDeleteDialog}
+                    setOpen={setShowDeleteDialog}
+                    parent={parentToDelete}
+                />
+            )}
+            {showUpdateDialog && parentToUpdate && (
+                <UpdateParentPopup
+                    open={showUpdateDialog}
+                    setOpen={setShowUpdateDialog}
+                    parent={parentToUpdate}
+                />
+            )}
         </div>
     );
 }

@@ -1,0 +1,33 @@
+.popup-container {
+    width: 500px;
+}
+
+.add-course-btn {
+    background-color: #00000000;
+    border: 2px solid #19647e;
+    font-size: 24px;
+    color: #19647e;
+    padding: 14px 22px;
+    border-radius: 14px;
+    transition: 100ms all ease-out
+}
+
+.add-course-btn:hover {
+    background-color: #19647e;
+    color: #fafafa;
+}
+
+.popup-add-course-btns,
+.popup-delete-course-btns {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.popup-add-course-btns>button,
+.popup-delete-course-btns>button {
+    width: 48%;
+    font-size: 22px;
+    padding: 14px;
+    border-radius: 14px;
+}

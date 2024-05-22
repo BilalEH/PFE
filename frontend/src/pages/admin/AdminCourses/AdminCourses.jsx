@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { GetCourses, updateCourse } from "../../../api/adminsStore/adminStore";
+import { GetCourses } from "../../../api/adminsStore/adminStore";
 import "../style/AdminCourses.css";
 import "../style/pages.css";
 import AddCoursePopup from "./components/AddCoursePopup";
@@ -21,13 +21,13 @@ import UpdateCoursePopup from "./components/UpdateCoursePopup";
 export default function AdminCourses() {
     const dispatch = useDispatch();
     const courses = useSelector((state) => state.admins.courses);
-    const status = useSelector((state) => state.status_course);
+    const status = useSelector((state) => state.admins.status_course);
 
     // useState for popup
     const [handleAddClose, setHandleAddClose] = useState(false);
     const [handleDeleteClose, setHandleDeleteClose] = useState(false);
     const [handleUpdateClose, setHandleUpdateClose] = useState(false);
-    const [courseSelected, setCourseSeleted] = useState();
+    const [courseSelected, setCourseSeleted] = useState(null);
 
     // for table
 
@@ -47,10 +47,6 @@ export default function AdminCourses() {
         dispatch(GetCourses());
     }, [dispatch]);
 
-    const handleUpdate = (courseId) => {
-        // Implement update logic here
-    };
-
     // function for pagination
     function handlePageChange(event, newPage) {
         setCurrentPage(newPage);
@@ -60,7 +56,7 @@ export default function AdminCourses() {
         setRowsPerPage(event.target.value);
         setCurrentPage(0);
     }
-
+    
     // icons
     const deleteIcon = (
         <svg
@@ -100,6 +96,7 @@ export default function AdminCourses() {
     if (status === "failed") {
         return <div>Error loading data</div>;
     }
+
 
     return (
         <div className="admin-courses-container">
@@ -148,8 +145,8 @@ export default function AdminCourses() {
                                     currentPage * rowsPerPage,
                                     currentPage * rowsPerPage + rowsPerPage
                                 )
-                                .map((row) => (
-                                    <TableRow key={row.id}>
+                                .map((row,i) => (
+                                    <TableRow key={i}>
                                         <TableCell
                                             style={{
                                                 padding: "22px 18px",
@@ -243,12 +240,13 @@ export default function AdminCourses() {
                 course={courseSelected}
                 dispatch={dispatch}
             />
-            <UpdateCoursePopup
-                handleClose={handleUpdateClose}
-                setHandleClose={setHandleUpdateClose}
-                course={courseSelected}
-                dispatch={dispatch}
-            />
+            {courseSelected && (
+                <UpdateCoursePopup
+                    handleClose={handleUpdateClose}
+                    setHandleClose={setHandleUpdateClose}
+                    course={courseSelected}
+                />
+            )}
         </div>
     );
 }

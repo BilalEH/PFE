@@ -39,13 +39,20 @@ class CourseController extends Controller
 
     public function update(Request $request, $id)
     {
+        try {
+            $course = Course::findOrFail($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json(['message' => 'Course not found'], 404);
+        }
+
         $data = $request->validate([
-            'courseName' => 'required|string|unique:courses,courseName',
-            'description' => 'required|string',
-            'niveau' => 'required|string',
-            'amount' => 'required|numeric|min:1',
+            'courseName' => 'string',
+            'description' => 'string',
+            'niveau' => 'string',
+            'amount' => 'numeric|min:1',
         ]);
-        Course::findOrFail($id)->update($data);
+
+        $course->update($data);
         return response()->json(['course_id' => $id], 200);
     }
 

@@ -1,13 +1,14 @@
 import { Dialog, DialogContent, DialogTitle, TextField } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { updateCourse } from "../../../../api/adminsStore/adminStore";
+import { useDispatch } from "react-redux";
 
 export default function UpdateCoursePopup({
     handleClose,
     setHandleClose,
     course,
-    dispatch,
 }) {
+    const dispatch=useDispatch()
     const [formData, setFormData] = useState({
         courseName: "",
         description: "",
@@ -30,9 +31,8 @@ export default function UpdateCoursePopup({
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(updateCourse(course.id, formData));
-        console.log(formData);
-
+        
+        dispatch(updateCourse({courseId:course.id, updatedCourse:formData}));
         setHandleClose(false);
     };
 

@@ -73,6 +73,17 @@ export const AdminSlice=createSlice({
             state.action_status = 'failed';
         })
         // --------------------------------------Update
+        // update course
+        builder.addCase(updateCourse.pending, (state) => {
+            state.action_status = 'loading';
+        });
+        builder.addCase(updateCourse.fulfilled, (state, action) => {
+            state.action_status = 'succeeded';
+            state.courses=state.courses.map(e=>e.id===action.payload.courseId?{...action.payload.updatedCourse,id:action.payload.courseId}:e);
+        });
+        builder.addCase(updateCourse.rejected, (state) => {
+            state.action_status = 'failed';
+        });
         // update parent
         builder.addCase(updateParent.pending, (state) => {
             state.action_status = 'loading';
@@ -441,10 +452,10 @@ export const updateCourse = createAsyncThunk(
     async ({ courseId, updatedCourse }) => {
         const toastId = toast.loading('Loading...',StyleToast);
         try {
-            const response = await axiosInstance.put(`/api/courses/${courseId}`, updatedCourse);
+            await axiosInstance.put(`/api/courses/${courseId}`, updatedCourse);
             toast.dismiss(toastId);
             toast.success(`course updated successfully`, StyleToast);
-            return response.data;
+            return {updatedCourse,courseId};
         } catch (error) {
             toast.dismiss(toastId);
             toast.error(`X ${error.response.data.message}`, StyleToast);
@@ -546,7 +557,7 @@ export const deleteTeacher = createAsyncThunk(
     }
 );
 
-// Create async thunk to update teacher
+// update teacher
 export const updateTeacher = createAsyncThunk(
     'admin/updateTeacher',
     async ({ teacherId, updatedTeacher }) => {

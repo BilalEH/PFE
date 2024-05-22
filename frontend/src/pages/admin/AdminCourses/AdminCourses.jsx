@@ -1,134 +1,244 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { GetCourses, addCourse, deleteCourse, updateCourse } from '../../../api/adminsStore/adminStore';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { GetCourses, updateCourse } from "../../../api/adminsStore/adminStore";
 import "../style/AdminCourses.css";
 import "../style/pages.css";
+import AddCoursePopup from "./components/AddCoursePopup";
+import "./style/AdminCourses.css";
+import {
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TablePagination,
+    TableRow,
+} from "@mui/material";
+import DeleteCoursePopup from "./components/DeleteCoursePopup";
 
 export default function AdminCourses() {
-  const dispatch = useDispatch();
-  const courses = useSelector((state) => state.admins.courses);
-  const status = useSelector((state) => state.status_course);
+    const dispatch = useDispatch();
+    const courses = useSelector((state) => state.admins.courses);
+    const status = useSelector((state) => state.status_course);
 
-  const [formData, setFormData] = useState({
-    courseName: '',
-    description: '',
-    niveau: '',
-    amount: '',
-  });
+    // useState for popup
+    const [handleAddClose, setHandleAddClose] = useState(false);
+    const [handleDeleteClose, setHandleDeleteClose] = useState(false);
+    const [handleUpdateClose, setHandleUpdateClose] = useState(false);
+    const [courseSelected, setCourseSeleted] = useState();
 
-  const [validationErrors, setValidationErrors] = useState([]);
+    // for table
 
-  useEffect(() => {
-    dispatch(GetCourses());
-  }, [dispatch]);
+    const columns = [
+        { id: "actions", name: "" },
+        { id: "courseName", name: "Course Name" },
+        { id: "description", name: "Description" },
+        { id: "niveau", name: "Level" },
+        { id: "amount", name: "Amount" },
+    ];
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+    // for pagination
+    const [currentPage, setCurrentPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const errors = [];
-    // Validate amount between 100 and 4000
-    const amount = parseInt(formData.amount);
-    if (amount < 100 || amount > 4000) {
-      errors.push('Amount must be between 100 and 4000');
+    useEffect(() => {
+        dispatch(GetCourses());
+    }, [dispatch]);
+
+    const handleUpdate = (courseId) => {
+        // Implement update logic here
+    };
+
+    // function for pagination
+    function handlePageChange(event, newPage) {
+        setCurrentPage(newPage);
     }
-    if (!formData.courseName.trim()) {
-      errors.push('Course Name is required');
+
+    function handleRowsPerPageChange(event) {
+        setRowsPerPage(event.target.value);
+        setCurrentPage(0);
     }
-    if (!formData.description.trim()) {
-      errors.push('Description is required');
+
+    // icons
+    const deleteIcon = (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            fill="currentColor"
+            className="bi bi-trash"
+            viewBox="0 0 16 16"
+        >
+            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+        </svg>
+    );
+
+    const updateIcon = (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            fill="currentColor"
+            className="bi bi-pencil-square"
+            viewBox="0 0 16 16"
+        >
+            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+            <path
+                fillRule="evenodd"
+                d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
+            />
+        </svg>
+    );
+
+    if (status === "loading") {
+        return <div>Loading...</div>;
     }
-    if (!formData.niveau.trim()) {
-      errors.push('Niveau is required');
+
+    if (status === "failed") {
+        return <div>Error loading data</div>;
     }
-    if (!formData.amount.trim()) {
-      errors.push('Amount is required');
-    }
-    if (errors.length > 0) {
-      setValidationErrors(errors);
-      return;
-    }
-    dispatch(addCourse(formData));
-    // Clear form data after submission
-    setFormData({
-      courseName: '',
-      description: '',
-      niveau: '',
-      amount: '',
-    });
-  };
 
-  const handleDelete = (courseId) => {
-    dispatch(deleteCourse(courseId));
-  };
+    return (
+        <div className="admin-courses-container">
+            <div className="d-flex justify-content-between align-items-center mb-5">
+                <div className="page-title m-0">Courses</div>
+                <button
+                    className="add-course-btn"
+                    onClick={() => setHandleAddClose(true)}
+                >
+                    Add Course
+                </button>
+            </div>
 
-  const handleUpdate = (courseId) => {
-    // Implement update logic here
-  };
+            <Paper
+                style={{
+                    background: "none",
+                    border: "2px solid #afafaf",
+                    borderRadius: "12px",
+                    overflow: "hidden",
+                }}
+                sx={{ width: "100%" }}
+            >
+                <TableContainer>
+                    <Table className="">
+                        <TableHead>
+                            <TableRow>
+                                {columns.map((column) => (
+                                    <TableCell
+                                        style={{
+                                            padding: "22px 18px",
+                                            fontWeight: "bold",
+                                            fontFamily: "Montserrat",
+                                            fontSize: "16px",
+                                        }}
+                                        key={column.id}
+                                    >
+                                        {column.name}
+                                    </TableCell>
+                                ))}
+                            </TableRow>
+                        </TableHead>
 
-  if (status === 'loading') {
-    return <div>Loading...</div>;
-  }
+                        <TableBody>
+                            {courses
+                                .slice(
+                                    currentPage * rowsPerPage,
+                                    currentPage * rowsPerPage + rowsPerPage
+                                )
+                                .map((row) => (
+                                    <TableRow key={row.id}>
+                                        <TableCell
+                                            style={{
+                                                padding: "22px 18px",
+                                                fontFamily: "Montserrat",
+                                                fontSize: "16px",
+                                            }}
+                                        >
+                                            <button
+                                                className="delete"
+                                                onClick={() => {
+                                                    setCourseSeleted(row);
+                                                    setHandleDeleteClose(true);
+                                                }}
+                                            >
+                                                {deleteIcon}
+                                            </button>
+                                            <button
+                                                className="update"
+                                                onClick={() => {}}
+                                            >
+                                                {updateIcon}
+                                            </button>
+                                        </TableCell>
+                                        <TableCell
+                                            style={{
+                                                padding: "22px 18px",
+                                                fontFamily: "Montserrat",
+                                                fontSize: "16px",
+                                            }}
+                                        >
+                                            {row.courseName}
+                                        </TableCell>
+                                        <TableCell
+                                            style={{
+                                                padding: "22px 18px",
+                                                fontFamily: "Montserrat",
+                                                fontSize: "16px",
+                                            }}
+                                        >
+                                            {row.description}
+                                        </TableCell>
+                                        <TableCell
+                                            style={{
+                                                padding: "22px 18px",
+                                                fontFamily: "Montserrat",
+                                                fontSize: "16px",
+                                            }}
+                                        >
+                                            {row.niveau}
+                                        </TableCell>
+                                        <TableCell
+                                            style={{
+                                                padding: "22px 18px",
+                                                fontFamily: "Montserrat",
+                                                fontSize: "16px",
+                                            }}
+                                        >
+                                            {row.amount}
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                <TablePagination
+                    style={{
+                        paddingTop: "20px",
+                        paddingBottom: "10px",
+                    }}
+                    rowsPerPageOptions={[1, 5]}
+                    rowsPerPage={rowsPerPage}
+                    page={currentPage}
+                    count={courses.length}
+                    component="div"
+                    onPageChange={handlePageChange}
+                    onRowsPerPageChange={handleRowsPerPageChange}
+                />
+            </Paper>
 
-  if (status === 'failed') {
-    return <div>Error loading data</div>;
-  }
-
-  return (
-    <div className="admin-courses-container">
-      <h2>Courses</h2>
-
-      {/* Error Alert */}
-      {validationErrors.length > 0 && (
-        <div style={{ backgroundColor: 'rgba(255, 0, 0, 0.3)', color: 'white', padding: '10px', borderRadius: '5px', margin: '10px 0' }}>
-          <strong>Error:</strong>
-          <ul>
-            {validationErrors.map((error, index) => (
-              <li key={index}>{error}</li>
-            ))}
-          </ul>
+            <AddCoursePopup
+                handleClose={handleAddClose}
+                setHandleClose={setHandleAddClose}
+                dispatch={dispatch}
+            />
+            <DeleteCoursePopup
+                handleClose={handleDeleteClose}
+                setHandleClose={setHandleDeleteClose}
+                course={courseSelected}
+                dispatch={dispatch}
+            />
         </div>
-      )}
-
-      {/* Form for adding a new course */}
-      <form onSubmit={handleSubmit} className="course-form">
-        <input type="text" name="courseName" value={formData.courseName} onChange={handleChange} placeholder="Course Name" />
-        <input type="text" name="niveau" value={formData.niveau} onChange={handleChange} placeholder="Niveau" />
-        <input type="number" name="amount" value={formData.amount} onChange={handleChange} placeholder="Amount" />
-       <textarea name="description" value={formData.description} onChange={handleChange} placeholder="Description" />
-       <br/>
-
-        <button type="submit">Add Course</button>
-      </form>
-
-      {/* List of courses */}
-      <table className="course-table">
-        <thead>
-          <tr>
-            <th>Course Name</th>
-            <th>Description</th>
-            <th>Niveau</th>
-            <th>Amount</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {courses.map((course) => (
-            <tr key={course.id}>
-              <td>{course.courseName}</td>
-              <td>{course.description}</td>
-              <td>{course.niveau}</td>
-              <td>{course.amount}</td>
-              <td className="course-actions">
-                <button onClick={() => handleUpdate(course.id)}>Update</button>
-                <button onClick={() => handleDelete(course.id)}>Delete</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
+    );
 }

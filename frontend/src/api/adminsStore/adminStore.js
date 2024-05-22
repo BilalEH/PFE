@@ -79,7 +79,6 @@ export const AdminSlice=createSlice({
         })
         builder.addCase(updateStudent.fulfilled, (state, action) => {
             state.action_status = 'succeeded';
-            console.log(action);
             state.students=state.students.map(e=>e.id===action.payload.id?action.payload:e);
         })
         builder.addCase(updateStudent.rejected, (state) => {

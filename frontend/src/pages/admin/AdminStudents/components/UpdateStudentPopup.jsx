@@ -1,67 +1,47 @@
-import React, { useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogTitle, TextField } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { updateStudent } from "../../../../api/adminsStore/adminStore";
+import { useDispatch } from "react-redux";
 
-export default function UpdateStudentPopup({
-    handleClose,
-    setHandleClose,
-    student,
-    dispatch,
-}) {
-    const [newStudentData, setNewStudentData] = useState({});
-    const [errors, setErrors] = useState({});
-
+export default function UpdateStudentPopup({handleClose,setHandleClose,student}) {
+    const [newStudentData, setNewStudentData] = useState({
+        firstName: '',
+        lastName: '',
+        email: '',
+        cin: '',
+        phone: '',
+        dateN: '',
+        password: '',
+    });
+    const dispatch = useDispatch();
     useEffect(() => {
-        setNewStudentData({
-            firstName: student ? student.user_id.firstName : "",
-            lastName: student ? student.user_id.lastName : "",
-            email: student ? student.user_id.email : "",
-            cin: student ? student.user_id.cin : "",
-            phone: student ? student.user_id.phone : "",
-            dateN: student ? student.dateN : "",
-            password: "",
-        });
+        if (student) {
+            setNewStudentData({
+                firstName: student.user_id.firstName || '',
+                lastName: student.user_id.lastName || '',
+                email: student.user_id.email || '',
+                cin: student.user_id.cin || '',
+                phone: student.user_id.phone || '',
+                dateN: student.dateN || '',
+                password: '',
+            });
+        }
     }, [student]);
-
-    const validatePhone = (phone) => {
-        const phoneRegex = /^(05|06|07)[0-9]{8}$/;
-        return phoneRegex.test(phone);
-    };
-
-    const validateEmail = (email) => {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        let error = "";
-        if (name === "phone" && !validatePhone(value)) {
-            error = "Invalid Moroccan phone number";
-        } else if (name === "password" && !value) {
-            error = "Password is required";
-        } else if (name === "email" && !validateEmail(value)) {
-            error = "Invalid email address";
-        }
-        setErrors((prevErrors) => ({ ...prevErrors, [name]: error }));
-        setNewStudentData((prevData) => ({ ...prevData, [name]: value }));
+        setNewStudentData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
     };
 
     const handleUpdate = (e) => {
         e.preventDefault();
-        const hasErrors = Object.values(errors).some((error) => error !== "");
-        const hasEmptyFields = Object.values(newStudentData).some(
-            (value) => value === ""
+        dispatch(
+            updateStudent({studentId: student.id,updatedStudent: newStudentData})
         );
-        if (!hasErrors && !hasEmptyFields) {
-            dispatch(
-                updateStudent({
-                    studentId: student.id,
-                    updatedStudent: newStudentData,
-                })
-            );
-            setHandleClose(false);
-        }
+        setHandleClose(false);
     };
 
     const cancelIcon = (
@@ -77,8 +57,7 @@ export default function UpdateStudentPopup({
             <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
         </svg>
     );
-
-    const updateIcon = (
+    const updateIcone = (
         <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -98,7 +77,7 @@ export default function UpdateStudentPopup({
     return (
         <>
             <Dialog open={handleClose} onClose={() => setHandleClose(false)}>
-                <div className="popup-container">
+                <div className="popup-container" style={{padding:"16px"}}>
                     <DialogTitle>
                         <div className="popup-title">Update Student</div>
                     </DialogTitle>
@@ -106,7 +85,7 @@ export default function UpdateStudentPopup({
                         <div className="popup-content">
                             <form action="" onSubmit={handleUpdate}>
                                 <div className="popup-inputs row">
-                                    {student && !student.user_id.cin && (
+                                    {student && student.user_id.cin && (
                                         <div className="col-12">
                                             <TextField
                                                 required
@@ -121,52 +100,51 @@ export default function UpdateStudentPopup({
                                     )}
                                     <div className="col-6">
                                         <TextField
+                                            required
                                             className="w-100 my-3"
                                             label="First name"
                                             name="firstName"
                                             value={newStudentData.firstName}
                                             placeholder="ex: Saad"
                                             onChange={handleInputChange}
-                                            required
                                         />
                                     </div>
                                     <div className="col-6">
                                         <TextField
+                                            required
                                             className="w-100 my-3"
                                             label="Last name"
                                             name="lastName"
                                             value={newStudentData.lastName}
                                             placeholder="ex: Elhafyan"
                                             onChange={handleInputChange}
-                                            required
                                         />
                                     </div>
                                     <div className="col-12">
                                         <TextField
+                                            required
                                             className="w-100 my-3"
                                             label="Phone"
                                             name="phone"
                                             value={newStudentData.phone}
                                             placeholder="ex: 0770384835"
                                             onChange={handleInputChange}
-                                            required
                                         />
                                     </div>
                                     <div className="col-12">
                                         <TextField
+                                            required
                                             className="w-100 my-3"
                                             label="Email"
                                             name="email"
                                             value={newStudentData.email}
                                             placeholder="ex: saad.dirassa@gmail.com"
                                             onChange={handleInputChange}
-                                            required
-                                            error={!!errors.email}
-                                            helperText={errors.email}
                                         />
                                     </div>
                                     <div className="col-12">
                                         <TextField
+                                            required
                                             type="date"
                                             className="w-100 my-3"
                                             label="Date of Birth"
@@ -174,7 +152,6 @@ export default function UpdateStudentPopup({
                                             value={newStudentData.dateN}
                                             placeholder=""
                                             onChange={handleInputChange}
-                                            required
                                         />
                                     </div>
                                     <div className="col-12">
@@ -202,7 +179,7 @@ export default function UpdateStudentPopup({
                                         className="popup-add-btn d-flex align-items-center justify-content-center"
                                         type="submit"
                                     >
-                                        {updateIcon}
+                                        {updateIcone}
                                         <p className="m-0 ms-2">Update</p>
                                     </button>
                                 </div>

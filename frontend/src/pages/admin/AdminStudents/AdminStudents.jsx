@@ -1,23 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-    GetStudents,
-    deleteStudent,
-    updateStudent,
-} from "../../../api/adminsStore/adminStore";
-import {
-    Alert,
-    CircularProgress,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TablePagination,
-    TableRow,
-} from "@mui/material";
-import ConfDelete from "./ConfDelete";
+import {GetStudents} from "../../../api/adminsStore/adminStore";
+import { Alert, CircularProgress, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow} from "@mui/material";
 import UpdateStudentPopup from "./components/UpdateStudentPopup";
 import "./style/AdminStudents.css";
 import DeleteStudentPopup from "./components/DeleteStudentPopup";
@@ -211,12 +195,12 @@ export default function AdminStudents() {
                                                 }}
                                             >
                                                 {row.absparent_id
-                                                    ? row.absparent_id.user_id
-                                                          .firstName +
-                                                      " " +
-                                                      row.absparent_id.user_id
-                                                          .lastName
-                                                    : "N/A"}
+                                                ? row.absparent_id.user_id
+                                                        .firstName +
+                                                    " " +
+                                                    row.absparent_id.user_id
+                                                        .lastName
+                                                : "N/A"}
                                             </TableCell>
                                             <TableCell
                                                 style={{
@@ -251,29 +235,10 @@ export default function AdminStudents() {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <TablePagination
-                    style={{ paddingTop: "20px", paddingBottom: "10px" }}
-                    rowsPerPageOptions={[1, 5]}
-                    rowsPerPage={rowPerPage}
-                    page={page}
-                    count={studentRows.length}
-                    component="div"
-                    onPageChange={handlePageChange}
-                    onRowsPerPageChange={handleRowChange}
-                />
+                <TablePagination style={{ paddingTop: "20px", paddingBottom: "10px" }} rowsPerPageOptions={[1, 5]} rowsPerPage={rowPerPage} page={page} count={studentRows.length} component="div" onPageChange={handlePageChange} onRowsPerPageChange={handleRowChange}/>
             </Paper>
-            <UpdateStudentPopup
-                handleClose={handleUpdateClose}
-                setHandleClose={sethandleUpdateClose}
-                student={studentSelected}
-                dispatch={dispatch}
-            />
-            <DeleteStudentPopup
-                handleClose={handleDeleteClose}
-                setHandleClose={setHandleDeleteClose}
-                student={studentSelected}
-                dispatch={dispatch}
-            />
+            {studentSelected && <UpdateStudentPopup handleClose={handleUpdateClose} setHandleClose={sethandleUpdateClose} student={studentSelected}/>}
+            <DeleteStudentPopup handleClose={handleDeleteClose} setHandleClose={setHandleDeleteClose} student={studentSelected} dispatch={dispatch}/>
         </div>
     );
 }

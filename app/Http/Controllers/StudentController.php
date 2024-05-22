@@ -89,6 +89,7 @@ class StudentController extends Controller
             if (!$student) {
                 return response()->json(['message' => 'Student not found'], 404);
             }
+            User::destroy($student->user_id);
             $student->delete();
             return response()->json(['message' => 'Student deleted successfully'], 200);
         } catch (\Exception $e) {

@@ -26,7 +26,7 @@ import StudentCourse from "../pages/student/StudentCourse";
 import StudentSeance from "../pages/student/StudentSeance";
 import StudentPayment from "../pages/student/StudentPayment";
 import ParentStudents from "../pages/parent/parentStudents/ParentStudents";
-import ParentCourses from "../pages/parent/ParentCourses";
+import ParentCourses from "../pages/parent/ParentCourses/ParentCourses";
 import ParentPayments from "../pages/parent/ParentPayments";
 import TeacherLayout from "../layouts/TeacherLayout";
 import TeacherStudents from "../pages/Teacher/TeacherStudents";

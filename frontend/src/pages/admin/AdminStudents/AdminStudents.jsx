@@ -21,13 +21,18 @@ import ConfDelete from "./ConfDelete";
 import UpdateStudentPopup from "./components/UpdateStudentPopup";
 import "./style/AdminStudents.css";
 import DeleteStudentPopup from "./components/DeleteStudentPopup";
+import EmptyStudentsPage from "./components/EmptyStudentsPage";
 
 export default function AdminStudents() {
     const [studentRows, setStudentRows] = useState([]);
     const dispatch = useDispatch();
     const studentsData = useSelector((state) => state.admins);
+
+    // useState for pagination
     const [page, setPage] = useState(0);
     const [rowPerPage, setRowPerPage] = useState(5);
+
+    // useState for popups
     const [studentSelected, setStudentSelected] = useState();
     const [handleUpdateClose, sethandleUpdateClose] = useState(false);
     const [handleDeleteClose, setHandleDeleteClose] = useState(false);
@@ -94,9 +99,7 @@ export default function AdminStudents() {
     if (studentsData.status_student === "failed") {
         return <Alert severity="error">Error loading data.</Alert>;
     } else if (studentsData.status_student === "loading") {
-        return <div className="loading_error_container"><CircularProgress size={50} /></div>;
-    } else if (studentsData.students.length === 0) {
-        return <Alert severity="warning">No data available.</Alert>;
+        return <CircularProgress size={50} />;
     }
 
     return (
@@ -131,104 +134,120 @@ export default function AdminStudents() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {studentRows
-                                .slice(
-                                    page * rowPerPage,
-                                    page * rowPerPage + rowPerPage
-                                )
-                                .map((row, i) => (
-                                    <TableRow key={i}>
-                                        <TableCell
-                                            style={{
-                                                padding: "22px 18px",
-                                                fontFamily: "Montserrat",
-                                                fontSize: "16px",
-                                            }}
-                                        >
-                                            <button
-                                                className="delete"
-                                                onClick={() => {
-                                                    setStudentSelected(row);
-                                                    setHandleDeleteClose(true);
+                            {studentRows.length === 0 ? (
+                                <EmptyStudentsPage />
+                            ) : (
+                                studentRows
+                                    .slice(
+                                        page * rowPerPage,
+                                        page * rowPerPage + rowPerPage
+                                    )
+                                    .map((row, i) => (
+                                        <TableRow key={i}>
+                                            <TableCell
+                                                style={{
+                                                    padding: "22px 18px",
+                                                    fontFamily: "Montserrat",
+                                                    fontSize: "16px",
                                                 }}
                                             >
-                                                {deleteIcon}
-                                            </button>
-                                            <button
-                                                className="update"
-                                                onClick={() => {
-                                                    setStudentSelected(row);
-                                                    sethandleUpdateClose(true);
+                                                <button
+                                                    className="delete"
+                                                    onClick={() => {
+                                                        setStudentSelected(row);
+                                                        setHandleDeleteClose(
+                                                            true
+                                                        );
+                                                    }}
+                                                >
+                                                    {deleteIcon}
+                                                </button>
+                                                <button
+                                                    className="update"
+                                                    onClick={() => {
+                                                        setStudentSelected(row);
+                                                        sethandleUpdateClose(
+                                                            true
+                                                        );
+                                                    }}
+                                                >
+                                                    {updateIcon}
+                                                </button>
+                                            </TableCell>
+                                            <TableCell
+                                                style={{
+                                                    padding: "22px 18px",
+                                                    fontFamily: "Montserrat",
+                                                    fontSize: "16px",
                                                 }}
                                             >
-                                                {updateIcon}
-                                            </button>
-                                        </TableCell>
-                                        <TableCell
-                                            style={{
-                                                padding: "22px 18px",
-                                                fontFamily: "Montserrat",
-                                                fontSize: "16px",
-                                            }}
-                                        >
-                                            {row.user_id.cin?row.user_id.cin:'N/A'}
-                                        </TableCell>
-                                        <TableCell
-                                            style={{
-                                                padding: "22px 18px",
-                                                fontFamily: "Montserrat",
-                                                fontSize: "16px",
-                                            }}
-                                        >
-                                            {row.user_id.firstName}
-                                        </TableCell>
-                                        <TableCell
-                                            style={{
-                                                padding: "22px 18px",
-                                                fontFamily: "Montserrat",
-                                                fontSize: "16px",
-                                            }}
-                                        >
-                                            {row.user_id.lastName}
-                                        </TableCell>
-                                        <TableCell
-                                            style={{
-                                                padding: "22px 18px",
-                                                fontFamily: "Montserrat",
-                                                fontSize: "16px",
-                                            }}
-                                        >
-                                            {row.absparent_id?(row.absparent_id.user_id.firstName + ' '+row.absparent_id.user_id.lastName):'N/A'}
-                                        </TableCell>
-                                        <TableCell
-                                            style={{
-                                                padding: "22px 18px",
-                                                fontFamily: "Montserrat",
-                                                fontSize: "16px",
-                                            }}
-                                        >
-                                            {row.dateN}
-                                        </TableCell>
-                                        <TableCell
-                                            style={{
-                                                padding: "22px 18px",
-                                                fontFamily: "Montserrat",
-                                                fontSize: "16px",
-                                            }}
-                                        >
-                                            {row.user_id.email}
-                                        </TableCell>
-                                        <TableCell
-                                            style={{
-                                                padding: "22px 18px",
-                                                fontFamily: "Montserrat",
-                                                fontSize: "16px",
-                                            }}
-                                        >
-                                            {row.user_id.phone}
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
+                                                {row.user_id.cin
+                                                    ? row.user_id.cin
+                                                    : "N/A"}
+                                            </TableCell>
+                                            <TableCell
+                                                style={{
+                                                    padding: "22px 18px",
+                                                    fontFamily: "Montserrat",
+                                                    fontSize: "16px",
+                                                }}
+                                            >
+                                                {row.user_id.firstName}
+                                            </TableCell>
+                                            <TableCell
+                                                style={{
+                                                    padding: "22px 18px",
+                                                    fontFamily: "Montserrat",
+                                                    fontSize: "16px",
+                                                }}
+                                            >
+                                                {row.user_id.lastName}
+                                            </TableCell>
+                                            <TableCell
+                                                style={{
+                                                    padding: "22px 18px",
+                                                    fontFamily: "Montserrat",
+                                                    fontSize: "16px",
+                                                }}
+                                            >
+                                                {row.absparent_id
+                                                    ? row.absparent_id.user_id
+                                                          .firstName +
+                                                      " " +
+                                                      row.absparent_id.user_id
+                                                          .lastName
+                                                    : "N/A"}
+                                            </TableCell>
+                                            <TableCell
+                                                style={{
+                                                    padding: "22px 18px",
+                                                    fontFamily: "Montserrat",
+                                                    fontSize: "16px",
+                                                }}
+                                            >
+                                                {row.dateN}
+                                            </TableCell>
+                                            <TableCell
+                                                style={{
+                                                    padding: "22px 18px",
+                                                    fontFamily: "Montserrat",
+                                                    fontSize: "16px",
+                                                }}
+                                            >
+                                                {row.user_id.email}
+                                            </TableCell>
+                                            <TableCell
+                                                style={{
+                                                    padding: "22px 18px",
+                                                    fontFamily: "Montserrat",
+                                                    fontSize: "16px",
+                                                }}
+                                            >
+                                                {row.user_id.phone}
+                                            </TableCell>
+                                        </TableRow>
+                                    ))
+                            )}
                         </TableBody>
                     </Table>
                 </TableContainer>

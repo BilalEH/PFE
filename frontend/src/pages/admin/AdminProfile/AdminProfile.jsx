@@ -18,7 +18,7 @@ function AdminProfile() {
   const user = userData.admins.find((e) => e.user_id.id == importUser().id);
 
   return (
-    <div className="container">
+    <div className="container w-100 h-100">
       <h2>Admin Profile</h2>
       {userData.status_admin === 'succeeded' ? (
         <div className="profile-info">

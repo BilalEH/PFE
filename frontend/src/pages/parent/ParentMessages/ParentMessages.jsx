@@ -16,7 +16,6 @@ function ParentMessages() {
 
     // Get user messages from Redux store
     const userMessages = useSelector((state) => state.parents.messages);
-    console.log(userMessages)
 
     const handleMessageChange = (e) => {
         setMessageContent(e.target.value);

@@ -1,13 +1,9 @@
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Dialog, DialogContent, DialogTitle, TextField } from "@mui/material";
-import React, { useEffect, useState } from "react";
 import { updateTeacher } from "../../../../api/adminsStore/adminStore";
-import { useDispatch } from "react-redux";
 
-export default function UpdateTeacherPopup({
-    handleClose,
-    setHandleClose,
-    teacher,
-}) {
+export default function UpdateTeacherPopup({ handleClose, setHandleClose, teacher }) {
     const [newTeacherData, setNewTeacherData] = useState({});
     const [errors, setErrors] = useState({});
     const dispatch = useDispatch();
@@ -33,8 +29,13 @@ export default function UpdateTeacherPopup({
         let error = "";
         if (name === "phone" && !validatePhone(value)) {
             error = "Invalid Moroccan phone number";
-        } else if (name === "password" && !value) {
-            error = "Password is required";
+        } else if (name === "password") {
+            // Validate password format
+            if (!value) {
+                error = "Password is required";
+            } else if (!/(?=.*[A-Za-z])(?=.*\d).{8,}/.test(value)) {
+                error = "Password must be at least 8 characters long and contain at least one letter and one digit.";
+            }
         }
         setErrors((prevErrors) => ({ ...prevErrors, [name]: error }));
         setNewTeacherData((prevData) => ({ ...prevData, [name]: value }));
@@ -43,10 +44,7 @@ export default function UpdateTeacherPopup({
     function handleSubmit(e) {
         e.preventDefault();
         const hasErrors = Object.values(errors).some((error) => error !== "");
-        const hasEmptyFields = Object.values(newTeacherData).some(
-            (value) => value === ""
-        );
-        console.log(hasEmptyFields, hasErrors);
+        const hasEmptyFields = Object.values(newTeacherData).some((value) => value === "");
         if (!hasErrors && !hasEmptyFields) {
             dispatch(
                 updateTeacher({
@@ -57,23 +55,6 @@ export default function UpdateTeacherPopup({
             setHandleClose(false);
         }
     }
-
-    const update_icone = (
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            fill="currentColor"
-            className="bi bi-pencil-square"
-            viewBox="0 0 16 16"
-        >
-            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-            <path
-                fillRule="evenodd"
-                d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
-            />
-        </svg>
-    );
 
     return (
         <>
@@ -145,6 +126,8 @@ export default function UpdateTeacherPopup({
                                     value={newTeacherData.password}
                                     placeholder=""
                                     onChange={handleInputChange}
+                                    error={!!errors.password}
+                                    helperText={errors.password}
                                 />
                                 <div className="add-teacher-popup-btns">
                                     <button
@@ -169,7 +152,20 @@ export default function UpdateTeacherPopup({
                                         className="popup-add-btn d-flex align-items-center justify-content-center"
                                         type="submit"
                                     >
-                                        {update_icone}
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="24"
+                                            height="24"
+                                            fill="currentColor"
+                                            className="bi bi-pencil-square"
+                                            viewBox="0 0 16 16"
+                                        >
+                                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
+                                            />
+                                        </svg>
                                         <p className="m-0 ms-2">Update</p>
                                     </button>
                                 </div>

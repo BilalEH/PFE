@@ -1,5 +1,5 @@
-import { Dialog, DialogContent, DialogTitle, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import { Dialog, DialogContent, DialogTitle, TextField } from "@mui/material";
 import { updateStudent } from "../../../../api/adminsStore/adminStore";
 
 export default function UpdateStudentPopup({
@@ -9,6 +9,7 @@ export default function UpdateStudentPopup({
     dispatch,
 }) {
     const [newStudentData, setNewStudentData] = useState({});
+    const [errors, setErrors] = useState({});
 
     useEffect(() => {
         setNewStudentData({
@@ -22,23 +23,45 @@ export default function UpdateStudentPopup({
         });
     }, [student]);
 
+    const validatePhone = (phone) => {
+        const phoneRegex = /^(05|06|07)[0-9]{8}$/;
+        return phoneRegex.test(phone);
+    };
+
+    const validateEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setNewStudentData((prevData) => ({
-            ...prevData,
-            [name]: value,
-        }));
+        let error = "";
+        if (name === "phone" && !validatePhone(value)) {
+            error = "Invalid Moroccan phone number";
+        } else if (name === "password" && !value) {
+            error = "Password is required";
+        } else if (name === "email" && !validateEmail(value)) {
+            error = "Invalid email address";
+        }
+        setErrors((prevErrors) => ({ ...prevErrors, [name]: error }));
+        setNewStudentData((prevData) => ({ ...prevData, [name]: value }));
     };
 
     const handleUpdate = (e) => {
         e.preventDefault();
-        dispatch(
-            updateStudent({
-                studentId: student.id,
-                updatedStudent: newStudentData,
-            })
+        const hasErrors = Object.values(errors).some((error) => error !== "");
+        const hasEmptyFields = Object.values(newStudentData).some(
+            (value) => value === ""
         );
-        setHandleClose(false);
+        if (!hasErrors && !hasEmptyFields) {
+            dispatch(
+                updateStudent({
+                    studentId: student.id,
+                    updatedStudent: newStudentData,
+                })
+            );
+            setHandleClose(false);
+        }
     };
 
     const cancelIcon = (
@@ -54,7 +77,8 @@ export default function UpdateStudentPopup({
             <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
         </svg>
     );
-    const updateIcone = (
+
+    const updateIcon = (
         <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -82,7 +106,19 @@ export default function UpdateStudentPopup({
                         <div className="popup-content">
                             <form action="" onSubmit={handleUpdate}>
                                 <div className="popup-inputs row">
-                                    {student&&!student.user_id.cin?'':<div className="col-12"><TextField required className="w-100 my-3" label="CIN" name="cin" value={newStudentData.cin} placeholder="ex: Elhafyan" onChange={handleInputChange} /></div>}
+                                    {student && !student.user_id.cin && (
+                                        <div className="col-12">
+                                            <TextField
+                                                required
+                                                className="w-100 my-3"
+                                                label="CIN"
+                                                name="cin"
+                                                value={newStudentData.cin}
+                                                placeholder="ex: Elhafyan"
+                                                onChange={handleInputChange}
+                                            />
+                                        </div>
+                                    )}
                                     <div className="col-6">
                                         <TextField
                                             className="w-100 my-3"
@@ -125,6 +161,8 @@ export default function UpdateStudentPopup({
                                             placeholder="ex: saad.dirassa@gmail.com"
                                             onChange={handleInputChange}
                                             required
+                                            error={!!errors.email}
+                                            helperText={errors.email}
                                         />
                                     </div>
                                     <div className="col-12">
@@ -164,7 +202,7 @@ export default function UpdateStudentPopup({
                                         className="popup-add-btn d-flex align-items-center justify-content-center"
                                         type="submit"
                                     >
-                                        {updateIcone}
+                                        {updateIcon}
                                         <p className="m-0 ms-2">Update</p>
                                     </button>
                                 </div>

@@ -3,27 +3,31 @@ import React, { useEffect, useState } from "react";
 import { updateStudent } from "../../../../api/adminsStore/adminStore";
 import { useDispatch } from "react-redux";
 
-export default function UpdateStudentPopup({handleClose,setHandleClose,student}) {
+export default function UpdateStudentPopup({
+    handleClose,
+    setHandleClose,
+    student,
+}) {
     const [newStudentData, setNewStudentData] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',
-        cin: '',
-        phone: '',
-        dateN: '',
-        password: '',
+        firstName: "",
+        lastName: "",
+        email: "",
+        cin: "",
+        phone: "",
+        dateN: "",
+        password: "",
     });
     const dispatch = useDispatch();
     useEffect(() => {
         if (student) {
             setNewStudentData({
-                firstName: student.user_id.firstName || '',
-                lastName: student.user_id.lastName || '',
-                email: student.user_id.email || '',
-                cin: student.user_id.cin || '',
-                phone: student.user_id.phone || '',
-                dateN: student.dateN || '',
-                password: '',
+                firstName: student.user_id.firstName || "",
+                lastName: student.user_id.lastName || "",
+                email: student.user_id.email || "",
+                cin: student.user_id.cin || "",
+                phone: student.user_id.phone || "",
+                dateN: student.dateN || "",
+                password: "",
             });
         }
     }, [student]);
@@ -39,7 +43,10 @@ export default function UpdateStudentPopup({handleClose,setHandleClose,student})
     const handleUpdate = (e) => {
         e.preventDefault();
         dispatch(
-            updateStudent({studentId: student.id,updatedStudent: newStudentData})
+            updateStudent({
+                studentId: student.id,
+                updatedStudent: newStudentData,
+            })
         );
         setHandleClose(false);
     };
@@ -77,7 +84,7 @@ export default function UpdateStudentPopup({handleClose,setHandleClose,student})
     return (
         <>
             <Dialog open={handleClose} onClose={() => setHandleClose(false)}>
-                <div className="popup-container" style={{padding:"16px"}}>
+                <div className="popup-container" style={{ padding: "16px" }}>
                     <DialogTitle>
                         <div className="popup-title">Update Student</div>
                     </DialogTitle>

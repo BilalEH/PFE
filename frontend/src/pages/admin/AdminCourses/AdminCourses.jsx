@@ -16,6 +16,7 @@ import {
     TableRow,
 } from "@mui/material";
 import DeleteCoursePopup from "./components/DeleteCoursePopup";
+import UpdateCoursePopup from "./components/UpdateCoursePopup";
 
 export default function AdminCourses() {
     const dispatch = useDispatch();
@@ -167,7 +168,10 @@ export default function AdminCourses() {
                                             </button>
                                             <button
                                                 className="update"
-                                                onClick={() => {}}
+                                                onClick={() => {
+                                                    setCourseSeleted(row);
+                                                    setHandleUpdateClose(true);
+                                                }}
                                             >
                                                 {updateIcon}
                                             </button>
@@ -236,6 +240,12 @@ export default function AdminCourses() {
             <DeleteCoursePopup
                 handleClose={handleDeleteClose}
                 setHandleClose={setHandleDeleteClose}
+                course={courseSelected}
+                dispatch={dispatch}
+            />
+            <UpdateCoursePopup
+                handleClose={handleUpdateClose}
+                setHandleClose={setHandleUpdateClose}
                 course={courseSelected}
                 dispatch={dispatch}
             />

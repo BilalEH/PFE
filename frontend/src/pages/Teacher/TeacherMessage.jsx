@@ -1,75 +1,76 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AddMessage,GetMessages } from '../../api/TeacherStore/TeacherStore';
-import { toast } from 'react-toastify';
-import { StyleToast } from '../../layouts/Layout';
+import { GetMessages } from '../../api/TeacherStore/TeacherStore';
+import AddMessagePopup from './AddMessagePopup';
+import useAuthContext from '../../api/auth';
+import { Avatar, Button, Card, CardContent, CardHeader, CircularProgress, Grid, IconButton, Typography} from '@mui/material';
+import "./messagesTeacher.css";
+
 
 
 
 function TeacherMessage() {
-    const [messageContent, setMessageContent] = useState('');
+    const [open, setOpen] = useState(false);
+    const { importUser } = useAuthContext();
     const dispatch = useDispatch();
-    const userdata = window.localStorage.getItem("User");
-    const userId = JSON.parse(userdata).id;
+
     useEffect(() => {
-        dispatch(GetMessages(userId));
-    }, [dispatch, userId]);
+        dispatch(GetMessages({ userId: importUser().id }));
+    }, [dispatch, importUser]);
 
+    const studentMessages = useSelector((state) => state.teachers);
 
-    const studentMessages = useSelector((state) => state.students.messages);
-    console.log(studentMessages);
-
-    const handleMessageChange = (e) => {
-        setMessageContent(e.target.value);
-    };
-
-
-    const handleSubmitMessage = () => {
-        if (messageContent.trim() === '') {
-            return;
-        }
-
-        const messageData = {
-            user_id: userId,
-            title: 'Message Title', // You may adjust this as needed
-            content: messageContent,
-        };
-
-
-        dispatch(AddMessage(messageData))
+    const handleDeleteMessage = (messageId) => {
+        dispatch(DeleteMessage({ messageId }))
             .then(() => {
-                // Optionally handle success, clear textarea, show success message, etc.
-                setMessageContent('');
+                toast.success('Message deleted successfully');
             })
-            .catch((error) => {
-                // Optionally handle error, show error message, etc.
-                console.error('Error sending message:', error);
+            .catch(() => {
+                toast.error('Failed to delete message');
             });
     };
 
-  return (
-    <div>
-    <textarea
-        value={messageContent}
-        onChange={handleMessageChange}
-        placeholder="Type your message here..."
-        rows={5}
-        cols={50}
-    />
-    <br />
-    <button onClick={handleSubmitMessage}>Send Message</button>
-
-    {/* Display student messages */}
-    <div>
-        {studentMessages.map((message) => (
-            <div key={message.id}>
-                <p>Title: {message.title}</p>
-                <p>Content: {message.content}</p>
+    return (
+        <>
+            <Button variant="outlined" color="primary" onClick={() => setOpen(true)}>Add Message</Button>
+            <div className="Tmessage-container">
+                {studentMessages.status_message === "loading" ? (
+                    <div className="loading"><CircularProgress /></div>
+                ) : studentMessages.status_message !== "succeeded" ? (
+                    <div><p>No messages found</p></div>
+                ) : (
+                    <Grid container spacing={3}>
+                        {studentMessages.messages.map((message) => (
+                            <Grid item xs={12} sm={6} md={4} key={message.id}>
+                                <Card className="Tmessage">
+                                    <CardHeader
+                                        avatar={<Avatar src={message.user_id.avatar} />}
+                                        title={`${message.user_id.lastName} ${message.user_id.firstName}`}
+                                        subheader={`Sent on: ${message.send_date}`}
+                                        action={
+                                            <Button aria-label="delete" color='error' variant='outlined'  onClick={() => handleDeleteMessage(message.id)}>delete</Button>
+                                        }
+                                    />
+                                    <CardContent>
+                                        <Typography variant="h6" className="Tmessage-title">
+                                            {message.title}
+                                        </Typography>
+                                        <Typography variant="body2" className="Tmessage-status">
+                                            Status: {message.status}
+                                        </Typography>
+                                        <Typography variant="body1" className="Tmessage-content">
+                                            {message.content}
+                                        </Typography>
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                        ))}
+                    </Grid>
+                )}
             </div>
-        ))}
-    </div>
-</div>
-  )
+            <AddMessagePopup setOpen={setOpen} open={open} />
+        </>
+    );
 }
 
-export default TeacherMessage
+export default TeacherMessage;

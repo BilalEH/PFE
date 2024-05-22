@@ -20,9 +20,11 @@ export const AdminSlice=createSlice({
         status_classe:'',
         classes: [],
         status_request:'',
-        requests:{},
+        requests:[],
+        status_course_request:'',
+        course_requests:[],
         status_message:'',
-        messages:{},
+        messages:[],
     },
     extraReducers:(builder)=>{
         // --------------------------------------Delete--------------------------------------
@@ -95,6 +97,17 @@ export const AdminSlice=createSlice({
             state.action_status = 'failed';
         });
         // --------------------------------------Add
+        // add course
+        builder.addCase(addCourse.pending, (state) => {
+            state.action_status = 'loading';
+        });
+        builder.addCase(addCourse.fulfilled, (state, action) => {
+            state.action_status = 'succeeded';
+            state.courses=[...state.courses,action.payload];
+        });
+        builder.addCase(addCourse.rejected, (state) => {
+            state.action_status = 'failed';
+        });
         // add teacher
         builder.addCase(addTeacher.pending, (state) => {
             state.action_status = 'loading';
@@ -130,6 +143,17 @@ export const AdminSlice=createSlice({
         })
         builder.addCase(AdminGetClasses.rejected, (state) => {
             state.status_classe = 'failed';
+        })
+        // get Courses Requests to join
+        builder.addCase(ACoursesReqList.pending, (state) => {
+            state.status_course_request = 'loading';
+        })
+        builder.addCase(ACoursesReqList.fulfilled, (state, action) => {
+            state.status_course_request = 'succeeded';
+            state.course_requests = action.payload;
+        })
+        builder.addCase(ACoursesReqList.rejected, (state) => {
+            state.status_course_request = 'failed';
         })
         // getStudents
         builder.addCase(GetStudents.pending, (state) => {
@@ -374,7 +398,8 @@ export const addCourse = createAsyncThunk(
         try {
             const response = await axiosInstance.post(`/api/courses`, courseData);
             toast.dismiss(toastId);
-            return response.data;
+            toast.success(`course added successfully`, StyleToast);
+            return response.data.course            ;
         } catch (error) {
             toast.dismiss(toastId);
             toast.error(`X ${error.response.data.message}`, StyleToast);
@@ -556,7 +581,7 @@ export const AdminGetClasses = createAsyncThunk(
     }
 });
 
-    export const addClass = createAsyncThunk(
+export const addClass = createAsyncThunk(
     "admin/addClass",
     async (classData) => {
         const toastId = toast.loading('Loading...',StyleToast);
@@ -566,6 +591,19 @@ export const AdminGetClasses = createAsyncThunk(
         return response.data;
     } catch (error) {
         toast.dismiss(toastId);
+        toast.error(`X ${error.response.data.message}`, StyleToast);
+        throw error;
+    }
+    }
+);
+
+export const ACoursesReqList = createAsyncThunk(
+    "admin/ACoursesReqList",
+    async () => {
+        try {
+        const response = await axiosInstance.get(`/api/course/requests-list`);
+        return response.data;
+    } catch (error) {
         toast.error(`X ${error.response.data.message}`, StyleToast);
         throw error;
     }

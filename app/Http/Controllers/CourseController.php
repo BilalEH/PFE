@@ -94,45 +94,20 @@ class CourseController extends Controller
             return response()->json(['message' => 'Course not found'], 404);
         }
     }
-    // public function RequestsList()
-    // {
-    //     try {
-    //         $requests = collect();
-    //         $course = Course::all();
-    //         if ($course->isNotEmpty()) {
-    //             foreach ($course as $courseItem) {
-    //                 if ($courseItem->requests()->exists()) {
-    //                     $requests = $requests->merge($courseItem->requests);
-    //                 }
-    //             }
-    //         }
-    //         return response()->json(CouresRequeres::collection($requests), 200);
-    //     } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-    //         return response()->json(['message' => 'Course not found'], 404);
-    //     } catch (\Exception $e) {
-    //         return response()->json(['message' => $e->getMessage()], 500);
-    //     }
-    // }
+
     public function RequestsList()
     {
         try {
+            $res = [];
             $courses = Course::with('requests')->get();
-            $allRequests = $courses->map(function ($course) {
-                return [
-                    'course_id' => $course->id,
-                    'course_name' => $course->CourseName,
-                    'requests' => $course->requests->map(function ($student) {
-                        return [
-                            'student_id' => $student->id,
-                            // 'student_name' => $student->name,
-                            'student_user_id' => $student->user_id,
-                        ];
-                    }),
-                ];
-            });
-            return response()->json($allRequests, 200);
-        } catch (\Exception $e) {
-            return response()->json(['message' => $e->getMessage()], 500);
+            foreach ($courses as $course) {
+                if ($course->requests->isNotEmpty()) {
+                    $res[] = CouresRequeres::collection($course->requests);
+                }
+            }
+            return response()->json($res, 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json(['message' => 'Course not found'], 404);
         }
     }
 }

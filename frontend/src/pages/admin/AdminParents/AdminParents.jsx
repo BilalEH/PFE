@@ -67,7 +67,7 @@ export default function AdminParents() {
     );
 
     return (
-        <div>
+        <div className="w-100 h-100">
             <div className="page-title">List of Parents</div>
             {status_parent === "loading" ? (
                 <div className="loading_error_container">

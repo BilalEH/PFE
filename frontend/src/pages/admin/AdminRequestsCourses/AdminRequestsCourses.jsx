@@ -1,10 +1,10 @@
-import React from 'react'
+import ListOfReqJoin from './RequestsList'
 
 function AdminRequestsCourses() {
   return (
     <div>
-      AdminRequestsCourses
-
+      <h1>Joining requests</h1>
+      <ListOfReqJoin />
     </div>
   )
 }

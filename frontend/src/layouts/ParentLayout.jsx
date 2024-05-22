@@ -32,6 +32,7 @@ export default function StudentLayout() {
     }, []);
     return (
         <>
+
             <div className="row">
                 <div className="dashboard pe-0">
                     <div className="dashElement">
@@ -89,6 +90,37 @@ export default function StudentLayout() {
                             </div>
                         </Link>
                     </div>
+
+
+
+
+                    <div className="dashElement">
+                        <Link to="/parent/messages">
+                            <div className="d-flex align-items-center justify-content-between p-3 h-100">
+                                <div>
+                                messages
+                                </div>
+                                <div className="dash-icon">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="22"
+                                        height="22"
+                                        fill="currentColor"
+                                        className="bi bi-chat-left-dots-fill"
+                                        viewBox="0 0 16 16"
+                                    >
+                                        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4.414a1 1 0 0 0-.707.293L.854 15.146A.5.5 0 0 1 0 14.793zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </Link>
+                    </div>
+
+
+
+
+
+
                     <div className="dashElement">
                         <button className="logoutBtn" onClick={logoutEvent}>
                             <div className="d-flex p-3 justify-content-between align-items-center">
@@ -101,6 +133,17 @@ export default function StudentLayout() {
                     </div>
                 </div>
             </div>
+            
+
+
+
+
+
+
+
+
+
+
             <main className="pages">
                 <Outlet></Outlet>
             </main>

@@ -38,6 +38,7 @@ import TeacherClasses from "../pages/Teacher/TeacherClasses";
 import TeacherMessage from "../pages/Teacher/TeacherMessage";
 import AdminRequestsCourses from "../pages/admin/AdminRequestsCourses/AdminRequestsCourses";
 import TeacherNotes from "../pages/Teacher/TeacherNotes";
+import ParentMessages from "../pages/parent/ParentMessages/ParentMessages";
 
 export const router = createBrowserRouter([
     {
@@ -162,6 +163,11 @@ export const router = createBrowserRouter([
             {
                 path: "/parent/payment",
                 element: <ParentPayments />,
+            },
+
+            {
+                path: "/parent/messages",
+                element: <ParentMessages />,
             },
         ],
     },

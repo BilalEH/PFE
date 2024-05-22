@@ -179,7 +179,7 @@ export const PAddMessages=createAsyncThunk(
     'Parent/PAddMessages',
     async (Ele) =>{
         let data=null;
-        await axiosInstance.post(`/api/studients/getClasses`,Ele)
+        await axiosInstance.post(`api/messages`,Ele)
         .catch(err=>{
             toast.error(`X ${err.response.data.message}`, StyleToast);
         })

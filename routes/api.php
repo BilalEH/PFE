@@ -47,6 +47,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('course/requests-list', [CourseController::class, "RequestsList"]);
     // --------------------------------Messages--------------------------------------------
     Route::apiResource("/messages", MessageController::class);
+    
     Route::get("/messages/usermessages/{id}", [MessageController::class, 'getUserMessages']);
     // --------------------------------Classes--------------------------------------------
     Route::apiResource("/classes", ClasseController::class);

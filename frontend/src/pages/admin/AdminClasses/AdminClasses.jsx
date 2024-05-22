@@ -59,7 +59,7 @@ function AdminClasses() {
         setCurrentPage(0);
     }
     if (status_classe === "succeeded") {
-        // console.log(status_classe);
+        console.log(classes);
         // setShow(true);
     }
 
@@ -143,7 +143,7 @@ function AdminClasses() {
                                 </div>
                             ) : status_classe === "loading" ? (
                                 <div>Failed</div>
-                            ) : courses.length === 0 ? (
+                            ) : classes.length === 0 ? (
                                 <div>empty</div>
                             ) : (
                                 classes
@@ -198,7 +198,14 @@ function AdminClasses() {
                                                     fontSize: "16px",
                                                 }}
                                             >
-                                                {row.teacher_id}
+                                                {
+                                                    row.teacher_id.user_id
+                                                        .firstName
+                                                }{" "}
+                                                {
+                                                    row.teacher_id.user_id
+                                                        .lastName
+                                                }
                                             </TableCell>
                                             <TableCell>
                                                 <button

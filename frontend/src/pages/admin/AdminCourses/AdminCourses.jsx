@@ -30,7 +30,6 @@ export default function AdminCourses() {
     const [courseSelected, setCourseSeleted] = useState(null);
 
     // for table
-
     const columns = [
         { id: "actions", name: "" },
         { id: "courseName", name: "Course Name" },
@@ -56,7 +55,7 @@ export default function AdminCourses() {
         setRowsPerPage(event.target.value);
         setCurrentPage(0);
     }
-    
+
     // icons
     const deleteIcon = (
         <svg
@@ -96,7 +95,6 @@ export default function AdminCourses() {
     if (status === "failed") {
         return <div>Error loading data</div>;
     }
-
 
     return (
         <div className="admin-courses-container">
@@ -145,7 +143,7 @@ export default function AdminCourses() {
                                     currentPage * rowsPerPage,
                                     currentPage * rowsPerPage + rowsPerPage
                                 )
-                                .map((row,i) => (
+                                .map((row, i) => (
                                     <TableRow key={i}>
                                         <TableCell
                                             style={{

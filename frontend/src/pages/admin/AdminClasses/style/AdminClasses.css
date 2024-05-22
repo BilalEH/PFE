@@ -1,0 +1,27 @@
+.popup-add-class-btns {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.popup-add-class-btns>button {
+    width: 48%;
+    font-size: 22px;
+    padding: 14px;
+    border-radius: 14px;
+}
+
+.add-btn {
+    font-size: 24px;
+    padding: 14px 22px;
+    background-color: #00000000;
+    border: 2px solid #19647e;
+    color: #19647e;
+    border-radius: 14px;
+    transition: 100ms all ease-out
+}
+
+.add-btn:hover {
+    background-color: #19647e;
+    color: #fafafa;
+}

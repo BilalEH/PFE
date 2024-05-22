@@ -1,16 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { PAddMessages } from '../../../api/parentsStore/parentStore';
-import { json } from 'react-router-dom';
+import { PAddMessages, PgetUserMessages } from '../../../api/parentsStore/parentStore';
+import { Card } from '@mui/material';
 
 function ParentMessages() {
     const [messageContent, setMessageContent] = useState('');
     const dispatch = useDispatch();
-    const userdata = window.localStorage.getItem("User")
-    // console.log(userdata)
+    const userdata = window.localStorage.getItem("User");
+    const userId = JSON.parse(userdata).id;
 
-    const userId=JSON.parse(userdata).id
-    // console.log(userId)
+    // Fetch user messages when the component mounts
+    useEffect(() => {
+        dispatch(PgetUserMessages(userId));
+    }, [dispatch, userId]);
+
+    // Get user messages from Redux store
+    const userMessages = useSelector((state) => state.parents.messages);
+    console.log(userMessages)
 
     const handleMessageChange = (e) => {
         setMessageContent(e.target.value);
@@ -49,6 +55,17 @@ function ParentMessages() {
             />
             <br />
             <button onClick={handleSubmitMessage}>Send Message</button>
+
+            {/* Display user messages */}
+            <div>
+                {userMessages.map((message) => (
+                    <Card key={message.id}>
+                        <p>: {message.user_id.firstName}</p>
+                        <p>Content: {message.content}</p>
+                    </Card>
+                ))}
+                <br />
+            </div>
         </div>
     );
 }

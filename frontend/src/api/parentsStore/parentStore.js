@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { StyleToast } from './../../layouts/Layout';
 
 export const ParentsSlice=createSlice({
-    name:'studentsSlice',
+    name:'ParentsSlice',
     initialState:{
         status:'',
         parent:{},

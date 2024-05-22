@@ -8,29 +8,21 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-// class CouresRequeres extends JsonResource
-// {
+class CouresRequeres extends JsonResource
+{
 
-//     public function toArray(Request $request): array
-//     {
-//         $data = [];
-//         $data['course'] = $this;
-//         $Cdata = [];
-//         foreach ($this->requests as $student) {
-//             $testTab = [];
-//             $studentD = Student::findOrFail($student->pivot->student_id);
-//             $user = User::findOrFail($studentD->user_id);
-//             $parent = absparent::find($studentD->parent_id);
-//             if ($parent) {
-//                 $data['parent'] = $parent;
-//             }
-//             return $testTab[] = [
-//                 'user' => $user,
-//                 'student' => $studentD,
-//                 'pivot' => $student->pivot,
-//             ];
-//         }
-//         $data['dataCourse'] = $Cdata;
-//         return $data;
-//     }
-// }
+    public function toArray(Request $request): array
+    {
+        $data = parent::toArray($request);
+        $data['pivot']['student_id'] = StudentResource::make(Student::find($data['pivot']['student_id']));
+        // $newDataStr = [
+        //     'student' => StudentResource::make(Student::find($data['pivot']['student_id'])),
+        //     'course_id' => $data['id'],
+        //     'courseName' => $data['courseName'],
+        //     'description'=>$data['description'],
+        //     'niveau'=>$data['niveau'],
+        //     'amount'=>$data['amount'],
+        // ];
+        return $data;
+    }
+}

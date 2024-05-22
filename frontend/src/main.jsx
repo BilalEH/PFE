@@ -8,13 +8,15 @@ import { configureStore } from '@reduxjs/toolkit';
 import { AdminSlice } from './api/adminsStore/adminStore.js';
 import { ParentsSlice } from './api/parentsStore/parentStore.js';
 import StudentsSlice from './api/StudentStore/Student.js';
+import TeacherSlice from './api/TeacherStore/TeacherStore.js';
 
 
 const store=configureStore({
   reducer:{
     'admins':AdminSlice.reducer,
     'parents':ParentsSlice.reducer,
-    'students':StudentsSlice.reducer
+    'students':StudentsSlice.reducer,
+    'teachers':TeacherSlice.reducer
   }
 })
 ReactDOM.createRoot(document.getElementById('root')).render(

@@ -10,6 +10,7 @@ export const StudentsSlice = createSlice({
         student: {},
         parents: [], 
         courses: [], 
+        messages :[],
         studentClasses: [],  
         action_status: '',
     },
@@ -51,6 +52,31 @@ export const StudentsSlice = createSlice({
         builder.addCase(SStudentClasses.rejected, (state) => {
             state.action_status = 'failed';
         });
+
+            // Reducer for getting student messages
+            builder.addCase(SGetMessages.pending, (state) => {
+                state.status = 'loading';
+            });
+            builder.addCase(SGetMessages.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.messages = action.payload;
+            });
+            builder.addCase(SGetMessages.rejected, (state) => {
+                state.status = 'failed';
+            });
+    
+            // Reducer for adding message
+            builder.addCase(SAddMessage.pending, (state) => {
+                state.action_status = 'loading';
+            });
+            builder.addCase(SAddMessage.fulfilled, (state, action) => {
+                state.action_status = 'succeeded';
+                state.messages = [...state.messages, action.payload];
+            });
+            builder.addCase(SAddMessage.rejected, (state) => {
+                state.action_status = 'failed';
+            });
+        
     }
 });
 
@@ -114,5 +140,33 @@ export const SAddRequest=createAsyncThunk(
     }
 )
 
+
+
+export const SGetMessages = createAsyncThunk(
+    'Student/SGetMessages',
+    async (id) => {
+        try {
+            const response = await axiosInstance.get(`/api/messages/usermessages/${id}`);
+            return response.data.messages;
+        } catch (error) {
+            toast.error(`X ${error.response.data.message}`, StyleToast);
+            throw error;
+        }
+    }
+);
+
+// Thunk to add message
+export const SAddMessage = createAsyncThunk(
+    'Student/SAddMessage',
+    async (messageData) => {
+        try {
+            const response = await axiosInstance.post(`/api/messages`, messageData);
+            return response.data.message;
+        } catch (error) {
+            toast.error(`X ${error.response.data.message}`, StyleToast);
+            throw error;
+        }
+    }
+);
 
 export default StudentsSlice;

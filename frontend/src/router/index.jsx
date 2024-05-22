@@ -39,6 +39,7 @@ import TeacherMessage from "../pages/Teacher/TeacherMessage";
 import AdminRequestsCourses from "../pages/admin/AdminRequestsCourses/AdminRequestsCourses";
 import TeacherNotes from "../pages/Teacher/TeacherNotes";
 import ParentMessages from "../pages/parent/ParentMessages/ParentMessages";
+import StudentsMessages from "../pages/student/StudentsMessages";
 
 export const router = createBrowserRouter([
     {
@@ -139,6 +140,12 @@ export const router = createBrowserRouter([
                 path: "/student/payment",
                 element: <StudentPayment />,
             },
+
+            {
+                path: "/student/messages",
+                element: <StudentsMessages />,
+            },
+           
         ],
     },
     {

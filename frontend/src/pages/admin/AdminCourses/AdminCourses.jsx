@@ -17,6 +17,9 @@ import {
 } from "@mui/material";
 import DeleteCoursePopup from "./components/DeleteCoursePopup";
 import UpdateCoursePopup from "./components/UpdateCoursePopup";
+import LoadingForTables from "../../../components/LoadingForTables";
+import ErrorData from "../../../components/ErrorData";
+import EmptyTable from "../../../components/EmptyTable";
 
 export default function AdminCourses() {
     const dispatch = useDispatch();
@@ -88,14 +91,6 @@ export default function AdminCourses() {
         </svg>
     );
 
-    if (status === "loading") {
-        return <div>Loading...</div>;
-    }
-
-    if (status === "failed") {
-        return <div>Error loading data</div>;
-    }
-
     return (
         <div className="admin-courses-container">
             <div className="d-flex justify-content-between align-items-center mb-5">
@@ -138,77 +133,89 @@ export default function AdminCourses() {
                         </TableHead>
 
                         <TableBody>
-                            {courses
-                                .slice(
-                                    currentPage * rowsPerPage,
-                                    currentPage * rowsPerPage + rowsPerPage
-                                )
-                                .map((row, i) => (
-                                    <TableRow key={i}>
-                                        <TableCell
-                                            style={{
-                                                padding: "22px 18px",
-                                                fontFamily: "Montserrat",
-                                                fontSize: "16px",
-                                            }}
-                                        >
-                                            <button
-                                                className="delete"
-                                                onClick={() => {
-                                                    setCourseSeleted(row);
-                                                    setHandleDeleteClose(true);
+                            {status === "loading" ? (
+                                <LoadingForTables />
+                            ) : status === "failed" ? (
+                                <ErrorData />
+                            ) : courses.length === 0 ? (
+                                <EmptyTable content={"Courses"} />
+                            ) : (
+                                courses
+                                    .slice(
+                                        currentPage * rowsPerPage,
+                                        currentPage * rowsPerPage + rowsPerPage
+                                    )
+                                    .map((row, i) => (
+                                        <TableRow key={i}>
+                                            <TableCell
+                                                style={{
+                                                    padding: "22px 18px",
+                                                    fontFamily: "Montserrat",
+                                                    fontSize: "16px",
                                                 }}
                                             >
-                                                {deleteIcon}
-                                            </button>
-                                            <button
-                                                className="update"
-                                                onClick={() => {
-                                                    setCourseSeleted(row);
-                                                    setHandleUpdateClose(true);
+                                                <button
+                                                    className="delete"
+                                                    onClick={() => {
+                                                        setCourseSeleted(row);
+                                                        setHandleDeleteClose(
+                                                            true
+                                                        );
+                                                    }}
+                                                >
+                                                    {deleteIcon}
+                                                </button>
+                                                <button
+                                                    className="update"
+                                                    onClick={() => {
+                                                        setCourseSeleted(row);
+                                                        setHandleUpdateClose(
+                                                            true
+                                                        );
+                                                    }}
+                                                >
+                                                    {updateIcon}
+                                                </button>
+                                            </TableCell>
+                                            <TableCell
+                                                style={{
+                                                    padding: "22px 18px",
+                                                    fontFamily: "Montserrat",
+                                                    fontSize: "16px",
                                                 }}
                                             >
-                                                {updateIcon}
-                                            </button>
-                                        </TableCell>
-                                        <TableCell
-                                            style={{
-                                                padding: "22px 18px",
-                                                fontFamily: "Montserrat",
-                                                fontSize: "16px",
-                                            }}
-                                        >
-                                            {row.courseName}
-                                        </TableCell>
-                                        <TableCell
-                                            style={{
-                                                padding: "22px 18px",
-                                                fontFamily: "Montserrat",
-                                                fontSize: "16px",
-                                            }}
-                                        >
-                                            {row.description}
-                                        </TableCell>
-                                        <TableCell
-                                            style={{
-                                                padding: "22px 18px",
-                                                fontFamily: "Montserrat",
-                                                fontSize: "16px",
-                                            }}
-                                        >
-                                            {row.niveau}
-                                        </TableCell>
-                                        <TableCell
-                                            style={{
-                                                padding: "22px 18px",
-                                                fontFamily: "Montserrat",
-                                                fontSize: "16px",
-                                            }}
-                                        >
-                                            {row.amount}
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
+                                                {row.courseName}
+                                            </TableCell>
+                                            <TableCell
+                                                style={{
+                                                    padding: "22px 18px",
+                                                    fontFamily: "Montserrat",
+                                                    fontSize: "16px",
+                                                }}
+                                            >
+                                                {row.description}
+                                            </TableCell>
+                                            <TableCell
+                                                style={{
+                                                    padding: "22px 18px",
+                                                    fontFamily: "Montserrat",
+                                                    fontSize: "16px",
+                                                }}
+                                            >
+                                                {row.niveau}
+                                            </TableCell>
+                                            <TableCell
+                                                style={{
+                                                    padding: "22px 18px",
+                                                    fontFamily: "Montserrat",
+                                                    fontSize: "16px",
+                                                }}
+                                            >
+                                                {row.amount}
+                                            </TableCell>
+                                        </TableRow>
+                                    ))
+                            )}
                         </TableBody>
                     </Table>
                 </TableContainer>

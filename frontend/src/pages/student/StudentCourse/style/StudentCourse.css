@@ -2,6 +2,7 @@
     background-color: #00000000;
     border: 0;
     color: #19647e;
+    transition: 100ms all ease-out;
 }
 
 .enroll-btn:hover {

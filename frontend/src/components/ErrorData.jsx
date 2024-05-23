@@ -16,17 +16,13 @@ export default function ErrorData() {
         </svg>
     );
     return (
-        <>
-            <TableRow>
-                <TableCell colSpan={8}>
-                    <div className="empty-req-container text-muted">
-                        <div className="empty-icon my-2">{errorIcon}</div>
-                        <div className="empty-text my-2">
-                            Error loading data.
-                        </div>
-                    </div>
-                </TableCell>
-            </TableRow>
-        </>
+        <TableRow>
+            <TableCell colSpan={8}>
+                <div className="empty-req-container text-muted">
+                    <div className="empty-icon my-2">{errorIcon}</div>
+                    <div className="empty-text my-2">Error loading data.</div>
+                </div>
+            </TableCell>
+        </TableRow>
     );
 }

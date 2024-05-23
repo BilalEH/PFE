@@ -1,0 +1,38 @@
+.req-accept-btn {
+    background-color: #00000000;
+    border: 0;
+    color: #19647e;
+    transition: 100ms all ease-out;
+}
+
+.req-accept-btn:hover {
+    color: #0f3f4e;
+    text-decoration: underline;
+}
+
+.req-reject-btn {
+    background-color: #00000000;
+    border: 0;
+    color: #F63E02;
+    transition: 100ms all ease-out;
+}
+
+.req-reject-btn:hover {
+    color: #a12800;
+    text-decoration: underline;
+}
+
+.popup-assign-btns,
+.popup-decline-btns {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.popup-assign-btns>button,
+.popup-decline-btns>button {
+    width: 48%;
+    font-size: 22px;
+    padding: 14px;
+    border-radius: 14px;
+}

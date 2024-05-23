@@ -43,7 +43,7 @@ export const TeacherSlice = createSlice({
             state.status_student = 'failed';
         });
 
-        // Reducer for getting messages
+        // getting messages
         builder.addCase(GetMessages.pending, (state) => {
             state.status_message = 'loading';
         });
@@ -55,19 +55,19 @@ export const TeacherSlice = createSlice({
             state.status_message = 'failed';
         });
 
-        // Reducer for adding a message
+        // adding a message
         builder.addCase(AddMessage.pending, (state) => {
             state.action_status = 'loading';
         });
         builder.addCase(AddMessage.fulfilled, (state, action) => {
             state.action_status = 'succeeded';
-            state.messages.push(action.payload);
+            state.messages=[...state.messages, action.payload];
         });
         builder.addCase(AddMessage.rejected, (state) => {
             state.action_status = 'failed';
         });
 
-        // Reducer for deleting a message
+        // deleting a message
         builder.addCase(DeleteMessage.pending, (state) => {
             state.action_status = 'loading';
         });
@@ -79,20 +79,6 @@ export const TeacherSlice = createSlice({
             state.action_status = 'failed';
         });
 
-        // Reducer for updating a message
-        builder.addCase(UpdateMessage.pending, (state) => {
-            state.action_status = 'loading';
-        });
-        builder.addCase(UpdateMessage.fulfilled, (state, action) => {
-            state.action_status = 'succeeded';
-            const updatedMessageIndex = state.messages.findIndex(message => message.id === action.payload.id);
-            if (updatedMessageIndex !== -1) {
-                state.messages[updatedMessageIndex] = action.payload;
-            }
-        });
-        builder.addCase(UpdateMessage.rejected, (state) => {
-            state.action_status = 'failed';
-        });
     }
 });
 
@@ -127,20 +113,17 @@ export const GetStudents = createAsyncThunk(
         return data;
     }
 );
-
 // Thunk to fetch messages
 export const GetMessages = createAsyncThunk(
     'Teachers/GetMessages',
-    async () => {
-        let data = null;
-        await axiosInstance.get('/api/messages')
-            .catch(err => {
-                toast.error(`X ${err.response.data.message}`, StyleToast);
-            })
-            .then((res) => {
-                return data = res.data.messages;
-            });
-        return data;
+    async ({userId}) => {
+        try {
+            const response = await axiosInstance.get(`/api/messages/usermessages/${userId}`);
+            return response.data.messages;
+        } catch (error) {
+            toast.error(`X ${error.response.data.message}`, StyleToast);
+            throw error;
+        }
     }
 );
 
@@ -149,11 +132,15 @@ export const AddMessage = createAsyncThunk(
     'Teachers/AddMessage',
     async (messageData) => {
         let data = null;
+        const toastId = toast.loading('Sending message...', StyleToast);
         await axiosInstance.post('/api/messages', messageData)
             .catch(err => {
+                toast.dismiss(toastId);
                 toast.error(`X ${err.response.data.message}`, StyleToast);
             })
             .then((res) => {
+                toast.dismiss(toastId);
+                toast.success(`message sent successfully`, StyleToast);
                 return data = res.data.message;
             });
         return data;
@@ -172,20 +159,5 @@ export const DeleteMessage = createAsyncThunk(
     }
 );
 
-// Thunk to update a message
-export const UpdateMessage = createAsyncThunk(
-    'Teachers/UpdateMessage',
-    async ({ messageId, messageData }) => {
-        let data = null;
-        await axiosInstance.put(`/api/messages/${messageId}`, messageData)
-            .catch(err => {
-                toast.error(`X ${err.response.data.message}`, StyleToast);
-            })
-            .then((res) => {
-                return data = res.data.message;
-            });
-        return data;
-    }
-);
 
 export default TeacherSlice;

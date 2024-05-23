@@ -7,10 +7,12 @@ export default function Message({ message }) {
     const dispatch = useDispatch();
     function handleRefuseMsg(id) {
         console.log(id);
+        message.status = "rejected";
     }
     useEffect(()=>{console.log(message)},[message])
     function handleAcceptMsg(id) {
         dispatch(AdminAcceptMessage({MesID:id}))
+        message.status = "accepted";
     }
 
     return (

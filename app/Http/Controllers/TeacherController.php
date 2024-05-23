@@ -64,44 +64,23 @@ class TeacherController extends Controller
             'phone' => 'nullable|string|max:255',
             'password' => 'nullable|string|min:8',
         ]);
-    
+
         $teacher = Teacher::findOrFail($id);
         $user = User::find($teacher->user_id);
-    
-        if (!$user) {
-            return response()->json(['error' => 'User not found'], 404);
+        if ($data['password'] == '') {
+            $data['password'] = $user->password;
+        } else {
+            $data['password'] = bcrypt($data['password']);
         }
-    
-        // Check if the email is being updated and if it already exists for another user
-        if (isset($data['email']) && $data['email'] !== $user->email) {
-            $existingUserWithEmail = User::where('email', $data['email'])->first();
-            if ($existingUserWithEmail && $existingUserWithEmail->id !== $user->id) {
-                return response()->json(['error' => 'Email address already exists'], 422);
-            }
-        }
-    
-        // Update user data
-        $user->fill($data);
-        $user->avatar = "https://ui-avatars.com/api/?uppercase=false&name={$request->firstName}+{$request->lastName}&background=F63E02&color=FFFDFD";
-        if (isset($data['password'])) {
-            $user->password = bcrypt($data['password']);
-        }
-        $user->save();
-    
+        $user->update($data);
         return response()->json(['teacher' => new TeacherResource($teacher)], 200);
     }
-    
+
     public function destroy(string $id)
     {
         $teacher = Teacher::findOrFail($id);
-
         $teacher->user->delete();
-
         $teacher->delete();
-
         return response()->json(['message' => 'Teacher deleted successfully'], 200);
     }
-
-    
 }
-

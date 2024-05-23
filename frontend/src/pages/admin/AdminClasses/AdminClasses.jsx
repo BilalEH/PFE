@@ -1,36 +1,22 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-    GetTeachers,
-    GetCourses,
-    AdminGetClasses,
-} from "../../../api/adminsStore/adminStore";
+import {GetTeachers,GetCourses,AdminGetClasses,} from "../../../api/adminsStore/adminStore";
 import AddClassPopup from "./components/AddClassPopup";
 import "./style/AdminClasses.css";
-import {
-    CircularProgress,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TablePagination,
-    TableRow,
-} from "@mui/material";
+import {CircularProgress,Paper,Table,TableBody,TableCell,TableContainer,TableHead,TablePagination,TableRow} from "@mui/material";
 import StudentsListPopup from "./components/StudentsListPopup";
+import LoadingForTables from "../../../components/LoadingForTables";
+import EmptyTable from "../../../components/EmptyTable";
+import ErrorData from './../../../components/ErrorData';
 
 function AdminClasses() {
     const dispatch = useDispatch();
-    const [show, setShow] = useState(false);
-
+    const [classSelected, setClassSelected] = useState(null);
     // useState for popups
     const [handleAddClose, setHandleAddClose] = useState(false);
     const [handleStudentsClose, setHandleStudentsClose] = useState(false);
 
-    const { teachers, courses, classes, status_classe } = useSelector(
-        (state) => state.admins
-    );
+    const { teachers, courses, classes, status_classe } = useSelector((state) => state.admins);
 
     // for table
     const columns = [
@@ -58,10 +44,7 @@ function AdminClasses() {
         setRowsPerPage(event.target.value);
         setCurrentPage(0);
     }
-    if (status_classe === "succeeded") {
-        console.log(classes);
-        // setShow(true);
-    }
+
 
     // icons
     const deleteIcon = (
@@ -138,28 +121,17 @@ function AdminClasses() {
 
                         <TableBody>
                             {status_classe === "loading" ? (
-                                <div>
-                                    <CircularProgress />
-                                </div>
-                            ) : status_classe === "loading" ? (
-                                <div>Failed</div>
+                                <LoadingForTables/>
+                            ) : status_classe === "failed" ? (
+                                <ErrorData/>
                             ) : classes.length === 0 ? (
-                                <div>empty</div>
+                                <EmptyTable/>
                             ) : (
                                 classes
-                                    .slice(
-                                        currentPage * rowsPerPage,
-                                        currentPage * rowsPerPage + rowsPerPage
-                                    )
+                                    .slice(currentPage * rowsPerPage,currentPage * rowsPerPage + rowsPerPage)
                                     .map((row) => (
                                         <TableRow key={row.id}>
-                                            <TableCell
-                                                style={{
-                                                    padding: "22px 18px",
-                                                    fontFamily: "Montserrat",
-                                                    fontSize: "16px",
-                                                }}
-                                            >
+                                            <TableCell style={{ padding: "22px 18px", fontFamily: "Montserrat", fontSize: "16px",}}>
                                                 <button
                                                     className="delete"
                                                     onClick={() => {}}
@@ -173,13 +145,7 @@ function AdminClasses() {
                                                     {updateIcon}
                                                 </button>
                                             </TableCell>
-                                            <TableCell
-                                                style={{
-                                                    padding: "22px 18px",
-                                                    fontFamily: "Montserrat",
-                                                    fontSize: "16px",
-                                                }}
-                                            >
+                                            <TableCell style={{padding: "22px 18px",fontFamily: "Montserrat",fontSize: "16px"}}>
                                                 {row.className}
                                             </TableCell>
                                             <TableCell
@@ -208,15 +174,7 @@ function AdminClasses() {
                                                 }
                                             </TableCell>
                                             <TableCell>
-                                                <button
-                                                    onClick={() => {
-                                                        setHandleStudentsClose(
-                                                            true
-                                                        );
-                                                    }}
-                                                >
-                                                    Show students
-                                                </button>
+                                                <button onClick={() => {setHandleStudentsClose(true);setClassSelected(row)}}>students list</button>
                                             </TableCell>
                                         </TableRow>
                                     ))
@@ -247,10 +205,13 @@ function AdminClasses() {
                 dispatch={dispatch}
             />
 
-            <StudentsListPopup
-                handleClose={handleStudentsClose}
-                setHandleClose={setHandleStudentsClose}
-            />
+            {classSelected && (
+                <StudentsListPopup
+                    handleClose={handleStudentsClose}
+                    setHandleClose={setHandleStudentsClose}
+                    classSelected={classSelected}
+                />
+            )}
         </div>
     );
 }

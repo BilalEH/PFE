@@ -52,5 +52,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::put("/message/reject-msg/{id}", [MessageController::class, 'RejectedMessage']);
     // --------------------------------Classes--------------------------------------------
     Route::apiResource("/classes", ClasseController::class);
+    Route::get("/classe/get-students/{id}", [ClasseController::class, 'Class_students_List']);
     Route::post("/classes/removestudent/{id}", [ClasseController::class, 'Remove_student_In_Classe']);
 });

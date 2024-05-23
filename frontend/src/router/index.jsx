@@ -22,7 +22,7 @@ import AdminProfile from "../pages/admin/AdminProfile/AdminProfile";
 import ParentProfile from "../pages/parent/ParentProfile";
 import StudentProfile from "../pages/student/StudentProfile";
 import TeacherProfile from "../pages/Teacher/TeacherProfile";
-import StudentCourse from "../pages/student/StudentCourse";
+import StudentCourse from "../pages/student/StudentCourse/StudentCourse";
 import StudentSeance from "../pages/student/StudentSeance";
 import StudentPayment from "../pages/student/StudentPayment";
 import ParentStudents from "../pages/parent/parentStudents/ParentStudents";
@@ -145,7 +145,6 @@ export const router = createBrowserRouter([
                 path: "/student/messages",
                 element: <StudentsMessages />,
             },
-           
         ],
     },
     {

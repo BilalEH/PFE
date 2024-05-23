@@ -1,0 +1,214 @@
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { SAddRequest, SGetCourses } from "../../../api/StudentStore/Student";
+import useAuthContext from "../../../api/auth";
+import {
+    CircularProgress,
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TablePagination,
+    TableRow,
+} from "@mui/material";
+import "./style/StudentCourse.css";
+import EmptyCoursesPage from "../../parent/ParentCourses/components/EmptyCoursesPage";
+
+export default function StudentCourse() {
+    const dispatch = useDispatch();
+    const coursesData = useSelector((state) => state.students);
+    const { importUser } = useAuthContext();
+
+    useEffect(() => {
+        dispatch(SGetCourses());
+    }, [dispatch]);
+
+    const JoinReq = (courseId) => {
+        dispatch(
+            SAddRequest({ data: { student_id: importUser().id }, id: courseId })
+        );
+    };
+
+    const [page, setpage] = useState(0);
+    const [rowPerPage, setrowPerPage] = useState(5);
+
+    const columns = [
+        { id: "courseName", name: "Name" },
+        { id: "description", name: "Description" },
+        { id: "niveau", name: "Level" },
+        { id: "amount", name: "Amount" },
+        { id: "actions", name: "" },
+    ];
+    function handlePageChange(event, newPage) {
+        setpage(newPage);
+    }
+    function handleRowChange(event, newRow) {
+        setrowPerPage(event.target.value);
+        setpage(0);
+    }
+
+    return (
+        <>
+            <div className="page-title">Courses</div>
+
+            <Paper
+                style={{
+                    background: "none",
+                    border: "2px solid #afafaf",
+                    borderRadius: "12px",
+                    overflow: "hidden",
+                }}
+                sx={{ width: "100%" }}
+            >
+                <TableContainer>
+                    <Table className="">
+                        <TableHead>
+                            <TableRow>
+                                {columns.map((col) => (
+                                    <TableCell
+                                        style={{
+                                            padding: "22px 18px",
+                                            fontWeight: "bold",
+                                            fontFamily: "Montserrat",
+                                            fontSize: "16px",
+                                        }}
+                                        key={col.id}
+                                    >
+                                        {col.name}
+                                    </TableCell>
+                                ))}
+                            </TableRow>
+                        </TableHead>
+
+                        <TableBody>
+                            {coursesData.status === "loading" ? (
+                                <TableRow>
+                                    <TableCell colSpan={8}>
+                                        <div className="py-5 d-flex justify-content-center">
+                                            <CircularProgress />
+                                        </div>
+                                    </TableCell>
+                                </TableRow>
+                            ) : coursesData.status === "failed" ? (
+                                <div>Failed</div>
+                            ) : coursesData.courses.length === 0 ? (
+                                <EmptyCoursesPage />
+                            ) : (
+                                coursesData.courses
+                                    .slice(
+                                        page * rowPerPage,
+                                        page * rowPerPage + rowPerPage
+                                    )
+                                    .map((row, i) => {
+                                        return (
+                                            <TableRow key={i}>
+                                                <TableCell
+                                                    style={{
+                                                        padding: "22px 18px",
+                                                        fontFamily:
+                                                            "Montserrat",
+                                                        fontSize: "16px",
+                                                    }}
+                                                >
+                                                    {row.courseName}
+                                                </TableCell>
+                                                <TableCell
+                                                    style={{
+                                                        padding: "22px 18px",
+                                                        fontFamily:
+                                                            "Montserrat",
+                                                        fontSize: "16px",
+                                                    }}
+                                                >
+                                                    {row.description}
+                                                </TableCell>
+                                                <TableCell
+                                                    style={{
+                                                        padding: "22px 18px",
+                                                        fontFamily:
+                                                            "Montserrat",
+                                                        fontSize: "16px",
+                                                    }}
+                                                >
+                                                    {row.niveau}
+                                                </TableCell>
+                                                <TableCell
+                                                    style={{
+                                                        padding: "22px 18px",
+                                                        fontFamily:
+                                                            "Montserrat",
+                                                        fontSize: "16px",
+                                                    }}
+                                                >
+                                                    {row.amount}
+                                                </TableCell>
+                                                <TableCell
+                                                    style={{
+                                                        padding: "22px 18px",
+                                                        fontFamily:
+                                                            "Montserrat",
+                                                        fontSize: "16px",
+                                                    }}
+                                                >
+                                                    <button
+                                                        className="enroll-btn"
+                                                        onClick={() =>
+                                                            JoinReq(row.id)
+                                                        }
+                                                    >
+                                                        join
+                                                    </button>
+                                                </TableCell>
+                                            </TableRow>
+                                        );
+                                    })
+                            )}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                <TablePagination
+                    style={{
+                        paddingTop: "20px",
+                        paddingBottom: "10px",
+                    }}
+                    rowsPerPageOptions={[2, 5]}
+                    rowsPerPage={rowPerPage}
+                    page={page}
+                    count={coursesData && coursesData.courses.length}
+                    component="div"
+                    onPageChange={handlePageChange}
+                    onRowsPerPageChange={handleRowChange}
+                ></TablePagination>
+            </Paper>
+
+            {/* <table className="table w-100">
+                <thead>
+                    <tr>
+                        <th>Course Name</th>
+                        <th>Course Description</th>
+                        <th>Course Level</th>
+                        <th>Course Amount</th>
+                        <th>action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {coursesData.courses.map((course) => (
+                        <tr key={course.id}>
+                            <td>{course.courseName}</td>
+                            <td>{course.description}</td>
+                            <td>{course.niveau}</td>
+                            <td>{course.amount}</td>
+                            <td>
+                                <button onClick={() => JoinReq(course.id)}>
+                                    join
+                                </button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table> */}
+        </>
+    );
+}

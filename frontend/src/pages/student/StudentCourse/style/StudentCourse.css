@@ -1,0 +1,10 @@
+.enroll-btn {
+    background-color: #00000000;
+    border: 0;
+    color: #19647e;
+}
+
+.enroll-btn:hover {
+    color: #0f3f4e;
+    text-decoration: underline;
+}

@@ -1,11 +1,23 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {GetStudents} from "../../../api/adminsStore/adminStore";
-import { Alert, CircularProgress, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow} from "@mui/material";
+import { GetStudents } from "../../../api/adminsStore/adminStore";
+import {
+    Alert,
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TablePagination,
+    TableRow,
+} from "@mui/material";
 import UpdateStudentPopup from "./components/UpdateStudentPopup";
 import "./style/AdminStudents.css";
 import DeleteStudentPopup from "./components/DeleteStudentPopup";
 import EmptyStudentsPage from "./components/EmptyStudentsPage";
+import LoadingForTables from "../../../components/LoadingForTables";
+import ErrorData from "../../../components/ErrorData";
 
 export default function AdminStudents() {
     const [studentRows, setStudentRows] = useState([]);
@@ -80,12 +92,6 @@ export default function AdminStudents() {
         </svg>
     );
 
-    if (studentsData.status_student === "failed") {
-        return <Alert severity="error">Error loading data.</Alert>;
-    } else if (studentsData.status_student === "loading") {
-        return <CircularProgress size={50} />;
-    }
-
     return (
         <div>
             <div className="page-title">List of Students</div>
@@ -118,7 +124,11 @@ export default function AdminStudents() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {studentRows.length === 0 ? (
+                            {studentsData.status_student === "failed" ? (
+                                <ErrorData />
+                            ) : studentsData.status_student === "loading" ? (
+                                <LoadingForTables />
+                            ) : studentRows.length === 0 ? (
                                 <EmptyStudentsPage />
                             ) : (
                                 studentRows
@@ -195,12 +205,12 @@ export default function AdminStudents() {
                                                 }}
                                             >
                                                 {row.absparent_id
-                                                ? row.absparent_id.user_id
-                                                        .firstName +
-                                                    " " +
-                                                    row.absparent_id.user_id
-                                                        .lastName
-                                                : "N/A"}
+                                                    ? row.absparent_id.user_id
+                                                          .firstName +
+                                                      " " +
+                                                      row.absparent_id.user_id
+                                                          .lastName
+                                                    : "N/A"}
                                             </TableCell>
                                             <TableCell
                                                 style={{
@@ -235,10 +245,30 @@ export default function AdminStudents() {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <TablePagination style={{ paddingTop: "20px", paddingBottom: "10px" }} rowsPerPageOptions={[1, 5]} rowsPerPage={rowPerPage} page={page} count={studentRows.length} component="div" onPageChange={handlePageChange} onRowsPerPageChange={handleRowChange}/>
+                <TablePagination
+                    style={{ paddingTop: "20px", paddingBottom: "10px" }}
+                    rowsPerPageOptions={[1, 5]}
+                    rowsPerPage={rowPerPage}
+                    page={page}
+                    count={studentRows.length}
+                    component="div"
+                    onPageChange={handlePageChange}
+                    onRowsPerPageChange={handleRowChange}
+                />
             </Paper>
-            {studentSelected && <UpdateStudentPopup handleClose={handleUpdateClose} setHandleClose={sethandleUpdateClose} student={studentSelected}/>}
-            <DeleteStudentPopup handleClose={handleDeleteClose} setHandleClose={setHandleDeleteClose} student={studentSelected} dispatch={dispatch}/>
+            {studentSelected && (
+                <UpdateStudentPopup
+                    handleClose={handleUpdateClose}
+                    setHandleClose={sethandleUpdateClose}
+                    student={studentSelected}
+                />
+            )}
+            <DeleteStudentPopup
+                handleClose={handleDeleteClose}
+                setHandleClose={setHandleDeleteClose}
+                student={studentSelected}
+                dispatch={dispatch}
+            />
         </div>
     );
 }

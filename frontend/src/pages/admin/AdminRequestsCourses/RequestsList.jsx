@@ -29,14 +29,11 @@ function ListOfReqJoin({data}) {
             return setData(tabG);
         }
     }, [data]);
-    // aymane ha data li 5as tdahra (hiya li Data li fuseState) 3andk tadi f useEffect li fo9 😡 
+
+    // aymane ha data li 5as tdahra (hiya li Data li fuseState) 3andk tadi f useEffect li fo9 😡
     console.log(Data);
-    
-    return (
-        <div className="w-100 h-100">
-            Data kayna ra dahar had xi 
-        </div>
-    );
+
+    return <div className="w-100 h-100">Data kayna ra dahar had xi</div>;
 }
 
 export default ListOfReqJoin;

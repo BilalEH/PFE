@@ -282,6 +282,17 @@ export const AdminSlice=createSlice({
         builder.addCase(AdminAcceptMessage.rejected, (state) => {
             state.action_status = 'failed';
         });
+        // reject Message
+        builder.addCase(AdminRejectMessage.pending, (state) => {
+            state.action_status = 'loading';
+        });
+        builder.addCase(AdminRejectMessage.fulfilled, (state, action) => {
+            state.action_status = 'succeeded';
+            state.messages = state.messages.map(e => e.id === action.payload.id ? action.payload : e);
+        });
+        builder.addCase(AdminRejectMessage.rejected, (state) => {
+            state.action_status = 'failed';
+        });
     }
 
 
@@ -431,6 +442,25 @@ export const AdminAcceptMessage=createAsyncThunk(
         .then((res) => {
             toast.dismiss(toastId);
             toast.success(`message accepted successfully`, StyleToast);
+            data=res.data.message;
+        })
+        return data
+    }
+)
+    // reject message 
+export const AdminRejectMessage=createAsyncThunk(
+    'AdminRejectMessage',
+    async ({MesID}) =>{
+        const toastId = toast.loading('Loading...',StyleToast);
+        let data=null;
+        await axiosInstance.put(`/api/message/reject-msg/${MesID}`)
+        .catch(err=>{
+            toast.dismiss(toastId);
+            toast.error(`X ${err.response.data.error}`, StyleToast);
+        })
+        .then((res) => {
+            toast.dismiss(toastId);
+            toast.success(`message rejected successfully`, StyleToast);
             data=res.data.message;
         })
         return data

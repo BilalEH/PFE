@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 
 function ListOfReqJoin({data}) {
     const [Data,setData]=useState([]);
-    // console.log(data);
     useEffect(() => {
         if (data.length > 0) {
             let tabG=[];

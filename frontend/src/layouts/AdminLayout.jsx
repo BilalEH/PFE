@@ -141,11 +141,14 @@ export default function AdminLayout() {
 
                     <div
                         className={`dashElement ${
-                            pathname == "/admin/requests_courses"? "dashElementActive": ""}`}
+                            pathname == "/admin/requests_courses"
+                                ? "dashElementActive"
+                                : ""
+                        }`}
                     >
-                        <Link to="/admin/requests_courses">
+                        <Link to="/admin/enroll-requests">
                             <div className="d-flex align-items-center justify-content-between  p-3 h-100">
-                                <div>requests courses</div>
+                                <div>Enrolling requests</div>
                                 <div className="dash-icon">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -190,11 +193,13 @@ export default function AdminLayout() {
                         </Link>
                     </div>
 
-                    <div className={`dashElement ${
+                    <div
+                        className={`dashElement ${
                             pathname == "/admin/Classes"
                                 ? "dashElementActive"
                                 : ""
-                        }`}>
+                        }`}
+                    >
                         <Link to="/admin/Classes">
                             <div className="d-flex align-items-center justify-content-between p-3 h-100">
                                 <div>Classes</div>
@@ -238,31 +243,6 @@ export default function AdminLayout() {
                                         viewBox="0 0 16 16"
                                     >
                                         <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783" />
-                                    </svg>
-                                </div>
-                            </div>
-                        </Link>
-                    </div>
-                    <div
-                        className={`dashElement ${
-                            pathname == "/admin/assign"
-                                ? "dashElementActive"
-                                : ""
-                        }`}
-                    >
-                        <Link to="/admin/assign">
-                            <div className="d-flex align-items-center justify-content-between p-3 h-100">
-                                <div>Assign</div>
-                                <div className="dash-icon">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="22"
-                                        height="22"
-                                        fill="currentColor"
-                                        className="bi bi-hand-index"
-                                        viewBox="0 0 16 16"
-                                    >
-                                        <path d="M6.75 1a.75.75 0 0 1 .75.75V8a.5.5 0 0 0 1 0V5.467l.086-.004c.317-.012.637-.008.816.027.134.027.294.096.448.182.077.042.15.147.15.314V8a.5.5 0 1 0 1 0V6.435l.106-.01c.316-.024.584-.01.708.04.118.046.3.207.486.43.081.096.15.19.2.259V8.5a.5.5 0 0 0 1 0v-1h.342a1 1 0 0 1 .995 1.1l-.271 2.715a2.5 2.5 0 0 1-.317.991l-1.395 2.442a.5.5 0 0 1-.434.252H6.035a.5.5 0 0 1-.416-.223l-1.433-2.15a1.5 1.5 0 0 1-.243-.666l-.345-3.105a.5.5 0 0 1 .399-.546L5 8.11V9a.5.5 0 0 0 1 0V1.75A.75.75 0 0 1 6.75 1M8.5 4.466V1.75a1.75 1.75 0 1 0-3.5 0v5.34l-1.2.24a1.5 1.5 0 0 0-1.196 1.636l.345 3.106a2.5 2.5 0 0 0 .405 1.11l1.433 2.15A1.5 1.5 0 0 0 6.035 16h6.385a1.5 1.5 0 0 0 1.302-.756l1.395-2.441a3.5 3.5 0 0 0 .444-1.389l.271-2.715a2 2 0 0 0-1.99-2.199h-.581a5 5 0 0 0-.195-.248c-.191-.229-.51-.568-.88-.716-.364-.146-.846-.132-1.158-.108l-.132.012a1.26 1.26 0 0 0-.56-.642 2.6 2.6 0 0 0-.738-.288c-.31-.062-.739-.058-1.05-.046zm2.094 2.025" />
                                     </svg>
                                 </div>
                             </div>

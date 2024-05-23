@@ -33,7 +33,6 @@ import TeacherStudents from "../pages/Teacher/TeacherStudents";
 import TeacherCourses from "../pages/Teacher/TeacherCourses";
 import TeacherHome from "../pages/Teacher/TeacherHome";
 import AdminClasses from "../pages/admin/AdminClasses/AdminClasses";
-import AdminAssign from "../pages/admin/AdminAssign/AdminAssign";
 import TeacherClasses from "../pages/Teacher/TeacherClasses";
 import TeacherMessage from "../pages/Teacher/TeacherMessage";
 import AdminRequestsCourses from "../pages/admin/AdminRequestsCourses/AdminRequestsCourses";
@@ -107,12 +106,7 @@ export const router = createBrowserRouter([
                 element: <AdminClasses />,
             },
             {
-                path: "/admin/assign",
-                element: <AdminAssign />,
-            },
-
-            {
-                path: "/admin/requests_courses",
+                path: "/admin/enroll-requests",
                 element: <AdminRequestsCourses />,
             },
         ],

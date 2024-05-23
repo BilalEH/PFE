@@ -5,7 +5,7 @@ function TeacherProfile() {
     const {importUser} =useAuthContext()
     return (
       <div>
-        <h2>Admin Profile</h2>
+        <h2>teacher Profile</h2>
         <div>
           <p><strong>lastName:</strong> {importUser().lastName}</p>
           <p><strong>firstName:</strong> {importUser().firstName}</p>

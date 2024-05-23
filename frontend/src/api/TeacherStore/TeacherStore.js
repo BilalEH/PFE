@@ -154,10 +154,12 @@ export const DeleteMessage = createAsyncThunk(
         await axiosInstance.delete(`/api/messages/${messageId}`)
             .catch(err => {
                 toast.error(`X ${err.response.data.message}`, StyleToast);
+                throw err; // Re-throw the error to handle it in the component
             });
         return messageId;
     }
 );
+
 
 
 export default TeacherSlice;

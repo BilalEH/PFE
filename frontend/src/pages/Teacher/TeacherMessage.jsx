@@ -1,13 +1,12 @@
+// TeacherMessage.js
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetMessages } from '../../api/TeacherStore/TeacherStore';
+import { GetMessages, DeleteMessage, AddMessage } from '../../api/TeacherStore/TeacherStore'; // Update the path as per your file structure
 import AddMessagePopup from './AddMessagePopup';
 import useAuthContext from '../../api/auth';
-import { Avatar, Button, Card, CardContent, CardHeader, CircularProgress, Grid, IconButton, Typography} from '@mui/material';
-import "./messagesTeacher.css";
-
-
-
+import { Avatar, Button, Card, CardContent, CardHeader, CircularProgress, Grid, Typography } from '@mui/material';
+import { toast } from 'react-toastify';
+import './messagesTeacher.css';
 
 function TeacherMessage() {
     const [open, setOpen] = useState(false);
@@ -18,15 +17,16 @@ function TeacherMessage() {
         dispatch(GetMessages({ userId: importUser().id }));
     }, [dispatch, importUser]);
 
-    const studentMessages = useSelector((state) => state.teachers);
+    const studentMessages = useSelector((state) => state.teachers); // Make sure to use correct slice name
+    console.log(studentMessages)
 
     const handleDeleteMessage = (messageId) => {
-        dispatch(DeleteMessage({ messageId }))
+        dispatch(DeleteMessage(messageId))
             .then(() => {
                 toast.success('Message deleted successfully');
             })
-            .catch(() => {
-                toast.error('Failed to delete message');
+            .catch((error) => {
+                toast.error(`Failed to delete message: ${error.message}`);
             });
     };
 
@@ -46,7 +46,7 @@ function TeacherMessage() {
                                     <CardHeader
                                         avatar={<Avatar src={message.user_id.avatar} />}
                                         title={`${message.user_id.lastName} ${message.user_id.firstName}`}
-                                        subheader={`Sent on: ${message.send_date}`}
+                                        subheader={`Sent on:${ new Date(message.send_date).toLocaleString()}`} // Format datetime here
                                         action={
                                             <Button aria-label="delete" color='error' variant='outlined'  onClick={() => handleDeleteMessage(message.id)}>delete</Button>
                                         }

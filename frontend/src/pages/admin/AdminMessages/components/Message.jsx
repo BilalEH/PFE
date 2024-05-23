@@ -1,18 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../style/AdminMessages.css";
+import { useDispatch } from "react-redux";
+import { AdminAcceptMessage } from "../../../../api/adminsStore/adminStore";
 
 export default function Message({ message }) {
+    const dispatch = useDispatch();
     function handleRefuseMsg(id) {
         console.log(id);
     }
-
+    useEffect(()=>{console.log(message)},[message])
     function handleAcceptMsg(id) {
-        console.log(id);
+        dispatch(AdminAcceptMessage({MesID:id}))
     }
 
     return (
         <>
             <div className="h-100">
+                    {message.status}
                 <div className="message-from text-muted">
                     From : {message.user_id.firstName}{" "}
                     {message.user_id.lastName}

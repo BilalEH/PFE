@@ -17,6 +17,12 @@ export default function AdminMessages() {
     }, []);
 
     const MessagesData = useSelector((state) => state.admins);
+    // useEffect(()=>{
+    //     if(messageSelected){
+    //         const messageS = MessagesData.messages.find(e=>e.id===messageSelected);
+    //         console.log(messageS);
+    //     }
+    //     },[MessagesData.action_status])
     return (
         <>
             <div>

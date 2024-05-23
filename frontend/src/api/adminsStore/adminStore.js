@@ -271,8 +271,19 @@ export const AdminSlice=createSlice({
         builder.addCase(AccepteUsers.rejected, (state) => {
             state.action_status = 'failed';
         });
-
+        // Accept Message
+        builder.addCase(AdminAcceptMessage.pending, (state) => {
+            state.action_status = 'loading';
+        });
+        builder.addCase(AdminAcceptMessage.fulfilled, (state, action) => {
+            state.action_status = 'succeeded';
+            state.messages = state.messages.map(e => e.id === action.payload.id ? action.payload : e);
+        });
+        builder.addCase(AdminAcceptMessage.rejected, (state) => {
+            state.action_status = 'failed';
+        });
     }
+
 
 })
 
@@ -405,10 +416,27 @@ export const GetUserMessages=createAsyncThunk(
         })
         return data
     }
-
-
-
 )
+    // accept message 
+export const AdminAcceptMessage=createAsyncThunk(
+    'AdminAcceptMessage',
+    async ({MesID}) =>{
+        const toastId = toast.loading('Loading...',StyleToast);
+        let data=null;
+        await axiosInstance.put(`/api/message/accept-msg/${MesID}`)
+        .catch(err=>{
+            toast.dismiss(toastId);
+            toast.error(`X ${err.response.data.error}`, StyleToast);
+        })
+        .then((res) => {
+            toast.dismiss(toastId);
+            toast.success(`message accepted successfully`, StyleToast);
+            data=res.data.message;
+        })
+        return data
+    }
+)
+
 
 
 

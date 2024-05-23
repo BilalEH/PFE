@@ -1,3 +1,4 @@
+
 <?php
 
 use App\Http\Controllers\AbsparentController;
@@ -33,7 +34,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     // ------------------------------teachers----------------------------------------------
     Route::apiResource("/teachers", TeacherController::class);
     Route::get("/teachers/getClasses/{id}", [TeacherController::class, 'GetClassesStu']);
-
     // ------------------------------parents----------------------------------------------
     Route::apiResource("/parents", AbsparentController::class);
     Route::put("/parents/restore/{id}", [AbsparentController::class, 'restore']);
@@ -47,8 +47,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('course/requests-list', [CourseController::class, "RequestsList"]);
     // --------------------------------Messages--------------------------------------------
     Route::apiResource("/messages", MessageController::class);
-    
     Route::get("/messages/usermessages/{id}", [MessageController::class, 'getUserMessages']);
+    Route::put("/message/accept-msg/{id}", [MessageController::class, 'AcceptMessage']);
+    Route::put("/message/reject-msg/{id}", [MessageController::class, 'RejectedMessage']);
     // --------------------------------Classes--------------------------------------------
     Route::apiResource("/classes", ClasseController::class);
     Route::post("/classes/removestudent/{id}", [ClasseController::class, 'Remove_student_In_Classe']);

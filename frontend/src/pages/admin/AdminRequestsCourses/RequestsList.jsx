@@ -2,29 +2,31 @@ import { useEffect, useState } from "react";
 
 function ListOfReqJoin({data}) {
     const [Data,setData]=useState([]);
-
+    // console.log(data);
     useEffect(() => {
         if (data.length > 0) {
-            data.forEach(course => {
-                course.forEach(student => {
+            let tabG=[];
+            data.forEach(tab1 => {
+                return tab1.forEach(tab2 => {
                     let studentData = {
-                        courseId: student.id,
-                        courseName: student.courseName,
-                        coursePrix: student.amount,
-                        studentCIN: student.pivot.student_id.user_id.cin,
-                        studentId: student.pivot.student_id.id,
-                        studentName: student.pivot.student_id.user_id.firstName + " " + student.pivot.student_id.user_id.lastName,
-                        ReqDate: student.pivot.created_at&&(new Date(student.pivot.created_at)),
+                        courseId: tab2.id,
+                        courseName: tab2.courseName,
+                        coursePrix: tab2.amount,
+                        studentCIN: tab2.pivot.student_id.user_id.cin,
+                        studentId: tab2.pivot.student_id.id,
+                        studentName: tab2.pivot.student_id.user_id.firstName + " " + tab2.pivot.student_id.user_id.lastName,
+                        ReqDate: tab2.pivot.created_at&&(new Date(tab2.pivot.created_at)),
                     };
-                    if (student.pivot.student_id.absparent_id) {
+                    if (tab2.pivot.student_id.absparent_id) {
                         studentData = {
                             ...studentData,
-                            parentName: student.pivot.student_id.absparent_id.user_id.firstName + " " + student.pivot.student_id.absparent_id.user_id.lastName
+                            parentName: tab2.pivot.student_id.absparent_id.user_id.firstName + " " + tab2.pivot.student_id.absparent_id.user_id.lastName
                         };
                     }
-                    return setData(studentData);
+                    return tabG.push(studentData);
                 });
             });
+            return setData(tabG);
         }
     }, [data]);
     // aymane ha data li 5as tdahra (hiya li Data li fuseState) 3andk tadi f useEffect li fo9 😡 

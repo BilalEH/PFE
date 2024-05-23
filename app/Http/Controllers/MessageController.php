@@ -30,6 +30,31 @@ class MessageController extends Controller
         return response()->json(['messages' => MessageResource::collection(Message::where('user_id', $id)->get())], 200);
     }
 
+    public function AcceptMessage(string $id)
+    {
+        try {
+            $message = Message::findOrFail($id);
+            $message->update(['status' => 'accepted']);
+            return response()->json(['message' => new MessageResource($message)], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json(['error' => 'Message not found'], 404);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'An error occurred while accepting the message'], 500);
+        }
+    }
+    public function RejectedMessage(string $id)
+    {
+        try {
+            $message = Message::findOrFail($id);
+            if ($message) {
+                $message->update(['status' => 'rejected']);
+                return response()->json(['message' => new MessageResource($message)], 200);
+            }
+            return response()->json(['error' => 'Message not found'], 404);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'An error occurred while rejecting the message'], 500);
+        }
+    }
 
     public function destroy(string $id)
     {

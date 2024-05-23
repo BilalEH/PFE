@@ -46,18 +46,23 @@ class MessageController extends Controller
     {
         try {
             $message = Message::findOrFail($id);
-            if ($message) {
-                $message->update(['status' => 'rejected']);
-                return response()->json(['message' => new MessageResource($message)], 200);
-            }
+            $message->update(['status' => 'rejected']);
+            return response()->json(['message' => new MessageResource($message)], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json(['error' => 'Message not found'], 404);
         } catch (\Exception $e) {
             return response()->json(['error' => 'An error occurred while rejecting the message'], 500);
         }
     }
 
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        Message::findOrFail($id)->delete();
+        $message = Message::findOrFail($id);
+
+        // Perform any necessary authorization checks here
+
+        $message->delete();
+
+        return response()->json(['message' => 'Message deleted successfully'], 200);
     }
 }

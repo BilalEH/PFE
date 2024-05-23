@@ -1,5 +1,4 @@
 import { CircularProgress, TableCell, TableRow } from "@mui/material";
-import React from "react";
 
 export default function LoadingForTables() {
     return (

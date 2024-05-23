@@ -25,6 +25,7 @@ export const AdminSlice=createSlice({
         course_requests:[],
         status_message:'',
         messages:[],
+        class_Students:[],
     },
     extraReducers:(builder)=>{
         // --------------------------------------Delete--------------------------------------
@@ -282,6 +283,36 @@ export const AdminSlice=createSlice({
         builder.addCase(AdminAcceptMessage.rejected, (state) => {
             state.action_status = 'failed';
         });
+        // reject Message
+        builder.addCase(AdminRejectMessage.pending, (state) => {
+            state.action_status = 'loading';
+        });
+        builder.addCase(AdminRejectMessage.fulfilled, (state, action) => {
+            state.action_status = 'succeeded';
+            state.messages = state.messages.map(e => e.id === action.payload.id ? action.payload : e);
+        });
+        builder.addCase(AdminRejectMessage.rejected, (state) => {
+            state.action_status = 'failed';
+        });
+        // Get Class Students
+        builder.addCase(GetClassStudents.pending, (state) => {
+            state.action_status = 'loading';
+        });
+        builder.addCase(GetClassStudents.fulfilled, (state, action) => {
+            state.action_status = 'succeeded';
+            state.class_Students = action.payload;
+        });
+        builder.addCase(GetClassStudents.rejected, (state) => {
+            state.action_status = 'failed';
+        });
+        // remove Students in class
+        builder.addCase(RemoveStudentInClass.pending, (state) => {
+        });
+        builder.addCase(RemoveStudentInClass.fulfilled, (state, action) => {
+            state.class_Students = state.class_Students.filter(e => e.id !== action.payload);
+        });
+        builder.addCase(RemoveStudentInClass.rejected, (state) => {
+        });
     }
 
 
@@ -431,6 +462,25 @@ export const AdminAcceptMessage=createAsyncThunk(
         .then((res) => {
             toast.dismiss(toastId);
             toast.success(`message accepted successfully`, StyleToast);
+            data=res.data.message;
+        })
+        return data
+    }
+)
+    // reject message 
+export const AdminRejectMessage=createAsyncThunk(
+    'AdminRejectMessage',
+    async ({MesID}) =>{
+        const toastId = toast.loading('Loading...',StyleToast);
+        let data=null;
+        await axiosInstance.put(`/api/message/reject-msg/${MesID}`)
+        .catch(err=>{
+            toast.dismiss(toastId);
+            toast.error(`X ${err.response.data.error}`, StyleToast);
+        })
+        .then((res) => {
+            toast.dismiss(toastId);
+            toast.success(`message rejected successfully`, StyleToast);
             data=res.data.message;
         })
         return data
@@ -659,6 +709,38 @@ export const ACoursesReqList = createAsyncThunk(
     }
     }
 );
+
+export const GetClassStudents = createAsyncThunk(
+    "admin/GetClassStudents",
+    async ({ClassId}) => {
+        try {
+        const response = await axiosInstance.get(`/api/classe/get-students/${ClassId}`);
+        return response.data.students;
+    } catch (error) {
+        toast.error(`X ${error.response.data.message}`, StyleToast);
+        throw error;
+    }
+    }
+);
+
+export const RemoveStudentInClass = createAsyncThunk(
+    "admin/RemoveStudentInClass",
+    async ({ClassId,studentId}) => {
+        let data=null
+        const toastId = toast.loading('Loading...',StyleToast);
+        try {
+            await axiosInstance.post(`/api/classes/removestudent/${ClassId}`,studentId);
+            toast.dismiss(toastId);
+            toast.success(`X ${"Student removed successfully"}`, StyleToast);
+            return studentId.student_id;
+        } catch (error) {
+            toast.dismiss(toastId);
+            toast.error(`X ${error.response.data.message}`, StyleToast);
+        throw error;
+    }
+}
+);
+
 
 
 

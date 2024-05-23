@@ -9,75 +9,61 @@ import EmptyMessage from "./components/EmptyMessage";
 import EmptyMessagesHandle from "./components/EmptyMessagesHandle";
 
 export default function AdminMessages() {
-    const [messageSelected, setMessageSelected] = useState("none");
+    const [selectedMessage, setSelectedMessage] = useState(null);
+    const dispatch = useDispatch();
 
-    const Dispatch = useDispatch();
     useEffect(() => {
-        Dispatch(GetUserMessages());
-    }, []);
+        dispatch(GetUserMessages());
+    }, [dispatch]);
 
-    const MessagesData = useSelector((state) => state.admins);
-    // useEffect(()=>{
-    //     if(messageSelected){
-    //         const messageS = MessagesData.messages.find(e=>e.id===messageSelected);
-    //         console.log(messageS);
-    //     }
-    //     },[MessagesData.action_status])
+    const messagesData = useSelector((state) => state.admins);
+
+    const renderMessages = () => {
+        if (messagesData.status_message === "succeeded") {
+        if (messagesData.messages.length === 0) {
+            return <EmptyMessagesHandle />;
+        }
+        return messagesData.messages.map((message) => (
+            <div className="msger" key={message.id}>
+            <button
+                onClick={() => setSelectedMessage(message)}
+                className="msger-button"
+            >
+                <div className="msger-name d-flex align-items-center justify-content-between">
+                <div>
+                    {message.user_id.firstName} {message.user_id.lastName}
+                </div>
+                <span className="msger-role rounded-pill">
+                    {message.user_id.role}
+                </span>
+                </div>
+                <div className="msg-title text-muted">{message.title}</div>
+            </button>
+            </div>
+        ));
+        }
+        if (messagesData.status_message === "failed") {
+        return <div className="w-100 h-100 d-flex justify-content-center">
+            No messages available
+        </div>;
+        }
+        return <div className="w-100 d-flex justify-content-center h-100 align-items-center">
+        <CircularProgress />
+        </div>;
+    };
+
     return (
         <>
-            <div>
-                <div className="page-title">Messages</div>
-                <div className="messages-container row">
-                    <div className="col-4 p-0 messagers-container">
-                        {MessagesData.status_message === "succeeded" ? (
-                            MessagesData.messages.length === 0 ? (
-                                <EmptyMessagesHandle />
-                            ) : (
-                                MessagesData.messages.map((e) => {
-                                    return (
-                                        <div className="msger" key={e.id}>
-                                            <button
-                                                onClick={() =>
-                                                    setMessageSelected(e)
-                                                }
-                                                className="msger-button"
-                                            >
-                                                <div className="msger-name d-flex align-items-center justify-content-">
-                                                    <div>
-                                                        {e.user_id.firstName}{" "}
-                                                        {e.user_id.lastName}
-                                                    </div>
-                                                    <span className="msger-role rounded-pill">
-                                                        {e.user_id.role}
-                                                    </span>
-                                                </div>
-                                                <div className="msg-title text-muted">
-                                                    {e.title}
-                                                </div>
-                                            </button>
-                                        </div>
-                                    );
-                                })
-                            )
-                        ) : MessagesData.status_message === "failed" ? (
-                            <div className="w-100 h-100 d-flex justify-content-center">
-                                No messages available
-                            </div>
-                        ) : (
-                            <div className="w-100 d-flex justify-content-center h-100 align-items-center">
-                                <CircularProgress />
-                            </div>
-                        )}
-                    </div>
-                    <div className="col-8 msg-container">
-                        {messageSelected == "none" ? (
-                            <EmptyMessage />
-                        ) : (
-                            <Message message={messageSelected} />
-                        )}
-                    </div>
-                </div>
+        <div className="page-title">Messages</div>
+        <div className="messages-container row">
+            <div className="col-4 p-0 messagers-container">
+            {renderMessages()}
             </div>
+            <div className="col-8 msg-container">
+            {selectedMessage && <Message message={selectedMessage} />}
+            {!selectedMessage && <EmptyMessage />}
+            </div>
+        </div>
         </>
     );
 }

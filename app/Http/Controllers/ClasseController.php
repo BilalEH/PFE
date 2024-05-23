@@ -3,15 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ClasseResource;
+use App\Http\Resources\StudentResource;
 use App\Models\Classe;
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class ClasseController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         try {
@@ -21,10 +20,6 @@ class ClasseController extends Controller
             return response()->json(["message" => $e->getMessage()], 404);
         }
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -78,6 +73,21 @@ class ClasseController extends Controller
             'student_id' => ['required', 'exists:students,id'],
         ]);
         Classe::find($id)->students()->detach($request->student_id);
-        return response()->json(['message' => 'Student removed successfully',]);
+        return response()->json(['message' => 'Student removed successfully']);
+    }
+
+    public function Class_students_List(string $id)
+    {
+        try {
+            $classe = Classe::findOrFail($id);
+            if ($classe && $classe->students) {
+                return response()->json(['students' => StudentResource::collection($classe->students)], 200);
+            }
+            return response()->json(['message' => 'Students not found'], 404);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['message' => 'Classe not found'], 404);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
     }
 }

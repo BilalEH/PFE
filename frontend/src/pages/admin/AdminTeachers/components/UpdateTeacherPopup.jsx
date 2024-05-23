@@ -29,23 +29,21 @@ export default function UpdateTeacherPopup({ handleClose, setHandleClose, teache
         let error = "";
         if (name === "phone" && !validatePhone(value)) {
             error = "Invalid Moroccan phone number";
-        } else if (name === "password") {
-            // Validate password format
-            if (!value) {
-                error = "Password is required";
-            } else if (!/(?=.*[A-Za-z])(?=.*\d).{8,}/.test(value)) {
-                error = "Password must be at least 8 characters long and contain at least one letter and one digit.";
-            }
         }
         setErrors((prevErrors) => ({ ...prevErrors, [name]: error }));
         setNewTeacherData((prevData) => ({ ...prevData, [name]: value }));
     };
+    
 
     function handleSubmit(e) {
         e.preventDefault();
         const hasErrors = Object.values(errors).some((error) => error !== "");
         const hasEmptyFields = Object.values(newTeacherData).some((value) => value === "");
-        if (!hasErrors && !hasEmptyFields) {
+        
+        // Check if password is the only empty field
+        const hasEmptyPassword = newTeacherData.password === "";
+
+        if (!hasErrors && (!hasEmptyFields || hasEmptyPassword)) {
             dispatch(
                 updateTeacher({
                     teacherId: teacher.id,

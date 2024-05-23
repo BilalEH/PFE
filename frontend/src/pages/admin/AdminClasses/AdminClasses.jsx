@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {GetTeachers,GetCourses,AdminGetClasses,} from "../../../api/adminsStore/adminStore";
+import {AdminGetClasses,} from "../../../api/adminsStore/adminStore";
 import AddClassPopup from "./components/AddClassPopup";
 import "./style/AdminClasses.css";
-import {CircularProgress,Paper,Table,TableBody,TableCell,TableContainer,TableHead,TablePagination,TableRow} from "@mui/material";
+import {Button, ButtonGroup, Paper,Table,TableBody,TableCell,TableContainer,TableHead,TablePagination,TableRow} from "@mui/material";
 import StudentsListPopup from "./components/StudentsListPopup";
 import LoadingForTables from "../../../components/LoadingForTables";
 import EmptyTable from "../../../components/EmptyTable";
 import ErrorData from './../../../components/ErrorData';
-
 function AdminClasses() {
     const dispatch = useDispatch();
     const [classSelected, setClassSelected] = useState(null);
@@ -77,6 +76,7 @@ function AdminClasses() {
             />
         </svg>
     );
+    const ListIcon=(<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-list-task" viewBox="0 0 16 16"><path fillRule="evenodd" d="M2 2.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5zM3 3H2v1h1z"/><path d="M5 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M5.5 7a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1zm0 4a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1z"/><path fillRule="evenodd" d="M1.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5zM2 7h1v1H2zm0 3.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm1 .5H2v1h1z"/></svg>)
 
     return (
         <div>
@@ -132,18 +132,10 @@ function AdminClasses() {
                                     .map((row) => (
                                         <TableRow key={row.id}>
                                             <TableCell style={{ padding: "22px 18px", fontFamily: "Montserrat", fontSize: "16px",}}>
-                                                <button
-                                                    className="delete"
-                                                    onClick={() => {}}
-                                                >
-                                                    {deleteIcon}
-                                                </button>
-                                                <button
-                                                    className="update"
-                                                    onClick={() => {}}
-                                                >
-                                                    {updateIcon}
-                                                </button>
+                                                <ButtonGroup variant="contained" color="inherit" aria-label="Basic button group">
+                                                    <Button className="text-danger">{deleteIcon}</Button>
+                                                    <Button className="">{updateIcon}</Button>
+                                                </ButtonGroup>
                                             </TableCell>
                                             <TableCell style={{padding: "22px 18px",fontFamily: "Montserrat",fontSize: "16px"}}>
                                                 {row.className}
@@ -174,7 +166,9 @@ function AdminClasses() {
                                                 }
                                             </TableCell>
                                             <TableCell>
-                                                <button onClick={() => {setHandleStudentsClose(true);setClassSelected(row)}}>students list</button>
+                                                <Button style={{backgroundColor:'#e63d06',fontFamily:'system-ui',fontWeight:'bold'}} onClick={() => {setHandleStudentsClose(true);setClassSelected(row)}} variant="contained" endIcon={ListIcon}>
+                                                    students list
+                                                </Button>
                                             </TableCell>
                                         </TableRow>
                                     ))

@@ -1,7 +1,6 @@
 import { TableCell, TableRow } from "@mui/material";
-import React from "react";
 
-export default function ParentEmptyStudentsPage() {
+export default function ParentEmptyStudentsPage({content}) {
     const windIcon = (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -22,7 +21,7 @@ export default function ParentEmptyStudentsPage() {
                     <div className="empty-req-container text-muted">
                         <div className="empty-icon my-2">{windIcon}</div>
                         <div className="empty-text my-2">
-                            There is no students at the moment
+                            There is no {content} at the moment
                         </div>
                     </div>
                 </TableCell>

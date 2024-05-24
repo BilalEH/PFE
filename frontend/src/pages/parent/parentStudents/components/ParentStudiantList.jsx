@@ -171,10 +171,10 @@ function P_StudentsList({ StudentsData }) {
                                                     style={
                                                         row.status == 1
                                                             ? {
-                                                                  backgroundColor:
-                                                                      "#19647e",
-                                                                  color: "white",
-                                                              }
+                                                                backgroundColor:
+                                                                    "#19647e",
+                                                                color: "white",
+                                                            }
                                                             : {}
                                                     }
                                                     variant="contained"

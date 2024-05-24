@@ -16,7 +16,7 @@ class StudentClasses extends JsonResource
     {
         $data = parent::toArray($request);
         $data['course_id'] = $this->course->only('courseName');
-        $data['filiere_id'] = $this->filiere->only('nomFiliere');
+        $data['teacher_id'] = TeacherResource::make($this->teacher);
         return $data;
     }
 }

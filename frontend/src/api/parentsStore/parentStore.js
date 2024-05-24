@@ -76,7 +76,7 @@ export const ParentsSlice=createSlice({
         });
         builder.addCase(PDeleteMessage.fulfilled, (state, action) => {
             state.action_status = 'succeeded';
-            state.messages = state.messages.filter(e=>e.user_id.id!==action.payload);
+            state.messages = state.messages.filter(e=>e.id!==action.payload);
         });
         builder.addCase(PDeleteMessage.rejected, (state) => {
             state.action_status = 'failed';
@@ -176,11 +176,15 @@ export const PAddMessages=createAsyncThunk(
     'Parent/PAddMessages',
     async (Ele) =>{
         let data=null;
+        const toastId = toast.loading('Loading...',StyleToast);
         await axiosInstance.post(`api/messages`,Ele)
         .catch(err=>{
+            toast.dismiss(toastId);
             toast.error(`X ${err.response.data.message}`, StyleToast);
         })
         .then((res) => {
+            toast.dismiss(toastId);
+            toast.success(`Message sent successfully`, StyleToast);
             return data=res.data.message;
         })
         return data;
@@ -189,10 +193,9 @@ export const PAddMessages=createAsyncThunk(
 // get user messages
 export const PgetUserMessages=createAsyncThunk(
     'Parent/PgetUserMessages',
-
     async (id) =>{
         let data=null;
-        await axiosInstance.post(`/api/messages/usermessages/${id}`)
+        await axiosInstance.get(`/api/messages/usermessages/${id}`)
         .catch(err=>{
             toast.error(`X ${err.response.data.message}`, StyleToast);
         })
@@ -207,11 +210,15 @@ export const PDeleteMessage=createAsyncThunk(
     'Parent/PDeleteMessage',
     async (id) =>{
         let data=null;
+        const toastId = toast.loading('Loading...',StyleToast);
         await axiosInstance.delete(`/api/messages/${id}`)
         .catch(err=>{
+            toast.dismiss(toastId);
             toast.error(`X ${err.response.data.message}`, StyleToast);
         })
         .then(() => {
+            toast.dismiss(toastId);
+            toast.success(`Message deleted successfully`, StyleToast);
             return data=id;
         })
         return data;
@@ -260,11 +267,13 @@ export const PAddStudent=createAsyncThunk(
         await axiosInstance.post(`/api/parent/add-childrens/${Ele.id}`,Ele.data)
         .catch(err=>{
             toast.dismiss(toastId);
-            toast.error(`X ${err.response.data.message}`, StyleToast);
+            return toast.error(`X ${err.response.data.message}`, StyleToast);
         })
         .then((res) => {
             toast.dismiss(toastId);
-            toast.success(`student added successfully`, StyleToast);
+            if(res.data.student){
+                toast.success(`student added successfully`, StyleToast);
+            }
             return data=res.data.student;
         })
         return data;

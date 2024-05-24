@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ClasseResource;
 use App\Http\Resources\StudentClasses;
 use App\Http\Resources\TeacherResource;
 use App\Models\Student;
@@ -82,5 +83,14 @@ class TeacherController extends Controller
         $teacher->user->delete();
         $teacher->delete();
         return response()->json(['message' => 'Teacher deleted successfully'], 200);
+    }
+
+    public function GetTeacherClasses(string $id)
+    {
+        $teacher = Teacher::find($id);
+        if (!$teacher) {
+            return response()->json(['message' => 'Teacher not found'], 404);
+        }
+        return response()->json(['classes' => ClasseResource::collection($teacher->classes)], 200);
     }
 }

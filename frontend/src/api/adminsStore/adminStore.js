@@ -726,7 +726,6 @@ export const GetClassStudents = createAsyncThunk(
 export const RemoveStudentInClass = createAsyncThunk(
     "admin/RemoveStudentInClass",
     async ({ClassId,studentId}) => {
-        let data=null
         const toastId = toast.loading('Loading...',StyleToast);
         try {
             await axiosInstance.post(`/api/classes/removestudent/${ClassId}`,studentId);

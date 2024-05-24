@@ -72,10 +72,18 @@ class CourseController extends Controller
             $course = Course::findOrFail($id);
             $StuTest = Student::find($request->student_id);
             if ($StuTest) {
-                $course->requests()->attach($request->student_id, ['student_id' => $request->student_id]);
+                if ($course->requests()->where('student_id', $request->student_id)->exists()) {
+                    return response()->json(['message' => 'Request already sent'], 400);
+                } else {
+                    $course->requests()->attach($request->student_id, ['student_id' => $request->student_id]);
+                }
             } else {
                 $Stu = Student::where('user_id', $request->student_id)->first();
-                $course->requests()->attach($request->student_id, ['student_id' => $Stu->id]);
+                if ($course->requests()->where('student_id', $Stu->id)->exists()) {
+                    return response()->json(['message' => 'Request already sent'], 400);
+                } else {
+                    $course->requests()->attach($Stu->id, ['student_id' => $Stu->id]);
+                }
             }
             return response()->json(CouresRequeres::collection($course->requests), 201);
         } catch (\Exception $e) {

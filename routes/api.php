@@ -34,6 +34,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     // ------------------------------teachers----------------------------------------------
     Route::apiResource("/teachers", TeacherController::class);
     Route::get("/teachers/getClasses/{id}", [TeacherController::class, 'GetClassesStu']);
+    Route::get("/classes/teacher-classes/{id}", [TeacherController::class, 'GetTeacherClasses']);
     // ------------------------------parents----------------------------------------------
     Route::apiResource("/parents", AbsparentController::class);
     Route::put("/parents/restore/{id}", [AbsparentController::class, 'restore']);

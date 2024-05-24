@@ -15,9 +15,6 @@ export const ParentsSlice=createSlice({
         action_status:''
     },
     extraReducers:(builder)=>{
-        builder.addCase(addRequest.rejected, (state) => {
-            state.action_status = 'failed';
-        });
         // get courses
         builder.addCase(PGetCourses.pending, (state) => {
             state.status = 'loading';
@@ -224,15 +221,19 @@ export const PDeleteMessage=createAsyncThunk(
 export const addRequest=createAsyncThunk(
     'Parent/addRequest',
     async (Ele) =>{
-        let data=null;
+        const toastId = toast.loading('Loading...',StyleToast);
         await axiosInstance.post(`/api/courses/add-request/${Ele.id}`,Ele.data)
         .catch(err=>{
+            toast.dismiss(toastId);
             toast.error(`X ${err.response.data.message}`, StyleToast);
         })
-        .then(() => {
-            return toast.success(`Application under review`, StyleToast);
+        .then((res) => {
+            toast.dismiss(toastId);
+            if(res.data.message!=='Request already sent'){
+                toast.success(`Application under review`, StyleToast);
+            }
+            return
         })
-        return data;
     }
 )
 // export const RemoveRequest=createAsyncThunk(

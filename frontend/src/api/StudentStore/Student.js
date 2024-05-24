@@ -128,15 +128,20 @@ export const SStudentClasses = createAsyncThunk(
 export const SAddRequest=createAsyncThunk(
     'Student/addRequest',
     async (Ele) =>{
-        let data=null;
+        const toastId = toast.loading('Loading...',StyleToast);
         await axiosInstance.post(`/api/courses/add-request/${Ele.id}`,Ele.data)
         .catch(err=>{
-            return toast.error(`X ${err.response.data.message}`, StyleToast);
+            toast.dismiss(toastId);
+            toast.error(`X ${err.response.data.message}`, StyleToast);
+            return 
         })
-        .then(() => {
-            return toast.success(`Application under review`, StyleToast);
+        .then((res) => {
+            toast.dismiss(toastId);
+            if(res.data.message!=='Request already sent'){
+                toast.success(`Application under review`, StyleToast);
+            }
+            return
         })
-        return data;
     }
 )
 

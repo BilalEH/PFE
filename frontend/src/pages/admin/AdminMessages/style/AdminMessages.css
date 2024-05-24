@@ -76,7 +76,7 @@
 }
 
 .message-from {
-    height: 40px;
+    margin-top: 20px;
 }
 
 .message-title {
@@ -85,7 +85,7 @@
 }
 
 .message {
-    height: 300px;
+    height: 270px;
     overflow-y: auto;
 }
 
@@ -144,4 +144,36 @@
 .e-msg-content,
 .e-msgs-content {
     font-size: 22px;
+}
+
+
+.msger-process {
+    border-left: 5px solid #FFBE0B;
+}
+
+.msger-accepted {
+    border-left: 5px solid #04f17a;
+}
+
+.msger-rejected {
+    border-left: 5px solid #F63E02;
+}
+
+
+.msg-process {
+    color: #0f0f0f;
+    background-color: #FFBE0B;
+    padding: 12px 20px;
+}
+
+.msg-accepted {
+    color: #0f0f0f;
+    background-color: #04f17a;
+    padding: 12px 20px;
+}
+
+.msg-rejected {
+    color: #fafafa;
+    background-color: #F63E02;
+    padding: 12px 20px;
 }

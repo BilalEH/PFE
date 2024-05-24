@@ -1,13 +1,24 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {AdminGetClasses,} from "../../../api/adminsStore/adminStore";
+import { AdminGetClasses } from "../../../api/adminsStore/adminStore";
 import AddClassPopup from "./components/AddClassPopup";
 import "./style/AdminClasses.css";
-import {Button, ButtonGroup, Paper,Table,TableBody,TableCell,TableContainer,TableHead,TablePagination,TableRow} from "@mui/material";
+import {
+    Button,
+    ButtonGroup,
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TablePagination,
+    TableRow,
+} from "@mui/material";
 import StudentsListPopup from "./components/StudentsListPopup";
 import LoadingForTables from "../../../components/LoadingForTables";
 import EmptyTable from "../../../components/EmptyTable";
-import ErrorData from './../../../components/ErrorData';
+import ErrorData from "./../../../components/ErrorData";
 function AdminClasses() {
     const dispatch = useDispatch();
     const [classSelected, setClassSelected] = useState(null);
@@ -15,7 +26,9 @@ function AdminClasses() {
     const [handleAddClose, setHandleAddClose] = useState(false);
     const [handleStudentsClose, setHandleStudentsClose] = useState(false);
 
-    const { teachers, courses, classes, status_classe } = useSelector((state) => state.admins);
+    const { teachers, courses, classes, status_classe } = useSelector(
+        (state) => state.admins
+    );
 
     // for table
     const columns = [
@@ -43,7 +56,6 @@ function AdminClasses() {
         setRowsPerPage(event.target.value);
         setCurrentPage(0);
     }
-
 
     // icons
     const deleteIcon = (
@@ -121,23 +133,46 @@ function AdminClasses() {
 
                         <TableBody>
                             {status_classe === "loading" ? (
-                                <LoadingForTables/>
+                                <LoadingForTables />
                             ) : status_classe === "failed" ? (
-                                <ErrorData/>
+                                <ErrorData />
                             ) : classes.length === 0 ? (
-                                <EmptyTable/>
+                                <EmptyTable content={"Class"} />
                             ) : (
                                 classes
-                                    .slice(currentPage * rowsPerPage,currentPage * rowsPerPage + rowsPerPage)
+                                    .slice(
+                                        currentPage * rowsPerPage,
+                                        currentPage * rowsPerPage + rowsPerPage
+                                    )
                                     .map((row) => (
                                         <TableRow key={row.id}>
-                                            <TableCell style={{ padding: "22px 18px", fontFamily: "Montserrat", fontSize: "16px",}}>
-                                                <ButtonGroup variant="contained" color="inherit" aria-label="Basic button group">
-                                                    <Button className="text-danger">{deleteIcon}</Button>
-                                                    <Button className="">{updateIcon}</Button>
+                                            <TableCell
+                                                style={{
+                                                    padding: "22px 18px",
+                                                    fontFamily: "Montserrat",
+                                                    fontSize: "16px",
+                                                }}
+                                            >
+                                                <ButtonGroup
+                                                    variant="contained"
+                                                    color="inherit"
+                                                    aria-label="Basic button group"
+                                                >
+                                                    <Button className="text-danger">
+                                                        {deleteIcon}
+                                                    </Button>
+                                                    <Button className="">
+                                                        {updateIcon}
+                                                    </Button>
                                                 </ButtonGroup>
                                             </TableCell>
-                                            <TableCell style={{padding: "22px 18px",fontFamily: "Montserrat",fontSize: "16px"}}>
+                                            <TableCell
+                                                style={{
+                                                    padding: "22px 18px",
+                                                    fontFamily: "Montserrat",
+                                                    fontSize: "16px",
+                                                }}
+                                            >
                                                 {row.className}
                                             </TableCell>
                                             <TableCell
@@ -166,7 +201,22 @@ function AdminClasses() {
                                                 }
                                             </TableCell>
                                             <TableCell>
-                                                <Button style={{backgroundColor:'#e63d06',fontFamily:'system-ui',fontWeight:'bold'}} onClick={() => {setHandleStudentsClose(true);setClassSelected(row)}} variant="contained" endIcon={ListIcon}>
+                                                <Button
+                                                    style={{
+                                                        backgroundColor:
+                                                            "#19647e",
+                                                        fontFamily: "system-ui",
+                                                        fontWeight: "bold",
+                                                    }}
+                                                    onClick={() => {
+                                                        setHandleStudentsClose(
+                                                            true
+                                                        );
+                                                        setClassSelected(row);
+                                                    }}
+                                                    variant="contained"
+                                                    endIcon={ListIcon}
+                                                >
                                                     students list
                                                 </Button>
                                             </TableCell>

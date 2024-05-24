@@ -1,20 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { axiosInstance } from '../../api/axios';
-import { GetStudents } from '../../api/adminsStore/adminStore'; // Import the thunk action to fetch students
+import { GetStudents } from '../../api/adminsStore/adminStore';
+import TeacherClassesShowStudents from './TeacherClassesShowStudents';
 
 function TeacherClasses() {
   const [classes, setClasses] = useState([]);
-  const students = useSelector((state) => state.students); // Get students from the Redux store
+  const [selectedClassStudents, setSelectedClassStudents] = useState([]);
   const dispatch = useDispatch();
 
-  const handlerdisplaystudents = (idclass) => {
-    console.log(idclass);
-    console.log(idclass.student_classes.firstName);
+  const handlerdisplaystudents = async (idclass) => {
+    try {
+      const response = await axiosInstance.get(`/api/classe/get-students/${idclass}`);
+      setSelectedClassStudents(response.data.students);
+      console.log(`Students in class ${idclass}:`, response.data.students);
+    } catch (error) {
+      console.error('Error fetching students for class:', error);
+    }
   };
 
   useEffect(() => {
-    // Function to fetch classes
     const fetchClasses = async () => {
       try {
         const response = await axiosInstance.get('/api/classes');
@@ -36,8 +41,7 @@ function TeacherClasses() {
           <tr>
             <th>ID</th>
             <th>Class Name</th>
-            <th>action</th>
-            {/* Add more table headers if needed */}
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -45,12 +49,16 @@ function TeacherClasses() {
             <tr key={classe.id}>
               <td>{classe.id}</td>
               <td>{classe.className}</td>
-              <td><button onClick={() => handlerdisplaystudents(classe.id)}>show students</button></td>
-              {/* Add more table cells if needed */}
+              <td>
+                <button onClick={() => handlerdisplaystudents(classe.id)}>Show Students</button>
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
+      {selectedClassStudents.length > 0 && (
+        <TeacherClassesShowStudents students={selectedClassStudents} />
+      )}
     </div>
   );
 }

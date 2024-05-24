@@ -1,13 +1,4 @@
-import {
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TablePagination,
-    TableRow,
-} from "@mui/material";
+import {Paper,Table,TableBody,TableCell,TableContainer,TableHead,TablePagination,TableRow,} from "@mui/material";
 import { useEffect, useState } from "react";
 import ErrorData from "../../../components/ErrorData";
 import LoadingForTables from "../../../components/LoadingForTables";
@@ -35,7 +26,6 @@ function ListOfReqJoin({ data, status }) {
         { id: "actions", name: "" },
     ];
 
-    // console.log(data);
     useEffect(() => {
         if (data.length > 0) {
             let tabG = [];
@@ -81,9 +71,6 @@ function ListOfReqJoin({ data, status }) {
         setpage(0);
     }
 
-    // aymane ha data li 5as tdahra (hiya li Data li fuseState) 3andk tadi f useEffect li fo9 😡
-    // console.log(Data);
-
     return (
         <>
             <Paper
@@ -126,9 +113,9 @@ function ListOfReqJoin({ data, status }) {
                                 Data.slice(
                                     page * rowPerPage,
                                     page * rowPerPage + rowPerPage
-                                ).map((row) => {
+                                ).map((row,i) => {
                                     return (
-                                        <TableRow key={row.id}>
+                                        <TableRow key={i}>
                                             <TableCell
                                                 style={{
                                                     padding: "22px 18px",
@@ -154,7 +141,7 @@ function ListOfReqJoin({ data, status }) {
                                                     fontSize: "16px",
                                                 }}
                                             >
-                                                {row.coursePrix}
+                                                {row.coursePrix}Dh
                                             </TableCell>
                                             <TableCell
                                                 style={{
@@ -210,16 +197,20 @@ function ListOfReqJoin({ data, status }) {
                 ></TablePagination>
             </Paper>
 
-            <DeclineCourseReqPopup
-                handleClose={handleDeclineClose}
-                setHandleClose={setHandleDeclineClose}
-                request={reqSelected}
-            />
-            <AcceptCourseReqPopup
-                handleClose={handleAcceptClose}
-                setHandleClose={setHandleAcceptClose}
-                request={reqSelected}
-            />
+            {reqSelected && (
+                <>
+                    <DeclineCourseReqPopup 
+                        handleClose={handleDeclineClose} 
+                        setHandleClose={setHandleDeclineClose} 
+                        request={reqSelected}
+                    />
+                    <AcceptCourseReqPopup 
+                        handleClose={handleAcceptClose} 
+                        setHandleClose={setHandleAcceptClose} 
+                        request={reqSelected}
+                    />
+                </>
+            )}
         </>
     );
 }

@@ -1,15 +1,11 @@
 import { Dialog, DialogContent, DialogTitle } from "@mui/material";
 import React from "react";
 
-export default function DeclineCourseReqPopup({
-    handleClose,
-    setHandleClose,
-    request,
-}) {
+export default function DeclineCourseReqPopup({handleClose,setHandleClose,request}) {
     const handleDecline = () => {
         // dir khdmt hna bach tmhi request
-
-        setHandleClose(close);
+        console.log({courseId:request.courseId,studentId:request.studentId});
+        setHandleClose(false);
     };
 
     const cancelIcon = (
@@ -43,9 +39,7 @@ export default function DeclineCourseReqPopup({
         <>
             {request && (
                 <Dialog
-                    open={handleClose}
-                    onClose={() => setHandleClose(false)}
-                >
+                    open={handleClose} onClose={() => setHandleClose(false)}>
                     <div className="popup-container w-100">
                         <DialogTitle>
                             <div className="popup-title">

@@ -83,7 +83,7 @@ export default function StudentsListPopup({handleClose,setHandleClose,classSelec
                             ) : action_status === "failed" ? (
                                 <ErrorData/>
                             ) : class_Students.length === 0 ? (
-                                <EmptyTable/>
+                                <EmptyTable content={"students"}/>
                             ) : (
                                 class_Students
                                     .slice(currentPage * rowsPerPage,currentPage * rowsPerPage + rowsPerPage)

@@ -17,39 +17,26 @@ export default function AdminMessages() {
     }, [dispatch]);
 
     const messagesData = useSelector((state) => state.admins);
-
+    const sortedMessages = [...messagesData.messages].sort((a, b) => new Date(b.send_date) - new Date(a.send_date));
+    
     const renderMessages = () => {
         if (messagesData.status_message === "succeeded") {
-            if (messagesData.messages.length === 0) {
+            if (sortedMessages.length === 0) {
                 return <EmptyMessagesHandle />;
             }
-
-            return messagesData.messages.map((message) => {
+            return sortedMessages.map((message) => {
                 return (
                     <div className="msger" key={message.id}>
                         <button
                             onClick={() => setSelectedMessage(message)}
-                            className={`${
-                                message.status === "in process"
-                                    ? "msger-process"
-                                    : message.status === "accepted"
-                                    ? "msger-accepted"
-                                    : message.status === "rejected"
-                                    ? "msger-rejected"
-                                    : ""
-                            } msger-button`}
-                        >
-                            <div className="msger-name d-flex align-items-center justify-content-between">
-                                <div>
-                                    {message.user_id.firstName}{" "}
-                                    {message.user_id.lastName}
-                                </div>
-                                <span className="msger-role rounded-pill">
-                                    {message.user_id.role}
-                                </span>
+                            className={`${message.status === "in process"? "msger-process": message.status === "accepted"? "msger-accepted": message.status === "rejected"? "msger-rejected": ""} msger-button`}>
+                            <div className="msger-name d-flex align-items-center justify-content-between text-capitalize">
+                                <div>{message.user_id.firstName} {message.user_id.lastName}</div>
+                                <span className="msger-role rounded-pill">{message.user_id.role}</span>
                             </div>
-                            <div className="msg-title text-muted">
-                                {message.title}
+                            <div className="d-flex align-items-center justify-content-between mt-2">
+                                <div className="msg-title text-muted m-0">{message.title}</div>
+                                <div className="msg-date" style={{fontSize:"15px"}}>{message.send_date}</div>
                             </div>
                         </button>
                     </div>

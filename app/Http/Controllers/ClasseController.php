@@ -7,6 +7,8 @@ use App\Http\Resources\StudentResource;
 use App\Models\Classe;
 use App\Models\Course;
 use App\Models\Payment;
+use App\Models\Student;
+use App\Models\User;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -72,9 +74,20 @@ class ClasseController extends Controller
     public function Remove_student_In_Classe(Request $request, String $id)
     {
         $request->validate([
-            'student_id' => ['required', 'exists:students,id'],
+            'student_id' => ['required'],
         ]);
-        Classe::find($id)->students()->detach($request->student_id);
+        $stu = Student::find($request->id);
+        if ($stu) {
+            Classe::find($id)->students()->detach($request->student_id);
+        } else {
+            $user = User::find($request->student_id);
+            if ($user) {
+                $stu = Student::where('user_id', $user->id)->first();
+                Classe::find($id)->students()->detach($stu->id);
+            } else {
+                return response()->json(['message' => 'Student not found'], 404);
+            }
+        }
         return response()->json(['message' => 'Student removed successfully']);
     }
 

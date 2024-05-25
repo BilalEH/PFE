@@ -60,4 +60,5 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get("/classes/classes-course/{id}", [ClasseController::class, 'GetClassesByCourse']);
     // --------------------------------payments--------------------------------------------
     Route::apiResource("/payments", PaymentController::class);
+    Route::get("/payments/stu-pays/{id}", [PaymentController::class, 'PayListByStudent']);
 });

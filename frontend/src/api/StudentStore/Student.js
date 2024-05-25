@@ -15,10 +15,23 @@ export const StudentsSlice = createSlice({
         courses: [], 
         message_status: '',  
         messages :[],
-        classes_status: '',  
+        classes_status: '',
         studentClasses: [],  
+        payments :[],
+        payments_status: '',
     },
     extraReducers: (builder) => {
+        // student payment List
+        builder.addCase(StuPayList.pending, (state) => {
+            state.payments_status = 'loading';
+        });
+        builder.addCase(StuPayList.fulfilled, (state, action) => {
+            state.payments_status = 'succeeded';
+            state.payments = action.payload;
+        });
+        builder.addCase(StuPayList.rejected, (state) => {
+            state.payments_status = 'failed';
+        });
         // Reducer for getting courses
         builder.addCase(SGetCourses.pending, (state) => {
             state.courses_status = 'loading';
@@ -64,6 +77,17 @@ export const StudentsSlice = createSlice({
                 state.messages = [...state.messages, action.payload];
             });
             builder.addCase(SAddMessage.rejected, (state) => {
+                state.action_status = 'failed';
+            });
+
+            // remove student from class
+            builder.addCase(StuRemoveSInClass.pending, (state) => {
+                state.action_status = 'loading';
+            });
+            builder.addCase(StuRemoveSInClass.fulfilled, (state, action) => {
+                state.action_status = 'succeeded';
+            });
+            builder.addCase(StuRemoveSInClass.rejected, (state) => {
                 state.action_status = 'failed';
             });
         
@@ -140,9 +164,45 @@ export const SGetMessages = createAsyncThunk(
 export const SAddMessage = createAsyncThunk(
     'Student/SAddMessage',
     async (messageData) => {
+        const toastId = toast.loading('Loading...', StyleToast);
         try {
             const response = await axiosInstance.post(`/api/messages`, messageData);
+            toast.dismiss(toastId);
+            toast.success(`Message sent successfully`, StyleToast);
             return response.data.message;
+        } catch (error) {
+            toast.dismiss(toastId);
+            toast.error(`X ${error.response.data.message}`, StyleToast);
+            throw error;
+        }
+    }
+);
+
+// remove student from class
+export const StuRemoveSInClass = createAsyncThunk(
+    'Student/StuRemoveSInClass',
+    async ({stuId,classID}) => {
+        const toastId = toast.loading('Loading...', StyleToast);
+        try {
+            const response = await axiosInstance.post(`/api/classes/removestudent/${classID}`,{'student_id':stuId});
+            toast.dismiss(toastId);
+            toast.success(`removed successfully`, StyleToast);
+            return response.data.message;
+        } catch (error) {
+            toast.dismiss(toastId);
+            toast.error(`X ${error.response.data.message}`, StyleToast);
+            throw error;
+        }
+    }
+);
+
+// get payments list of students
+export const StuPayList = createAsyncThunk(
+    'Student/StuPayList',
+    async (userId) => {
+        try {
+            const response = await axiosInstance.get(`/api/payments/stu-pays/${userId}`);
+            return response.data.payments;
         } catch (error) {
             toast.error(`X ${error.response.data.message}`, StyleToast);
             throw error;

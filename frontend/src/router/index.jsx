@@ -33,7 +33,7 @@ import TeacherStudents from "../pages/Teacher/TeacherStudents";
 import TeacherCourses from "../pages/Teacher/TeacherCourses";
 import TeacherHome from "../pages/Teacher/TeacherHome";
 import AdminClasses from "../pages/admin/AdminClasses/AdminClasses";
-import TeacherClasses from "../pages/Teacher/TeacherClasses";
+import TeacherClasses from "../pages/Teacher/TeacherClasses/TeacherClasses";
 import TeacherMessage from "../pages/Teacher/TeacherMessage";
 import AdminRequestsCourses from "../pages/admin/AdminRequestsCourses/AdminRequestsCourses";
 import TeacherNotes from "../pages/Teacher/TeacherNotes";

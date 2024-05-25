@@ -19,12 +19,16 @@ import StudentsListPopup from "./components/StudentsListPopup";
 import LoadingForTables from "../../../components/LoadingForTables";
 import EmptyTable from "../../../components/EmptyTable";
 import ErrorData from "./../../../components/ErrorData";
+import UpdateClassePopup from "./components/UpdateClassePopup";
+import DeleteClassePopup from "./components/DeleteClassePopup";
 function AdminClasses() {
     const dispatch = useDispatch();
     const [classSelected, setClassSelected] = useState(null);
     // useState for popups
     const [handleAddClose, setHandleAddClose] = useState(false);
     const [handleStudentsClose, setHandleStudentsClose] = useState(false);
+    const [handleUpdateClose, setHandleUpdateClose] = useState(false);
+    const [handleDeleteClose, setHandleDeleteClose] = useState(false);
 
     const { teachers, courses, classes, status_classe } = useSelector(
         (state) => state.admins
@@ -88,7 +92,26 @@ function AdminClasses() {
             />
         </svg>
     );
-    const ListIcon=(<svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" className="bi bi-list-task" viewBox="0 0 16 16"><path fillRule="evenodd" d="M2 2.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5zM3 3H2v1h1z"/><path d="M5 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M5.5 7a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1zm0 4a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1z"/><path fillRule="evenodd" d="M1.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5zM2 7h1v1H2zm0 3.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm1 .5H2v1h1z"/></svg>)
+    const ListIcon = (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="19"
+            height="19"
+            fill="currentColor"
+            className="bi bi-list-task"
+            viewBox="0 0 16 16"
+        >
+            <path
+                fillRule="evenodd"
+                d="M2 2.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5zM3 3H2v1h1z"
+            />
+            <path d="M5 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M5.5 7a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1zm0 4a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1z" />
+            <path
+                fillRule="evenodd"
+                d="M1.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5zM2 7h1v1H2zm0 3.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm1 .5H2v1h1z"
+            />
+        </svg>
+    );
 
     return (
         <div>
@@ -158,10 +181,30 @@ function AdminClasses() {
                                                     color="inherit"
                                                     aria-label="Basic button group"
                                                 >
-                                                    <Button className="text-danger">
+                                                    <Button
+                                                        onClick={() => {
+                                                            setClassSelected(
+                                                                row
+                                                            );
+                                                            setHandleDeleteClose(
+                                                                true
+                                                            );
+                                                        }}
+                                                        className="text-danger"
+                                                    >
                                                         {deleteIcon}
                                                     </Button>
-                                                    <Button className="">
+                                                    <Button
+                                                        onClick={() => {
+                                                            setClassSelected(
+                                                                row
+                                                            );
+                                                            setHandleUpdateClose(
+                                                                true
+                                                            );
+                                                        }}
+                                                        className=""
+                                                    >
                                                         {updateIcon}
                                                     </Button>
                                                 </ButtonGroup>
@@ -256,6 +299,21 @@ function AdminClasses() {
                     classSelected={classSelected}
                 />
             )}
+
+            <UpdateClassePopup
+                handleClose={handleUpdateClose}
+                setHandleClose={setHandleUpdateClose}
+                classe={classSelected}
+                teachers={teachers}
+                courses={courses}
+                dispatch={dispatch}
+            />
+
+            <DeleteClassePopup
+                handleClose={handleDeleteClose}
+                setHandleClose={setHandleDeleteClose}
+                classe={classSelected}
+            />
         </div>
     );
 }

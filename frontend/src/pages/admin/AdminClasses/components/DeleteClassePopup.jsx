@@ -1,14 +1,13 @@
 import { Dialog, DialogContent, DialogTitle } from "@mui/material";
 import React from "react";
+import { useDispatch } from "react-redux";
+import { AdminDeleteClass } from "../../../../api/adminsStore/adminStore";
 
-export default function DeleteClassePopup({
-    handleClose,
-    setHandleClose,
-    classe,
-}) {
+export default function DeleteClassePopup({handleClose,setHandleClose,classe,}) {
+    const dispatch=useDispatch()
     function handleDelete(id) {
-        // hanta a3chiri hahwa dakchi mojod hh
-        console.log(id);
+        dispatch(AdminDeleteClass(id))
+        setHandleClose(false);
     }
 
     const cancelIcon = (
@@ -67,15 +66,7 @@ export default function DeleteClassePopup({
                                         {cancelIcon}
                                         <p className="m-0 ms-2">Cancel</p>
                                     </button>
-                                    <button
-                                        onClick={() => {
-                                            handleDelete(classe.id);
-                                            setHandleClose(false);
-                                        }}
-                                        className="popup-delete-btn d-flex align-items-center justify-content-center"
-                                        type="submit"
-                                    >
-                                        {deleteIcon}
+                                    <button onClick={() => handleDelete(classe.id)} className="popup-delete-btn d-flex align-items-center justify-content-center" type="submit">{deleteIcon}
                                         <p className="m-0 ms-2">Delete</p>
                                     </button>
                                 </div>

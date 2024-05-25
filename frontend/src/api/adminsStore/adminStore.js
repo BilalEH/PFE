@@ -74,7 +74,29 @@ export const AdminSlice=createSlice({
         builder.addCase(deleteCourse.rejected, (state) => {
             state.action_status = 'failed';
         })
+        // // delete class
+        builder.addCase(AdminDeleteClass.pending, (state) => {
+            state.action_status = 'loading';
+        })
+        builder.addCase(AdminDeleteClass.fulfilled, (state, action) => {
+            state.action_status = 'succeeded';
+            state.classes = state.classes.filter(e => e.id !== action.payload);
+        })
+        builder.addCase(AdminDeleteClass.rejected, (state) => {
+            state.action_status = 'failed';
+        })
         // --------------------------------------Update
+        // update class
+        builder.addCase(AdminUpdateClass.pending, (state) => {
+            state.action_status = 'loading';
+        });
+        builder.addCase(AdminUpdateClass.fulfilled, (state, action) => {
+            state.action_status = 'succeeded';
+            state.classes=state.classes.map(e=>e.id===action.payload.id?action.payload:e);
+        });
+        builder.addCase(AdminUpdateClass.rejected, (state) => {
+            state.action_status = 'failed';
+        });
         // update course
         builder.addCase(updateCourse.pending, (state) => {
             state.action_status = 'loading';
@@ -150,7 +172,7 @@ export const AdminSlice=createSlice({
         });
         builder.addCase(addClass.fulfilled, (state, action) => {
             state.action_status = "succeeded";
-            state.classes=action.payload;
+            state.classes=[...state.classes,action.payload];
         });
         builder.addCase(addClass.rejected, (state) => {
             state.action_status = "failed";
@@ -815,6 +837,40 @@ export const  GetClassesByCourse= createAsyncThunk(
             const res= await axiosInstance.get(`/api/classes/classes-course/${courseID}`);
             return res.data.classes;
         } catch (error) {
+            toast.error(`X ${error.response.data.message}`, StyleToast);
+        throw error;
+    }
+}
+);
+
+export const AdminUpdateClass= createAsyncThunk(
+    "admin/AdminUpdateClass",
+    async ({classId,dataUpdated}) => {
+        const toastId = toast.loading('Loading...',StyleToast);
+        try {
+            const res= await axiosInstance.put(`/api/classes/${classId}`,dataUpdated);
+            toast.dismiss(toastId);
+            toast.success(`${"Class updated successfully"}`, StyleToast);
+            return res.data.class;
+        } catch (error) {
+            toast.dismiss(toastId);
+            toast.error(`X ${error.response.data.message}`, StyleToast);
+        throw error;
+    }
+}
+);
+
+export const AdminDeleteClass= createAsyncThunk(
+    "admin/AdminDeleteClass",
+    async (classId) => {
+        const toastId = toast.loading('Loading...',StyleToast);
+        try {
+            await axiosInstance.delete(`/api/classes/${classId}`);
+            toast.dismiss(toastId);
+            toast.success(`X ${"Class deleted successfully"}`, StyleToast);
+            return classId;
+        } catch (error) {
+            toast.dismiss(toastId);
             toast.error(`X ${error.response.data.message}`, StyleToast);
         throw error;
     }

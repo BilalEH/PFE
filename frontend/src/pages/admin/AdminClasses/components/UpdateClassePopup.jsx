@@ -1,24 +1,19 @@
-import { Dialog, DialogContent, DialogTitle, TextField } from "@mui/material";
+import { Dialog, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, Select, Skeleton, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import {
+    AdminUpdateClass,
     GetCourses,
     GetTeachers,
 } from "../../../../api/adminsStore/adminStore";
 import { toast } from "react-toastify";
 import { StyleToast } from "../../../../layouts/Layout";
+import { useDispatch, useSelector } from "react-redux";
 
-export default function UpdateClassePopup({
-    handleClose,
-    setHandleClose,
-    classe,
-    teachers,
-    courses,
-    dispatch,
-}) {
+export default function UpdateClassePopup({handleClose,setHandleClose,classe}) {
     const [className, setClassName] = useState("");
     const [selectedTeacherId, setSelectedTeacherId] = useState("");
     const [selectedCourseId, setSelectedCourseId] = useState("");
-
+    const dispatch=useDispatch();
     useEffect(() => {
         dispatch(GetTeachers());
         dispatch(GetCourses());
@@ -29,12 +24,14 @@ export default function UpdateClassePopup({
         setSelectedTeacherId(classe ? classe.teacher_id.id : "");
         setSelectedCourseId(classe ? classe.course_id.id : "");
     }, [classe]);
+    const {status_teacher, status_course, teachers, courses}=useSelector(state=>state.admins);
 
     const handleAddClass = () => {
         if (!className || !selectedTeacherId || !selectedCourseId) {
             toast.error("fill all fields", StyleToast);
         } else {
-            // 3ml fonction dyalk l3ajiba hna a akhi hh
+            dispatch(AdminUpdateClass({classId:classe.id,dataUpdated:{className:className,course_id:selectedCourseId,teacher_id:selectedTeacherId}}))
+            setHandleClose(false);
             setClassName("");
             setSelectedTeacherId("");
             setSelectedCourseId("");
@@ -74,10 +71,7 @@ export default function UpdateClassePopup({
     return (
         <>
             {classe && (
-                <Dialog
-                    open={handleClose}
-                    onClose={() => setHandleClose(false)}
-                >
+                <Dialog open={handleClose} onClose={() => setHandleClose(false)}>
                     <div className="popup-container">
                         <DialogTitle>
                             <div className="popup-title">Update Class</div>
@@ -98,53 +92,30 @@ export default function UpdateClassePopup({
                                         />
                                     </div>
                                     <div className="my-3">
-                                        <select
-                                            className="form-control py-3"
-                                            id="selectedTeacher"
-                                            value={selectedTeacherId}
-                                            onChange={(e) =>
-                                                setSelectedTeacherId(
-                                                    e.target.value
+                                        <FormControl fullWidth>
+                                            {status_teacher === "loading" ? <Skeleton width={'100%'} height={70} /> : (
+                                                <>
+                                                    <InputLabel id="demo-simple-select-label" className="">Teacher</InputLabel>
+                                                    <Select labelId="demo-simple-select-label" id="demo-simple-select" value={selectedTeacherId} label="Teacher" onChange={(e) =>setSelectedTeacherId(e.target.value) }>
+                                                        {teachers.map((teacher) => (<MenuItem key={teacher.id} value={teacher.id}>{teacher.user_id.firstName} {teacher.user_id.lastName}</MenuItem>))}
+                                                    </Select>
+                                                </>
                                                 )
                                             }
-                                        >
-                                            <option value="">
-                                                Select Teacher
-                                            </option>
-                                            {teachers.map((teacher) => (
-                                                <option
-                                                    key={teacher.id}
-                                                    value={teacher.id}
-                                                >
-                                                    {teacher.user_id.firstName}{" "}
-                                                    {teacher.user_id.lastName}
-                                                </option>
-                                            ))}
-                                        </select>
+                                        </FormControl>
                                     </div>
                                     <div className="my-3">
-                                        <select
-                                            className="form-control py-3"
-                                            id="selectedCourse"
-                                            value={selectedCourseId}
-                                            onChange={(e) =>
-                                                setSelectedCourseId(
-                                                    e.target.value
-                                                )
+                                        <FormControl fullWidth>
+                                            {status_course === "loading" ? <Skeleton width={'100%'} height={70}/>: (
+                                                <>
+                                                    <InputLabel id="demo-simple-select-label">Course</InputLabel>
+                                                    <Select labelId="demo-simple-select-label" id="demo-simple-select" value={selectedCourseId} label="Course" onChange={(e) =>setSelectedCourseId(e.target.value) }>
+                                                        {courses.map((course) => (<MenuItem key={course.id} value={course.id}>{course.courseName}</MenuItem>))}
+                                                    </Select>
+                                                </>
+                                            )
                                             }
-                                        >
-                                            <option value="">
-                                                Select Course
-                                            </option>
-                                            {courses.map((course) => (
-                                                <option
-                                                    key={course.id}
-                                                    value={course.id}
-                                                >
-                                                    {course.courseName}
-                                                </option>
-                                            ))}
-                                        </select>
+                                        </FormControl>
                                     </div>
                                     <div className="popup-add-class-btns">
                                         <button
@@ -156,13 +127,7 @@ export default function UpdateClassePopup({
                                             {cancelIcon}
                                             <p className="m-0 ms-2">Cancel</p>
                                         </button>
-                                        <button
-                                            className="popup-add-btn d-flex align-items-center justify-content-center"
-                                            onClick={handleAddClass}
-                                        >
-                                            {updateIcon}
-                                            <p className="m-0 ms-2">Update</p>
-                                        </button>
+                                        <button className="popup-add-btn d-flex align-items-center justify-content-center" onClick={handleAddClass}>{updateIcon}<p className="m-0 ms-2">Update</p></button>
                                     </div>
                                 </div>
                             </div>

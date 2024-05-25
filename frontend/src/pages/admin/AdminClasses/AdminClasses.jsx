@@ -30,9 +30,7 @@ function AdminClasses() {
     const [handleUpdateClose, setHandleUpdateClose] = useState(false);
     const [handleDeleteClose, setHandleDeleteClose] = useState(false);
 
-    const { teachers, courses, classes, status_classe } = useSelector(
-        (state) => state.admins
-    );
+    const { classes, status_classe } = useSelector((state) => state.admins);
 
     // for table
     const columns = [
@@ -117,56 +115,21 @@ function AdminClasses() {
         <div>
             <div className="d-flex justify-content-between align-items-center">
                 <div className="page-title">Class</div>
-                <button
-                    className="add-btn"
-                    onClick={() => setHandleAddClose(true)}
-                >
-                    Add class
-                </button>
+                <button className="add-btn" onClick={() => setHandleAddClose(true)}>Add class</button>
             </div>
-
             <Paper
-                style={{
-                    background: "none",
-                    border: "2px solid #afafaf",
-                    borderRadius: "12px",
-                    overflow: "hidden",
-                }}
-                sx={{ width: "100%" }}
-            >
+                style={{ background: "none", border: "2px solid #afafaf", borderRadius: "12px", overflow: "hidden",}}sx={{ width: "100%" }}>
                 <TableContainer>
                     <Table className="">
                         <TableHead>
                             <TableRow>
-                                {columns.map((column) => (
-                                    <TableCell
-                                        style={{
-                                            padding: "22px 18px",
-                                            fontWeight: "bold",
-                                            fontFamily: "Montserrat",
-                                            fontSize: "16px",
-                                        }}
-                                        key={column.id}
-                                    >
-                                        {column.name}
-                                    </TableCell>
-                                ))}
+                                {columns.map((column) => (<TableCell style={{padding: "22px 18px",fontWeight: "bold",fontFamily: "Montserrat",fontSize: "16px",}}key={column.id}>{column.name}</TableCell>))}
                             </TableRow>
                         </TableHead>
 
                         <TableBody>
-                            {status_classe === "loading" ? (
-                                <LoadingForTables />
-                            ) : status_classe === "failed" ? (
-                                <ErrorData />
-                            ) : classes.length === 0 ? (
-                                <EmptyTable content={"Class"} />
-                            ) : (
-                                classes
-                                    .slice(
-                                        currentPage * rowsPerPage,
-                                        currentPage * rowsPerPage + rowsPerPage
-                                    )
+                            {status_classe === "loading" ? (<LoadingForTables />) : status_classe === "failed" ? (<ErrorData />) : classes.length === 0 ? (<EmptyTable content={"Class"} />) : (
+                                classes.slice(currentPage * rowsPerPage,currentPage * rowsPerPage + rowsPerPage)
                                     .map((row) => (
                                         <TableRow key={row.id}>
                                             <TableCell
@@ -181,19 +144,7 @@ function AdminClasses() {
                                                     color="inherit"
                                                     aria-label="Basic button group"
                                                 >
-                                                    <Button
-                                                        onClick={() => {
-                                                            setClassSelected(
-                                                                row
-                                                            );
-                                                            setHandleDeleteClose(
-                                                                true
-                                                            );
-                                                        }}
-                                                        className="text-danger"
-                                                    >
-                                                        {deleteIcon}
-                                                    </Button>
+                                                    <Button onClick={() => {setClassSelected(row);setHandleDeleteClose(true);}}className="text-danger">{deleteIcon}</Button>
                                                     <Button
                                                         onClick={() => {
                                                             setClassSelected(
@@ -201,12 +152,7 @@ function AdminClasses() {
                                                             );
                                                             setHandleUpdateClose(
                                                                 true
-                                                            );
-                                                        }}
-                                                        className=""
-                                                    >
-                                                        {updateIcon}
-                                                    </Button>
+                                                            );}}className="">{updateIcon}</Button>
                                                 </ButtonGroup>
                                             </TableCell>
                                             <TableCell
@@ -227,21 +173,8 @@ function AdminClasses() {
                                             >
                                                 {row.course_id.courseName}
                                             </TableCell>
-                                            <TableCell
-                                                style={{
-                                                    padding: "22px 18px",
-                                                    fontFamily: "Montserrat",
-                                                    fontSize: "16px",
-                                                }}
-                                            >
-                                                {
-                                                    row.teacher_id.user_id
-                                                        .firstName
-                                                }{" "}
-                                                {
-                                                    row.teacher_id.user_id
-                                                        .lastName
-                                                }
+                                            <TableCell style={{padding: "22px 18px",fontFamily: "Montserrat",fontSize: "16px",}}>
+                                                {row.teacher_id.user_id.firstName} {row.teacher_id.user_id.lastName}
                                             </TableCell>
                                             <TableCell>
                                                 <Button
@@ -284,13 +217,12 @@ function AdminClasses() {
                 />
             </Paper>
 
-            <AddClassPopup
-                handleClose={handleAddClose}
-                setHandleClose={setHandleAddClose}
-                teachers={teachers}
-                courses={courses}
-                dispatch={dispatch}
-            />
+            {handleAddClose && (
+                <AddClassPopup
+                    handleClose={handleAddClose}
+                    setHandleClose={setHandleAddClose}
+                />
+            )}
 
             {classSelected && (
                 <StudentsListPopup
@@ -304,9 +236,7 @@ function AdminClasses() {
                 handleClose={handleUpdateClose}
                 setHandleClose={setHandleUpdateClose}
                 classe={classSelected}
-                teachers={teachers}
-                courses={courses}
-                dispatch={dispatch}
+
             />
 
             <DeleteClassePopup

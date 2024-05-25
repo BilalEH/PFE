@@ -7,6 +7,8 @@ use App\Http\Resources\StudentResource;
 use App\Models\Classe;
 use App\Models\Course;
 use App\Models\Payment;
+use App\Models\Student;
+use App\Models\User;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -45,17 +47,18 @@ class ClasseController extends Controller
 
     public function update(Request $request, string $id)
     {
-        $classe = Classe::findOrFail($id);
-
-        $request->validate([
-            'className' => 'required|unique:classes,className',
-            'course_id' => 'required|exists:courses,id',
-            'filiere_id' => 'required|exists:filieres,id',
-            'teacher_id' => 'required|exists:teachers,id',
+        $data=$request->validate([
+            'className' => 'string',
+            'course_id' => 'exists:courses,id',
+            'teacher_id' => 'exists:teachers,id',
         ]);
-
-        $classe->update($request->all());
-        return response()->json($classe, 200);
+        try{
+            $classe = Classe::findOrFail($id);
+            $classe->update($data);
+            return response()->json(['class' => new ClasseResource($classe)], 200);
+        }catch(Exception $e){
+            return response()->json(["message" => $e->getMessage()], 404);
+        }
     }
 
     /**
@@ -63,18 +66,32 @@ class ClasseController extends Controller
      */
     public function destroy(string $id)
     {
-        $classe = Classe::findOrFail($id);
-        $classe->delete();
-
-        return response()->json(null, 204);
+        try {
+            $classe = Classe::findOrFail($id);
+            $classe->delete();
+            return response()->json(['message' => 'Classe deleted successfully'], 204);
+        }catch(Exception $e){
+            return response()->json(['message' => $e->getMessage()], 404);
+        }
     }
 
     public function Remove_student_In_Classe(Request $request, String $id)
     {
         $request->validate([
-            'student_id' => ['required', 'exists:students,id'],
+            'student_id' => ['required'],
         ]);
-        Classe::find($id)->students()->detach($request->student_id);
+        $stu = Student::find($request->id);
+        if ($stu) {
+            Classe::find($id)->students()->detach($request->student_id);
+        } else {
+            $user = User::find($request->student_id);
+            if ($user) {
+                $stu = Student::where('user_id', $user->id)->first();
+                Classe::find($id)->students()->detach($stu->id);
+            } else {
+                return response()->json(['message' => 'Student not found'], 404);
+            }
+        }
         return response()->json(['message' => 'Student removed successfully']);
     }
 

@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { PAddMessages, PgetUserMessages, PDeleteMessage } from '../../../api/parentsStore/parentStore';
 import { Card, TextField, Button, Typography, Box, Container, CardContent, Drawer, IconButton, Pagination, CircularProgress, Avatar, CardHeader, Chip } from '@mui/material';
-// import { Delete as DeleteIcon } from '@mui/icons-material';
 import useAuthContext from '../../../api/auth';
 import { toast } from 'react-toastify';
 import { StyleToast } from '../../../layouts/Layout';
@@ -21,7 +20,6 @@ function ParentMessages() {
         dispatch(PgetUserMessages(user.id));
     }, [dispatch, user.id]);
 
-    // Get user messages from Redux store
     const userMessages = useSelector((state) => state.parents);
 
     const handleTitleChange = (e) => {
@@ -51,15 +49,11 @@ function ParentMessages() {
         })
     };
 
-
-
     const handleDeleteMessage = (id) => {
-        dispatch(PDeleteMessage(id)).catch((error) => {
-            console.error("Error deleting message:", error);
-        });
+        dispatch(PDeleteMessage(id))
     };
 
-    const sortedMessages = [...userMessages.messages].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    const sortedMessages = [...userMessages.messages].sort((a, b) => new Date(b.send_date) - new Date(a.send_date));
 
     // Pagination logic
     const indexOfLastMessage = page * messagesPerPage;
@@ -99,11 +93,12 @@ function ParentMessages() {
                                         subheader={message.send_date}
                                         action={
                                             <Box  borderRadius="5px" padding="5px">
-                                                {message.status==="in process" ? <Chip label="In Process" color="warning" /> : message.status==="accepted" ? <Chip label="Accepted" color="success" /> : <Chip label="Rejected" color="error" />}
+                                                {message.status==="rejected" ?  <Chip label="Rejected" color="error" />:
+                                                message.status==="accepted" ? <Chip label="Accepted" color="success" /> :
+                                                <Chip label="In Process" color="warning" /> }
                                             </Box>
                                         }
                                     >
-
                                     </CardHeader>
                                     <CardContent>
                                         <Typography variant="h6" component="h3">

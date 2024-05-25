@@ -22,46 +22,23 @@ export default function Message({ message }) {
     }
 
     return (
-        <>
-            <div className="h-100">
-                <div
-                    className={`${
-                        MessageData.status === "in process"
-                            ? "msg-process"
-                            : MessageData.status === "accepted"
-                            ? "msg-accepted"
-                            : MessageData.status === "rejected"
-                            ? "msg-rejected"
-                            : ""
-                    } d-inline rounded-pill`}
-                >
+        <div className="h-100 position-relative">
+            <div className="d-flex justify-content-between align-items-center">
+                <div className="message-title " style={{height:"max-content"}}>{MessageData.title}</div>
+                <div className={`${MessageData.status === "in process" ? "msg-process" : MessageData.status === "accepted" ? "msg-accepted" : MessageData.status === "rejected" ? "msg-rejected": "" } d-inline rounded-pill`}>
                     {MessageData.status}
                 </div>
-                <div className="message-from text-muted">
-                    From : {MessageData.user_id.firstName}{" "}
-                    {MessageData.user_id.lastName}
-                </div>
-                <div className="message-title">{MessageData.title}</div>
-                <div className="message">{MessageData.content}</div>
-                <div className="message-btns d-flex align-items-center justify-content-evenly">
-                    {MessageData.status === "in process" && (
-                        <>
-                            <button
-                                onClick={() => handleRefuseMsg(MessageData.id)}
-                                className="refuse-msg-btn"
-                            >
-                                Refuse
-                            </button>
-                            <button
-                                onClick={() => handleAcceptMsg(MessageData.id)}
-                                className="accept-msg-btn"
-                            >
-                                Accept
-                            </button>
-                        </>
-                    )}
-                </div>
             </div>
-        </>
+                <div className="message-from text-muted">From : {MessageData.user_id.firstName} {MessageData.user_id.lastName}</div>
+            <div className="message">{MessageData.content}</div>
+            <div className="message-btns d-flex align-items-center justify-content-evenly position-absolute bottom-0 w-100">
+                {MessageData.status === "in process" && (
+                    <>
+                        <button onClick={() => handleRefuseMsg(MessageData.id)}className="refuse-msg-btn">Refuse</button>
+                        <button onClick={() => handleAcceptMsg(MessageData.id)} className="accept-msg-btn" >Accept</button>
+                    </>
+                )}
+            </div>
+        </div>
     );
 }

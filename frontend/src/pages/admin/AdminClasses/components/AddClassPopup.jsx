@@ -1,29 +1,21 @@
-import { Dialog, DialogContent, DialogTitle, TextField } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import {
-    GetCourses,
-    GetTeachers,
-    addClass,
-} from "../../../../api/adminsStore/adminStore";
+import { Dialog, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, Select, Skeleton, TextField } from "@mui/material";
+import { useEffect, useState } from "react";
+import {GetCourses,GetTeachers,addClass} from "../../../../api/adminsStore/adminStore";
 import { toast } from "react-toastify";
 import { StyleToast } from "../../../../layouts/Layout";
 import "../style/AdminClasses.css";
+import { useDispatch, useSelector } from "react-redux";
 
-export default function AddClassPopup({
-    handleClose,
-    setHandleClose,
-    teachers,
-    courses,
-    dispatch,
-}) {
+export default function AddClassPopup({handleClose,setHandleClose}) {
     const [className, setClassName] = useState("");
     const [selectedTeacherId, setSelectedTeacherId] = useState("");
     const [selectedCourseId, setSelectedCourseId] = useState("");
-
+    const dispatch=useDispatch();
     useEffect(() => {
         dispatch(GetTeachers());
         dispatch(GetCourses());
-    }, [dispatch]);
+    }, []);
+    const {status_teacher, status_course, teachers, courses}=useSelector(state=>state.admins);
 
     const handleAddClass = () => {
         if (!className || !selectedTeacherId || !selectedCourseId) {
@@ -37,13 +29,8 @@ export default function AddClassPopup({
     };
 
     const SandRequest = () => {
-        dispatch(
-            addClass({
-                className: className,
-                teacher_id: selectedTeacherId,
-                course_id: selectedCourseId,
-            })
-        );
+        dispatch(addClass({className: className,teacher_id: selectedTeacherId,course_id: selectedCourseId}));
+        setHandleClose(false)
     };
 
     const cancelIcon = (
@@ -85,57 +72,33 @@ export default function AddClassPopup({
                         <div className="popup-content">
                             <div className="popup-form p-4">
                                 <div className="my-3">
-                                    <TextField
-                                        label="Class name"
-                                        id="className"
-                                        type="text"
-                                        value={className}
-                                        onChange={(e) =>
-                                            setClassName(e.target.value)
-                                        }
-                                        fullWidth
-                                    />
+                                    <TextField label="Class name" id="className" type="text" value={className} onChange={(e) =>setClassName(e.target.value)} fullWidth/>
                                 </div>
                                 <div className="my-3">
-                                    <select
-                                        className="form-control py-3"
-                                        id="selectedTeacher"
-                                        value={selectedTeacherId}
-                                        onChange={(e) =>
-                                            setSelectedTeacherId(e.target.value)
+                                    <FormControl fullWidth>
+                                        {status_teacher === "loading" ? <Skeleton width={'100%'} height={70} /> : (
+                                            <>
+                                                <InputLabel id="demo-simple-select-label">Teacher</InputLabel>
+                                                <Select labelId="demo-simple-select-label" id="demo-simple-select" value={selectedTeacherId} label="Teacher" onChange={(e) =>     setSelectedTeacherId(e.target.value) }>
+                                                    {teachers.map((teacher) => (<MenuItem key={teacher.id} value={teacher.id}>{teacher.user_id.firstName} {teacher.user_id.lastName}</MenuItem>))}
+                                                </Select>
+                                            </>
+                                            )
                                         }
-                                    >
-                                        <option value="">Select Teacher</option>
-                                        {teachers.map((teacher) => (
-                                            <option
-                                                key={teacher.id}
-                                                value={teacher.id}
-                                            >
-                                                {teacher.user_id.firstName}{" "}
-                                                {teacher.user_id.lastName}
-                                            </option>
-                                        ))}
-                                    </select>
+                                    </FormControl>
                                 </div>
                                 <div className="my-3">
-                                    <select
-                                        className="form-control py-3"
-                                        id="selectedCourse"
-                                        value={selectedCourseId}
-                                        onChange={(e) =>
-                                            setSelectedCourseId(e.target.value)
+                                    <FormControl fullWidth>
+                                        {status_course === "loading" ? <Skeleton width={'100%'} height={70}/>: (
+                                            <>
+                                                <InputLabel id="demo-simple-select-label">Course</InputLabel>
+                                                <Select labelId="demo-simple-select-label" id="demo-simple-select" value={selectedCourseId} label="Course" onChange={(e) =>setSelectedCourseId(e.target.value) }>
+                                                    {courses.map((course) => (<MenuItem key={course.id} value={course.id}>{course.courseName}</MenuItem>))}
+                                                </Select>
+                                            </>
+                                        )
                                         }
-                                    >
-                                        <option value="">Select Course</option>
-                                        {courses.map((course) => (
-                                            <option
-                                                key={course.id}
-                                                value={course.id}
-                                            >
-                                                {course.courseName}
-                                            </option>
-                                        ))}
-                                    </select>
+                                    </FormControl>
                                 </div>
                                 <div className="popup-add-class-btns">
                                     <button

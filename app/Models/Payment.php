@@ -13,8 +13,6 @@ class Payment extends Model
     protected $fillable = [
         'student_id',
         'course_id',
-        'status',
-        'amount',
         'datePay'
     ];
     protected $hidden = [
@@ -22,4 +20,14 @@ class Payment extends Model
         'updated_at',
         'deleted_at',
     ];
+
+    public function student()
+    {
+        return $this->belongsTo(Student::class);
+    }
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
+    }
 }

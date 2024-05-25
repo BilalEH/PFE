@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Resources\ClasseResource;
 use App\Http\Resources\StudentResource;
 use App\Models\Classe;
+use App\Models\Course;
+use App\Models\Payment;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -76,6 +78,31 @@ class ClasseController extends Controller
         return response()->json(['message' => 'Student removed successfully']);
     }
 
+    public function Add_student_In_Classe(Request $request, String $id)
+    {
+        $request->validate([
+            'student_id' => ['required', 'exists:students,id'],
+        ]);
+        $classe = Classe::findOrFail($id);
+        $studentId = $request->student_id;
+        if ($classe->students()->where('student_id', $studentId)->exists()) {
+            return response()->json(['message' => 'Student already added'], 400);
+        }
+        $classe->students()->attach($studentId, ['dateJoin' => date('Y-m-d H:i:s')]);
+        $course = $classe->course;
+        $course->requests()->detach($studentId);
+
+        $paymentData = [
+            'student_id' => $studentId,
+            'course_id' => $course->id,
+            'datePay' => date('Y-m-d H:i:s'),
+        ];
+
+        Payment::create($paymentData);
+
+        return response()->json(['message' => 'Student added successfully']);
+    }
+
     public function Class_students_List(string $id)
     {
         try {
@@ -88,6 +115,21 @@ class ClasseController extends Controller
             return response()->json(['message' => 'Classe not found'], 404);
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);
+        }
+    }
+
+    public function GetClassesByCourse(string $id)
+    {
+        $Course = Course::find($id);
+        if ($Course) {
+            $clsses = Classe::where('course_id', $id)->get();
+            if (count($clsses) > 0) {
+                return response()->json(['classes' => ClasseResource::collection($clsses)], 200);
+            } else {
+                return response()->json(['message' => 'does not have classes in this course'], 404);
+            }
+        } else {
+            return response()->json(['message' => 'Course not found'], 404);
         }
     }
 }

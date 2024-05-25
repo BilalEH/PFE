@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClasseController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use Illuminate\Http\Request;
@@ -55,4 +56,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource("/classes", ClasseController::class);
     Route::get("/classe/get-students/{id}", [ClasseController::class, 'Class_students_List']);
     Route::post("/classes/removestudent/{id}", [ClasseController::class, 'Remove_student_In_Classe']);
+    Route::post("/classes/add-student/{id}", [ClasseController::class, 'Add_student_In_Classe']);
+    Route::get("/classes/classes-course/{id}", [ClasseController::class, 'GetClassesByCourse']);
+    // --------------------------------payments--------------------------------------------
+    Route::apiResource("/payments", PaymentController::class);
 });

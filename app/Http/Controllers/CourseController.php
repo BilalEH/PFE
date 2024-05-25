@@ -75,17 +75,17 @@ class CourseController extends Controller
                 if ($course->requests()->where('student_id', $request->student_id)->exists()) {
                     return response()->json(['message' => 'Request already sent'], 400);
                 } else {
-                    $course->requests()->attach($request->student_id, ['student_id' => $request->student_id]);
+                    $course->requests()->attach($request->student_id);
                 }
             } else {
                 $Stu = Student::where('user_id', $request->student_id)->first();
                 if ($course->requests()->where('student_id', $Stu->id)->exists()) {
                     return response()->json(['message' => 'Request already sent'], 400);
                 } else {
-                    $course->requests()->attach($Stu->id, ['student_id' => $Stu->id]);
+                    $course->requests()->attach($Stu->id);
                 }
             }
-            return response()->json(CouresRequeres::collection($course->requests), 201);
+            return response()->json(['message' => 'Request sent successfully'], 201);
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);
         }
@@ -104,7 +104,7 @@ class CourseController extends Controller
                 $Stu = Student::where('user_id', $request->student_id)->first();
                 $course->requests()->detach($Stu->id);
             }
-            return response()->json(CouresRequeres::collection($course->requests), 200);
+            return response()->json(['message' => 'Request removed successfully'], 200);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json(['message' => 'Course not found'], 404);
         }
@@ -125,4 +125,5 @@ class CourseController extends Controller
             return response()->json(['message' => 'Course not found'], 404);
         }
     }
+    
 }

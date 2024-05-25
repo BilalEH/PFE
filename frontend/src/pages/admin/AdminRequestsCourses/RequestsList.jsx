@@ -32,29 +32,15 @@ function ListOfReqJoin({ data, status }) {
             data.forEach((tab1) => {
                 return tab1.forEach((tab2) => {
                     let studentData = {
-                        courseId: tab2.id,
-                        courseName: tab2.courseName,
-                        coursePrix: tab2.amount,
+                        courseId: tab2.pivot.course_id.id,
+                        courseName: tab2.pivot.course_id.courseName,
+                        coursePrix: tab2.pivot.course_id.amount,
                         studentCIN: tab2.pivot.student_id.user_id.cin,
                         studentId: tab2.pivot.student_id.id,
-                        studentName:
-                            tab2.pivot.student_id.user_id.firstName +
-                            " " +
-                            tab2.pivot.student_id.user_id.lastName,
-                        ReqDate:
-                            tab2.pivot.created_at &&
-                            new Date(tab2.pivot.created_at),
+                        studentName:tab2.pivot.student_id.user_id.firstName +" " +tab2.pivot.student_id.user_id.lastName,ReqDate:tab2.pivot.created_at && new Date(tab2.pivot.created_at).getFullYear()+'/'+(new Date(tab2.pivot.created_at).getMonth()+1)+'/'+new Date(tab2.pivot.created_at).getDate(),
                     };
                     if (tab2.pivot.student_id.absparent_id) {
-                        studentData = {
-                            ...studentData,
-                            parentName:
-                                tab2.pivot.student_id.absparent_id.user_id
-                                    .firstName +
-                                " " +
-                                tab2.pivot.student_id.absparent_id.user_id
-                                    .lastName,
-                        };
+                        studentData = {...studentData,parentName:tab2.pivot.student_id.absparent_id.user_id.firstName +" " +tab2.pivot.student_id.absparent_id.user_id.lastName};
                     }
                     return tabG.push(studentData);
                 });
@@ -70,7 +56,6 @@ function ListOfReqJoin({ data, status }) {
         setrowPerPage(event.target.value);
         setpage(0);
     }
-
     return (
         <>
             <Paper
@@ -182,35 +167,10 @@ function ListOfReqJoin({ data, status }) {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <TablePagination
-                    style={{
-                        paddingTop: "20px",
-                        paddingBottom: "10px",
-                    }}
-                    rowsPerPageOptions={[1, 3, 5]}
-                    rowsPerPage={rowPerPage}
-                    page={page}
-                    count={Data && Data.length}
-                    component="div"
-                    onPageChange={handlePageChange}
-                    onRowsPerPageChange={handleRowChange}
-                ></TablePagination>
+                <TablePagination style={{paddingTop: "20px",paddingBottom: "10px", }} rowsPerPageOptions={[1, 3, 5]} rowsPerPage={rowPerPage} page={page} count={Data && Data.length} component="div" onPageChange={handlePageChange} onRowsPerPageChange={handleRowChange}></TablePagination>
             </Paper>
-
-            {reqSelected && (
-                <>
-                    <DeclineCourseReqPopup 
-                        handleClose={handleDeclineClose} 
-                        setHandleClose={setHandleDeclineClose} 
-                        request={reqSelected}
-                    />
-                    <AcceptCourseReqPopup 
-                        handleClose={handleAcceptClose} 
-                        setHandleClose={setHandleAcceptClose} 
-                        request={reqSelected}
-                    />
-                </>
-            )}
+            {reqSelected && (<><DeclineCourseReqPopup  handleClose={handleDeclineClose}  setHandleClose={setHandleDeclineClose}  request={reqSelected}/>
+            <AcceptCourseReqPopup handleClose={handleAcceptClose} setHandleClose={setHandleAcceptClose} request={reqSelected}/></>)}
         </>
     );
 }

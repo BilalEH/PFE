@@ -1,5 +1,5 @@
 import  { useEffect } from "react";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import "./style/dashboard.css"
 import { Avatar } from "@mui/material";
 import useAuthContext from "../api/auth";
@@ -30,12 +30,13 @@ export default function StudentLayout() {
             navigate('/login')
         }
     }, []);
+    // className={`dashElement ${pathname == "/admin/requests_courses"? "dashElementActive": ""}`}>
+    const { pathname } = useLocation();
     return (
         <>
-
             <div className="row">
                 <div className="dashboard pe-0">
-                    <div className="dashElement">
+                    <div className={`dashElement ${pathname == "/parent/profile"? "dashElementActive": ""}`}>
                         <Link to="/parent/profile">
                             <div className="d-flex align-items-center justify-content-between p-3">
                                 <div>
@@ -47,7 +48,7 @@ export default function StudentLayout() {
                             </div>
                         </Link>
                     </div>
-                    <div className="dashElement">
+                    <div className={`dashElement ${pathname == "/parent/students"? "dashElementActive": ""}`}>
                         <Link to="/parent/students">
                             <div className="d-flex align-items-center justify-content-between p-3 h-100">
                                 <div>
@@ -62,7 +63,7 @@ export default function StudentLayout() {
                             </div>
                         </Link>
                     </div>
-                    <div className="dashElement">
+                    <div className={`dashElement ${pathname == "/parent/courses"? "dashElementActive": ""}`}>
                         <Link to="/parent/courses">
                             <div className="d-flex align-items-center justify-content-between p-3 h-100">
                                 <div>
@@ -76,7 +77,7 @@ export default function StudentLayout() {
                             </div>
                         </Link>
                     </div>
-                    <div className="dashElement">
+                    <div className={`dashElement ${pathname == "/parent/payment"? "dashElementActive": ""}`}>
                         <Link to="/parent/payment">
                             <div className="d-flex align-items-center justify-content-between p-3 h-100">
                                 <div>
@@ -94,7 +95,7 @@ export default function StudentLayout() {
 
 
 
-                    <div className="dashElement">
+                    <div className={`dashElement ${pathname == "/parent/messages"? "dashElementActive": ""}`}>
                         <Link to="/parent/messages">
                             <div className="d-flex align-items-center justify-content-between p-3 h-100">
                                 <div>

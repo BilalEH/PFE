@@ -2,20 +2,11 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { SAddRequest, SGetCourses } from "../../../api/StudentStore/Student";
 import useAuthContext from "../../../api/auth";
-import {
-    CircularProgress,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TablePagination,
-    TableRow,
-} from "@mui/material";
-import "./style/StudentCourse.css";
+import {Paper,Table,TableBody,TableCell,TableContainer,TableHead,TablePagination,TableRow,} from "@mui/material";
 import EmptyCoursesPage from "../../parent/ParentCourses/components/EmptyCoursesPage";
-
+import "./style/StudentCourse.css";
+import LoadingForTables from './../../../components/LoadingForTables';
+import ErrorData from './../../../components/ErrorData';
 export default function StudentCourse() {
     const dispatch = useDispatch();
     const coursesData = useSelector((state) => state.students);
@@ -26,10 +17,9 @@ export default function StudentCourse() {
     }, [dispatch]);
 
     const JoinReq = (courseId) => {
-        dispatch(
-            SAddRequest({ data: { student_id: importUser().id }, id: courseId })
-        );
+        dispatch(SAddRequest({ data: { student_id: importUser().id }, id: courseId }));
     };
+
 
     const [page, setpage] = useState(0);
     const [rowPerPage, setrowPerPage] = useState(5);
@@ -44,7 +34,7 @@ export default function StudentCourse() {
     function handlePageChange(event, newPage) {
         setpage(newPage);
     }
-    function handleRowChange(event, newRow) {
+    function handleRowChange(event) {
         setrowPerPage(event.target.value);
         setpage(0);
     }
@@ -52,47 +42,24 @@ export default function StudentCourse() {
     return (
         <>
             <div className="page-title">Courses</div>
-
-            <Paper
-                style={{
-                    background: "none",
-                    border: "2px solid #afafaf",
-                    borderRadius: "12px",
-                    overflow: "hidden",
-                }}
-                sx={{ width: "100%" }}
-            >
+            <Paper style={{background: "none",border: "2px solid #afafaf",borderRadius: "12px",overflow: "hidden"}}sx={{ width: "100%" }}>
                 <TableContainer>
                     <Table className="">
                         <TableHead>
                             <TableRow>
                                 {columns.map((col) => (
                                     <TableCell
-                                        style={{
-                                            padding: "22px 18px",
-                                            fontWeight: "bold",
-                                            fontFamily: "Montserrat",
-                                            fontSize: "16px",
-                                        }}
-                                        key={col.id}
-                                    >
+                                        style={{    padding: "22px 18px",    fontWeight: "bold",    fontFamily: "Montserrat",    fontSize: "16px",}}key={col.id}>
                                         {col.name}
                                     </TableCell>
                                 ))}
                             </TableRow>
                         </TableHead>
-
                         <TableBody>
-                            {coursesData.status === "loading" ? (
-                                <TableRow>
-                                    <TableCell colSpan={8}>
-                                        <div className="py-5 d-flex justify-content-center">
-                                            <CircularProgress />
-                                        </div>
-                                    </TableCell>
-                                </TableRow>
-                            ) : coursesData.status === "failed" ? (
-                                <div>Failed</div>
+                            {coursesData.courses_status === "loading" ? (
+                                <LoadingForTables/>
+                            ) : coursesData.courses_status === "failed" ? (
+                                <ErrorData/>
                             ) : coursesData.courses.length === 0 ? (
                                 <EmptyCoursesPage />
                             ) : (
@@ -142,24 +109,9 @@ export default function StudentCourse() {
                                                         fontSize: "16px",
                                                     }}
                                                 >
-                                                    {row.amount}
+                                                    {row.amount}Dh
                                                 </TableCell>
-                                                <TableCell
-                                                    style={{
-                                                        padding: "22px 18px",
-                                                        fontFamily:
-                                                            "Montserrat",
-                                                        fontSize: "16px",
-                                                    }}
-                                                >
-                                                    <button
-                                                        className="enroll-btn"
-                                                        onClick={() =>
-                                                            JoinReq(row.id)
-                                                        }
-                                                    >
-                                                        join
-                                                    </button>
+                                                <TableCell style={{padding: "22px 18px",fontFamily:"Montserrat",fontSize: "16px",}}><button className="enroll-btn" onClick={() =>JoinReq(row.id)}>join</button>
                                                 </TableCell>
                                             </TableRow>
                                         );
@@ -168,47 +120,8 @@ export default function StudentCourse() {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <TablePagination
-                    style={{
-                        paddingTop: "20px",
-                        paddingBottom: "10px",
-                    }}
-                    rowsPerPageOptions={[2, 5]}
-                    rowsPerPage={rowPerPage}
-                    page={page}
-                    count={coursesData && coursesData.courses.length}
-                    component="div"
-                    onPageChange={handlePageChange}
-                    onRowsPerPageChange={handleRowChange}
-                ></TablePagination>
+                <TablePagination style={{paddingTop: "20px",paddingBottom: "10px",}}rowsPerPageOptions={[2, 5]}rowsPerPage={rowPerPage}page={page}count={coursesData && coursesData.courses.length}component="div"onPageChange={handlePageChange}onRowsPerPageChange={handleRowChange}></TablePagination>
             </Paper>
-
-            {/* <table className="table w-100">
-                <thead>
-                    <tr>
-                        <th>Course Name</th>
-                        <th>Course Description</th>
-                        <th>Course Level</th>
-                        <th>Course Amount</th>
-                        <th>action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {coursesData.courses.map((course) => (
-                        <tr key={course.id}>
-                            <td>{course.courseName}</td>
-                            <td>{course.description}</td>
-                            <td>{course.niveau}</td>
-                            <td>{course.amount}</td>
-                            <td>
-                                <button onClick={() => JoinReq(course.id)}>
-                                    join
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table> */}
         </>
     );
 }

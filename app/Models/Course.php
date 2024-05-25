@@ -33,6 +33,6 @@ class Course extends Model
     }
     public function requests()
     {
-        return $this->belongsToMany(Course::class, 'coure_requrests')->withPivot('course_id', 'student_id', 'created_at');
+        return $this->belongsToMany(Student::class, 'coure_requrests')->withPivot('course_id', 'student_id', 'created_at');
     }
 }

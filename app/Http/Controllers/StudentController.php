@@ -124,7 +124,13 @@ class StudentController extends Controller
     {
         $student = Student::find($id);
         if (!$student) {
-            return response()->json(['message' => 'Student not found'], 404);
+            $StuUser = User::find($id);
+            if ($StuUser and $StuUser['role'] == 'student') {
+                $student = Student::where('user_id', $StuUser->id)->first();
+                return response()->json(['classes' => StudentClasses::collection($student->classes)], 200);
+            } else {
+                return response()->json(['message' => 'Student not found'], 404);
+            }
         }
         return response()->json(['classes' => StudentClasses::collection($student->classes)], 200);
     }

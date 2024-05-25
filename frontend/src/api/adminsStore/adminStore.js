@@ -26,6 +26,7 @@ export const AdminSlice=createSlice({
         status_message:'',
         messages:[],
         class_Students:[],
+        classes_course:[],
     },
     extraReducers:(builder)=>{
         // --------------------------------------Delete--------------------------------------
@@ -155,6 +156,17 @@ export const AdminSlice=createSlice({
             state.action_status = "failed";
         });
         // --------------------------------------Get
+        // Get Classes List By Course
+        builder.addCase(GetClassesByCourse.pending, (state) => {
+            state.action_status = 'loading';
+        });
+        builder.addCase(GetClassesByCourse.fulfilled, (state, action) => {
+            state.action_status = 'succeeded';
+            state.classes_course = action.payload;
+        });
+        builder.addCase(GetClassesByCourse.rejected, (state) => {
+            state.action_status = 'failed';
+        });
         // get Classes
         builder.addCase(AdminGetClasses.pending, (state) => {
             state.status_classe = 'loading';
@@ -306,13 +318,30 @@ export const AdminSlice=createSlice({
             state.action_status = 'failed';
         });
         // remove Students in class
-        builder.addCase(RemoveStudentInClass.pending, (state) => {
-        });
         builder.addCase(RemoveStudentInClass.fulfilled, (state, action) => {
             state.class_Students = state.class_Students.filter(e => e.id !== action.payload);
         });
-        builder.addCase(RemoveStudentInClass.rejected, (state) => {
+        // reject join Request
+        builder.addCase(declineJoinRequest.pending, (state) => {
+            state.action_status = 'loading';
         });
+        builder.addCase(declineJoinRequest.fulfilled, (state, action) => {
+            state.action_status = 'succeeded';
+        });
+        builder.addCase(declineJoinRequest.rejected, (state) => {
+            state.action_status = 'failed';
+        });
+        // accept join Request
+        builder.addCase(AcceptJoinRequest.pending, (state) => {
+            state.action_status = 'loading';
+        });
+        builder.addCase(AcceptJoinRequest.fulfilled, (state, action) => {
+            state.action_status = 'succeeded';
+        });
+        builder.addCase(AcceptJoinRequest.rejected, (state) => {
+            state.action_status = 'failed';
+        });
+
     }
 
 
@@ -591,6 +620,7 @@ export const deleteParent = createAsyncThunk(
         try {
         await axiosInstance.delete(`/api/parents/${parentId}`);
         toast.dismiss(toastId);
+        toast.success(`X ${"Parent deleted successfully"}`, StyleToast);
         return { parentId };
     } catch (error) {
             toast.dismiss(toastId);
@@ -626,6 +656,7 @@ export const deleteTeacher = createAsyncThunk(
         try {
             await axiosInstance.delete(`/api/teachers/${teacherId}`);
             toast.dismiss(toastId);
+            toast.success(`X ${"Teacher deleted successfully"}`, StyleToast);
             return { teacherId };
         } catch (error) {
             toast.dismiss(toastId);
@@ -643,6 +674,7 @@ export const updateTeacher = createAsyncThunk(
         try {
             const data =await axiosInstance.put(`/api/teachers/${teacherId}`, updatedTeacher);
             toast.dismiss(toastId);
+            toast.success(`X ${"Teacher updated successfully"}`, StyleToast);
             return data.data.teacher;
         } catch (error) {
             toast.error(`X ${error.response.data.message}`, StyleToast);
@@ -660,6 +692,7 @@ export const addTeacher = createAsyncThunk(
         try {
             const response = await axiosInstance.post(`/api/teachers`, teacherData);
             toast.dismiss(toastId);
+            toast.success(`X ${"Teacher added successfully"}`, StyleToast);
             return response.data.teacher;
         } catch (error) {
             toast.error(`X ${error.response.data.message}`, StyleToast);
@@ -688,7 +721,8 @@ export const addClass = createAsyncThunk(
         try {
         const response = await axiosInstance.post(`/api/classes`, classData);
         toast.dismiss(toastId);
-        return response.data;
+        toast.success(`X ${"Class added successfully"}`, StyleToast);
+        return response.data.classe;
     } catch (error) {
         toast.dismiss(toastId);
         toast.error(`X ${error.response.data.message}`, StyleToast);
@@ -734,6 +768,53 @@ export const RemoveStudentInClass = createAsyncThunk(
             return studentId.student_id;
         } catch (error) {
             toast.dismiss(toastId);
+            toast.error(`X ${error.response.data.message}`, StyleToast);
+        throw error;
+    }
+}
+);
+
+export const  declineJoinRequest= createAsyncThunk(
+    "admin/declineJoinRequest",
+    async ({courseID,studentId}) => {
+        const toastId = toast.loading('Loading...',StyleToast);
+        try {
+            await axiosInstance.post(`/api/courses/remove-request/${courseID}`,{student_id:studentId});
+            toast.dismiss(toastId);
+            toast.success(`X ${"The joining request was successfully rejected"}`, StyleToast);
+            return {courseID,studentId};
+        } catch (error) {
+            toast.dismiss(toastId);
+            toast.error(`X ${error.response.data.message}`, StyleToast);
+        throw error;
+    }
+}
+);
+
+export const  AcceptJoinRequest= createAsyncThunk(
+    "admin/AcceptJoinRequest",
+    async ({classID,studentId}) => {
+        const toastId = toast.loading('Loading...',StyleToast);
+        try {
+            await axiosInstance.post(`/api/classes/add-student/${classID}`,{student_id:studentId});
+            toast.dismiss(toastId);
+            toast.success(`${"The joining request was successfully accepted"}`, StyleToast);
+            return {classID,studentId};
+        } catch (error) {
+            toast.dismiss(toastId);
+            toast.error(`X ${error.response.data.message}`, StyleToast);
+        throw error;
+    }
+}
+);
+
+export const  GetClassesByCourse= createAsyncThunk(
+    "admin/GetClassesByCourse",
+    async (courseID) => {
+        try {
+            const res= await axiosInstance.get(`/api/classes/classes-course/${courseID}`);
+            return res.data.classes;
+        } catch (error) {
             toast.error(`X ${error.response.data.message}`, StyleToast);
         throw error;
     }

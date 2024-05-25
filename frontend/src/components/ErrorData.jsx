@@ -19,8 +19,8 @@ export default function ErrorData() {
         <TableRow>
             <TableCell colSpan={8}>
                 <div className="empty-req-container text-muted">
-                    <div className="empty-icon my-2">{errorIcon}</div>
-                    <div className="empty-text my-2">Error loading data.</div>
+                    <div className="empty-icon my-1">{errorIcon}</div>
+                    <div className="empty-text my-1">Error loading data.</div>
                 </div>
             </TableCell>
         </TableRow>

@@ -1,0 +1,52 @@
+.title-name {
+    color: #19647e;
+}
+
+.home-profile-container {
+    border: 2px solid #afafaf;
+    border-radius: 20px;
+    overflow: hidden;
+    transition: 200ms all ease-out;
+}
+
+.home-profile-container:hover {
+    background-color: #c5bfbf;
+}
+
+.home-profile-container:hover .home-profile-img {
+    background-color: #114455;
+}
+
+.home-profile-container a {
+    color: #0f0f0f;
+    text-decoration: none;
+}
+
+.home-profile-img {
+    background-color: #19647e;
+    padding: 30px;
+    transition: 200ms all ease-out;
+}
+
+.home-profile-info {
+    padding: 18px 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.home-profile-name {
+    font-size: 2.5em;
+}
+
+.home-profile-role {
+    font-size: 1.5em;
+}
+
+.home-profile-click-text {
+    transition: 100ms all ease-out;
+}
+
+.home-profile-container:hover .home-profile-click-text {
+    padding-right: 10px;
+}

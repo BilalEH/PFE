@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ParentResource;
+use App\Http\Resources\PaymentResource;
 use App\Http\Resources\StudentResource;
 use App\Models\Absparent;
 use App\Models\Student;
@@ -137,6 +138,21 @@ class AbsparentController extends Controller
             return response()->json(['student' => new StudentResource($stu)], 200);
         } catch (Exception $e) {
             return response()->json(['message' => $e->getMessage()], 404);
+        }
+    }
+
+    public function GetPaymentListOfParent(string $id){
+        $parent=Absparent::where('user_id',$id)->first();
+        if($parent->childrens()->exists()){
+            $payData=[];
+            foreach($parent->childrens as $stu){
+                if($stu->payments()->exists()){
+                    $payData[]=['payments'=> PaymentResource::collection($stu->payments->sortBy('datePay'))];
+                }
+            }
+            return response()->json(['childrens' => $payData], 200);
+        }else{
+            return response()->json(['message'=>'insert your students']);
         }
     }
 }

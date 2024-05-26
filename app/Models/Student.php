@@ -40,4 +40,9 @@ class Student extends Model
     {
         return $this->belongsToMany(Course::class, 'coure_requrests')->withPivot('course_id', 'student_id', 'created_at');
     }
+    
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
 }

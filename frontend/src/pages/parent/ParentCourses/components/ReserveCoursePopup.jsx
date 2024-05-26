@@ -1,28 +1,19 @@
 import { Dialog, DialogContent, DialogTitle } from "@mui/material";
 import React, { useState } from "react";
 import { addRequest } from "../../../../api/parentsStore/parentStore";
+import { toast } from "react-toastify";
+import { StyleToast } from "../../../../layouts/Layout";
 
-export default function ReserveCoursePopup({
-    handleClose,
-    setHandleClose,
-    students,
-    course,
-    dispatch,
-}) {
+export default function ReserveCoursePopup({handleClose,setHandleClose,students,course,dispatch}) {
     const [studentSelected, setStudentSelected] = useState("");
 
     const SandReq = () => {
         if (studentSelected !== "") {
-            dispatch(
-                addRequest({
-                    id: course.id,
-                    data: { student_id: studentSelected },
-                })
-            );
+            dispatch(addRequest({id: course.id,data: { student_id: studentSelected },}));
             setStudentSelected("");
             setHandleClose(false);
         } else {
-            console.log("no student selected");
+            toast.error('select student to sand request',StyleToast)
         }
     };
 
@@ -64,26 +55,14 @@ export default function ReserveCoursePopup({
                         <DialogContent>
                             <div className="popup-content">
                                 <div className="popup-text my-4">
-                                    Which student you want to reserve "
-                                    <span className="popup-name">
-                                        {course.courseName}
-                                    </span>
-                                    " for?
+                                    Which student you want to reserve "<span className="popup-name">{course.courseName}</span>" for?
                                 </div>
                                 <div className="popup-select my-3">
-                                    <select
-                                        className="form-control"
-                                        defaultValue={studentSelected}
-                                        onChange={(e) =>
-                                            setStudentSelected(e.target.value)
-                                        }
-                                    >
+                                    <select className="form-control" defaultValue={studentSelected} onChange={(e) =>     setStudentSelected(e.target.value) }>
                                         <option value={""}>students</option>
                                         {students.map((student) => (
                                             <option
-                                                key={student.id}
-                                                value={student.id}
-                                            >
+                                                key={student.id} value={student.id}>
                                                 {student.user_id.firstName}{" "}
                                                 {student.user_id.lastName}
                                             </option>

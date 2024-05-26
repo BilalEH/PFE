@@ -90,6 +90,18 @@ export const StudentsSlice = createSlice({
             builder.addCase(StuRemoveSInClass.rejected, (state) => {
                 state.action_status = 'failed';
             });
+            
+            // delete message
+            builder.addCase(SDeleteMessages.pending, (state) => {
+                state.action_status = 'loading';
+            });
+            builder.addCase(SDeleteMessages.fulfilled, (state, action) => {
+                state.action_status = 'succeeded';
+                state.messages=state.messages.filter(e=>e.id!==action.payload)
+            });
+            builder.addCase(SDeleteMessages.rejected, (state) => {
+                state.action_status = 'failed';
+            });
         
     }
 });
@@ -204,6 +216,25 @@ export const StuPayList = createAsyncThunk(
             const response = await axiosInstance.get(`/api/payments/stu-pays/${userId}`);
             return response.data.payments;
         } catch (error) {
+            toast.error(`X ${error.response.data.message}`, StyleToast);
+            throw error;
+        }
+    }
+);
+
+
+// delete message
+export const SDeleteMessages = createAsyncThunk(
+    'Student/SDeleteMessages',
+    async (messageId) => {
+        const toastId = toast.loading('Loading...', StyleToast);
+        try {
+            await axiosInstance.delete(`/api/messages/${messageId}`);
+            toast.dismiss(toastId);
+            toast.success(`message deleted successfully`, StyleToast);
+            return messageId;
+        } catch (error) {
+            toast.dismiss(toastId);
             toast.error(`X ${error.response.data.message}`, StyleToast);
             throw error;
         }

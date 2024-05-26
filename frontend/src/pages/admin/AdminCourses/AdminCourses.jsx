@@ -5,16 +5,7 @@ import "../style/AdminCourses.css";
 import "../style/pages.css";
 import AddCoursePopup from "./components/AddCoursePopup";
 import "./style/AdminCourses.css";
-import {
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TablePagination,
-    TableRow,
-} from "@mui/material";
+import {Paper,Table,TableBody,TableCell,TableContainer,TableHead,TablePagination,TableRow,} from "@mui/material";
 import DeleteCoursePopup from "./components/DeleteCoursePopup";
 import UpdateCoursePopup from "./components/UpdateCoursePopup";
 import LoadingForTables from "../../../components/LoadingForTables";
@@ -95,14 +86,8 @@ export default function AdminCourses() {
         <div className="admin-courses-container">
             <div className="d-flex justify-content-between align-items-center mb-5">
                 <div className="page-title m-0">Courses</div>
-                <button
-                    className="add-course-btn"
-                    onClick={() => setHandleAddClose(true)}
-                >
-                    Add Course
-                </button>
+                <button className="add-course-btn" onClick={() => setHandleAddClose(true)}>Add Course</button>
             </div>
-
             <Paper
                 style={{
                     background: "none",
@@ -211,7 +196,7 @@ export default function AdminCourses() {
                                                     fontSize: "16px",
                                                 }}
                                             >
-                                                {row.amount}
+                                                {row.amount}Dh
                                             </TableCell>
                                         </TableRow>
                                     ))

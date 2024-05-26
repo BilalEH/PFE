@@ -58,7 +58,7 @@ export default function StudentPayment() {
               ) : payments_status === "failed" ? (
                     <ErrorData />
               ) : payments.length === 0 ? (
-                    <EmptyCoursesPage />
+                    <EmptyCoursesPage content={'payments'} />
               ) : (
                 payments
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)

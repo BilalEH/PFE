@@ -1,30 +1,30 @@
-import {
-    Button,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TablePagination,
-    TableRow,
-    Tooltip,
-} from "@mui/material";
+import {Button,Paper,Table,TableBody,TableCell,TableContainer,TableHead,TablePagination,TableRow,Tooltip,} from "@mui/material";
 import PopupStudiantCourses from "./PopupStudiantCourses";
 import { useState } from "react";
 import StuCourseList from "./StuCourList";
 import ParentEmptyStudentsPage from "./ParentEmptyStudentsPage";
+import { useDispatch } from "react-redux";
+import { PDeleteStudent } from "../../../../api/parentsStore/parentStore";
+import ErrorData from "../../../../components/ErrorData";
+import LoadingForTables from "../../../../components/LoadingForTables";
 
-function P_StudentsList({ StudentsData }) {
+function P_StudentsList({ StudentsData,status }) {
     const [handleClose, sethandleClose] = useState(false);
-    const [StudentSelected, setStudentSelected] = useState({
-        id: "",
-        name: "",
-    });
+    const [StudentSelected, setStudentSelected] = useState({id: "",name: ""});
     const [page, setPage] = useState(0);
     const [rowPerPage, setRowPerPage] = useState(5);
+    const dispatch=useDispatch();
+    
+    const DeleteStudent=(id)=>{
+        dispatch(PDeleteStudent(id))
+    }
+
+    const UpdateStudent=(id)=>{
+        console.log(id);
+    }
 
     const columns = [
+        { id: "action", name: "" },
         { id: "firstName", name: "First name" },
         { id: "lastName", name: "Last name" },
         { id: "email", name: "Email" },
@@ -80,21 +80,22 @@ function P_StudentsList({ StudentsData }) {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {StudentsData.length === 0 ? (
-                                <ParentEmptyStudentsPage />
-                            ) : (
-                                StudentsData.slice(
-                                    page * rowPerPage,
-                                    page * rowPerPage + rowPerPage
-                                ).map((row, i) => (
+                            {status=='failed'? <ErrorData/>:
+                            status=='loading'?<LoadingForTables/>:
+                            StudentsData.length === 0 ? (<ParentEmptyStudentsPage />) : (
+                            StudentsData.slice(page * rowPerPage,page * rowPerPage + rowPerPage)
+                                .map((row, i) => (
                                     <TableRow key={i}>
+                                        <TableCell style={{padding: "22px 18px",fontFamily: "Montserrat",fontSize: "16px",}}>
+                                            <Button variant="contained" color="error" onClick={()=>DeleteStudent(row.id)}>delete</Button>
+                                            <Button variant="contained" color="info" className="ms-2" onClick={()=>UpdateStudent(row.id)}>update</Button>
+                                        </TableCell>
                                         <TableCell
                                             style={{
                                                 padding: "22px 18px",
                                                 fontFamily: "Montserrat",
                                                 fontSize: "16px",
-                                            }}
-                                        >
+                                            }}>
                                             {row.user_id.firstName}
                                         </TableCell>
                                         <TableCell
@@ -144,16 +145,8 @@ function P_StudentsList({ StudentsData }) {
                                         >
                                             {row.dateN}
                                         </TableCell>
-                                        <TableCell
-                                            style={{
-                                                padding: "22px 18px",
-                                                fontFamily: "Montserrat",
-                                                fontSize: "16px",
-                                            }}
-                                        >
-                                            {row.status == 1
-                                                ? "verifie"
-                                                : "non verifie"}
+                                        <TableCell className={row.status==0?"text-danger":'text-success'} style={{padding: "22px 18px",fontFamily: "Montserrat",fontSize: "16px",textTransform:"capitalize"}}>
+                                            {row.status == 1? "verifie": "non verifie"}
                                         </TableCell>
                                         <TableCell
                                             style={{
@@ -162,31 +155,8 @@ function P_StudentsList({ StudentsData }) {
                                                 fontSize: "16px",
                                             }}
                                         >
-                                            <Tooltip
-                                                title={`List of courses the ${row.user_id.firstName} is taking`}
-                                                arrow
-                                            >
-                                                <Button
-                                                    disabled={row.status == 0}
-                                                    style={
-                                                        row.status == 1
-                                                            ? {
-                                                                backgroundColor:
-                                                                    "#19647e",
-                                                                color: "white",
-                                                            }
-                                                            : {}
-                                                    }
-                                                    variant="contained"
-                                                    onClick={() =>
-                                                        ShowStudCourns(
-                                                            row.id,
-                                                            `${row.user_id.firstName} ${row.user_id.lastName}`
-                                                        )
-                                                    }
-                                                >
-                                                    courses
-                                                </Button>
+                                            <Tooltip title={`List of courses the ${row.user_id.firstName} is taking`} arrow>
+                                                <Button disabled={row.status !== 1} style={row.status == 1? {backgroundColor:"#19647e",color: "white"}: {}} variant="contained" onClick={() =>ShowStudCourns(row.id,`${row.user_id.firstName} ${row.user_id.lastName}`)}>courses</Button>
                                             </Tooltip>
                                         </TableCell>
                                     </TableRow>

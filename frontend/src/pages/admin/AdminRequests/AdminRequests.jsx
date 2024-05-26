@@ -30,44 +30,10 @@ export default function AdminRequests() {
         <>
             <div className="page-title">Requests list</div>
             <div className="select-table-btns ">
-                <button
-                    className={`${
-                        roleSelected == "parents" ? "role-selected" : ""
-                    }`}
-                    onClick={() => {
-                        setRoleSelected("parents");
-                    }}
-                >
-                    Parents
-                </button>
-                <button
-                    className={`${
-                        roleSelected == "students" ? "role-selected" : ""
-                    }`}
-                    onClick={() => {
-                        setRoleSelected("students");
-                    }}
-                >
-                    Students
-                </button>
+                <button className={`${roleSelected == "parents" ? "role-selected" : ""}`}onClick={() => {setRoleSelected("parents");}}>Parents</button>
+                <button className={`${roleSelected == "students" ? "role-selected" : ""}`}onClick={() => {setRoleSelected("students");}}>Students</button>
             </div>
-            {/* <select defaultValue={roleSelected} onChange={(e) => setRoleSelected(e.target.value)}>
-                        <option value="parents">Parent</option>
-                        <option value="students">student</option>
-                    </select> */}
-            {RequestsData.status_request === "succeeded" ? (
-                <RequestsList studentRows={studentRows} />
-            ) : RequestsData.status_request === "loading" ? (
-                <div className="loading_error_container">
-                    <CircularProgress size={50} />
-                </div>
-            ) : (
-                RequestsData.status_request === "failed" && (
-                    <div className="loading_error_container">
-                        <Alert severity="error">Error loading data.</Alert>
-                    </div>
-                )
-            )}
+            <RequestsList studentRows={studentRows} status={RequestsData.status_request} />
         </>
     );
 }

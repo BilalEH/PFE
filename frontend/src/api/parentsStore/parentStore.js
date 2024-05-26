@@ -6,58 +6,75 @@ import { StyleToast } from './../../layouts/Layout';
 export const ParentsSlice=createSlice({
     name:'ParentsSlice',
     initialState:{
-        status:'',
+        action_status:'',
         parent:{},
+        parent_status:'',
         students:[],
+        student_status:'',
         courses:[],
+        course_status:'',
         studentClasses:[],
+        stu_class_status:'',
+        payments:[],
+        payment_status:'',
         messages:[],
-        action_status:''
+        message_status:'',
     },
     extraReducers:(builder)=>{
+        // get payments
+        builder.addCase(PGetPaymentList.pending, (state) => {
+            state.payment_status = 'loading';
+        });
+        builder.addCase(PGetPaymentList.fulfilled, (state, action) => {
+            state.payment_status = 'succeeded';
+            state.payments = action.payload;
+        });
+        builder.addCase(PGetPaymentList.rejected, (state) => {
+            state.payment_status = 'failed';
+        });
         // get courses
         builder.addCase(PGetCourses.pending, (state) => {
-            state.status = 'loading';
+            state.course_status = 'loading';
         });
         builder.addCase(PGetCourses.fulfilled, (state, action) => {
-            state.status = 'succeeded';
+            state.course_status = 'succeeded';
             state.courses = action.payload;
         });
         builder.addCase(PGetCourses.rejected, (state) => {
-            state.status = 'failed';
+            state.course_status = 'failed';
         });
         // parent children's list
         builder.addCase(ParentStudentsList.pending, (state) => {
-            state.status = 'loading';
+            state.student_status = 'loading';
         });
         builder.addCase(ParentStudentsList.fulfilled, (state, action) => {
-            state.status = 'succeeded';
+            state.student_status = 'succeeded';
             state.students = action.payload;
         });
         builder.addCase(ParentStudentsList.rejected, (state) => {
-            state.status = 'failed';
+            state.student_status = 'failed';
         });
         // student classes list
         builder.addCase(PStudentClasses.pending, (state) => {
-            state.action_status = 'loading';
+            state.stu_class_status = 'loading';
         });
         builder.addCase(PStudentClasses.fulfilled, (state, action) => {
-            state.action_status = 'succeeded';
+            state.stu_class_status = 'succeeded';
             state.studentClasses = action.payload;
         });
         builder.addCase(PStudentClasses.rejected, (state) => {
-            state.action_status = 'failed';
+            state.stu_class_status = 'failed';
         });
         // show parent messages
         builder.addCase(PgetUserMessages.pending, (state) => {
-            state.status = 'loading';
+            state.message_status = 'loading';
         });
         builder.addCase(PgetUserMessages.fulfilled, (state, action) => {
-            state.status = 'succeeded';
+            state.message_status = 'succeeded';
             state.messages = action.payload;
         });
         builder.addCase(PgetUserMessages.rejected, (state) => {
-            state.status = 'failed';
+            state.message_status = 'failed';
         });
         // add message to admin
         builder.addCase(PAddMessages.pending, (state) => {
@@ -101,6 +118,17 @@ export const ParentsSlice=createSlice({
             state.action_status = 'succeeded';
         });
         builder.addCase(PAddStudent.rejected, (state) => {
+            state.action_status = 'succeeded';
+        });
+        // delete student 
+        builder.addCase(PDeleteStudent.pending, (state) => {
+            state.action_status = 'loading';
+        });
+        builder.addCase(PDeleteStudent.fulfilled, (state,action) => {
+            state.students=state.students.filter(e=>e.id!==action.payload);
+            state.action_status = 'succeeded';
+        });
+        builder.addCase(PDeleteStudent.rejected, (state) => {
             state.action_status = 'succeeded';
         });
     }
@@ -280,7 +308,42 @@ export const PAddStudent=createAsyncThunk(
     }
 )
 
+// get payment List
+export const PGetPaymentList=createAsyncThunk(
+    'Parent/PGetPaymentList',
+    async (parent_id) =>{
+        let data=null;
+        await axiosInstance.get(`/api/parent/childrens-payments/${parent_id}`)
+        .catch(err=>{
+            return toast.error(`X ${err.response.data.message}`, StyleToast);
+        })
+        .then((res) => {
+            return data=res.data.childrens;
+        })
+        return data;
+    }
+)
 
+
+// delete student
+export const PDeleteStudent=createAsyncThunk(
+    'Parent/PDeleteStudent',
+    async (stu_id) =>{
+        let data=null;
+        const toastId = toast.loading('Loading...',StyleToast);
+        await axiosInstance.delete(`/api/studients/${stu_id}`)
+        .catch(err=>{
+            toast.dismiss(toastId);
+            return toast.error(`X ${err.response.data.message}`, StyleToast);
+        })
+        .then((res) => {
+            toast.dismiss(toastId);
+            toast.success(`student deleted successfully`, StyleToast);
+            return data=stu_id;
+        })
+        return data;
+    }
+)
 
 
 

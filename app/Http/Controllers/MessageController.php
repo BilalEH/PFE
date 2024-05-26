@@ -58,11 +58,7 @@ class MessageController extends Controller
     public function destroy($id)
     {
         $message = Message::findOrFail($id);
-
-        // Perform any necessary authorization checks here
-
         $message->delete();
-
         return response()->json(['message' => 'Message deleted successfully'], 200);
     }
 }

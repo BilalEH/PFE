@@ -8,13 +8,13 @@ import { StyleToast } from "../../../../layouts/Layout";
 export default function AcceptCourseReqPopup({handleClose,setHandleClose,request}) {
     const [classSelected, setClassSelected] = useState(0);
     const dispatch = useDispatch();
-    const handleAssign = () => {
+    const handleAssign = async() => {
         if(classSelected==0){
             toast.error("Please select a class",StyleToast)
         }else{
-            dispatch(AcceptJoinRequest({classID:classSelected,studentId:request.studentId}))
+            await dispatch(AcceptJoinRequest({classID:classSelected,studentId:request.studentId}))
+            dispatch(ACoursesReqList())
             setHandleClose(false);
-        dispatch(ACoursesReqList())
         }
     };
 
@@ -66,21 +66,21 @@ export default function AcceptCourseReqPopup({handleClose,setHandleClose,request
                                     Which class would you assign student "<span className="popup-name">{request.studentName}</span>" to?
                                 </div>
                                 <div className="popup-form my-3">
-                                <FormControl fullWidth>
-                                        <InputLabel id="demo-simple-select-label">Classes</InputLabel>
-                                        <Select labelId="demo-simple-select-label" id="demo-simple-select" value={classSelected} label="Classes" onChange={(e) => {setClassSelected(e.target.value);}}>
-                                            <MenuItem value={0}>List of proposed classes for this request</MenuItem>
-                                            {
-                                                action_status=='loading' ? (
-                                                    <Box ><CircularProgress /></Box>
-                                                ):(action_status=='succeeded' && (
-                                                    classes_course.map(e=>(
-                                                        <MenuItem key={e.id} value={e.id}>{e.className}</MenuItem>
-                                                    ))
-                                                ))
-                                            }
-                                        </Select>
-                                        </FormControl>
+                                    {
+                                        action_status=='loading' ? (<Box ><CircularProgress /></Box>):
+                                        (action_status=='succeeded' && (
+                                        <FormControl fullWidth>
+                                            <InputLabel id="demo-simple-select-label">Classes</InputLabel>
+                                            <Select labelId="demo-simple-select-label" id="demo-simple-select" value={classSelected} label="Classes" onChange={(e) => {setClassSelected(e.target.value);}}>
+                                                <MenuItem value={0}>List of proposed classes for this request</MenuItem>
+                                                        {
+                                                            classes_course.map(e=>(
+                                                                <MenuItem key={e.id} value={e.id}>{e.className}</MenuItem>
+                                                            ))
+                                                        }
+                                            </Select>
+                                        </FormControl>))
+                                    }
                                 </div>
                                 <div className="popup-assign-btns py-2">
                                     <button

@@ -42,6 +42,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('parent/deleted', [AbsparentController::class, "deleted"]);
     Route::get('parent/childrens/{id}', [AbsparentController::class, "HisChildrensList"]);
     Route::post('parent/add-childrens/{id}', [AbsparentController::class, "AddStduentsToParent"]);
+    Route::get('parent/childrens-payments/{id}', [AbsparentController::class, "GetPaymentListOfParent"]);
     // ------------------------------courses----------------------------------------------
     Route::apiResource("/courses", CourseController::class);
     Route::post('courses/add-request/{id}', [CourseController::class, "AddJoinRequest"]);
@@ -62,3 +63,4 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource("/payments", PaymentController::class);
     Route::get("/payments/stu-pays/{id}", [PaymentController::class, 'PayListByStudent']);
 });
+

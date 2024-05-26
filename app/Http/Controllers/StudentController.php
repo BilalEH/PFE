@@ -89,7 +89,7 @@ class StudentController extends Controller
             if (!$student) {
                 return response()->json(['message' => 'Student not found'], 404);
             }
-            User::destroy($student->user_id);
+            User::find($student->user_id)->delete();
             $student->delete();
             return response()->json(['message' => 'Student deleted successfully'], 200);
         } catch (\Exception $e) {
@@ -127,7 +127,9 @@ class StudentController extends Controller
             $StuUser = User::find($id);
             if ($StuUser and $StuUser['role'] == 'student') {
                 $student = Student::where('user_id', $StuUser->id)->first();
-                return response()->json(['classes' => StudentClasses::collection($student->classes)], 200);
+                if($student){
+                    return response()->json(['classes' => StudentClasses::collection($student->classes)], 200);
+                }
             } else {
                 return response()->json(['message' => 'Student not found'], 404);
             }

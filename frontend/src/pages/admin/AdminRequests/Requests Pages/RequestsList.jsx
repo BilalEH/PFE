@@ -11,13 +11,14 @@ import {
 import { useState } from "react";
 import AcceptPopup from "../AcceptPopup";
 import EmptyRequestsPage from "../components/EmptyRequestsPage";
+import LoadingForTables from './../../../../components/LoadingForTables';
+import ErrorData from './../../../../components/ErrorData';
 
-function RequestsList({ studentRows }) {
+function RequestsList({ studentRows,status }) {
     const [handleClose, setHandleClose] = useState(false);
     const [studentPop, setStudentPop] = useState();
     const [page, setpage] = useState(0);
     const [rowPerPage, setrowPerPage] = useState(5);
-    const [showStudents, setShowStudents] = useState(true);
 
     function handleAcceptStudent(student) {
         setHandleClose(true);
@@ -68,9 +69,10 @@ function RequestsList({ studentRows }) {
                                 ))}
                             </TableRow>
                         </TableHead>
-
                         <TableBody>
-                            {studentRows.length === 0 ? (
+                            {status=='loading'? <LoadingForTables/>:
+                            status=='failed'? <ErrorData/>:
+                            studentRows.length === 0 ? (
                                 <EmptyRequestsPage />
                             ) : (
                                 studentRows

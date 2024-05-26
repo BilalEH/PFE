@@ -16,8 +16,6 @@ import "../style/CoursesList.css";
 import ReserveCoursePopup from "./ReserveCoursePopup";
 
 function ParentCouresList({ CouresData, studentData, status }) {
-    const [active, setActive] = useState(false);
-    const [CouresSelected, setCouresSelected] = useState(0);
 
     // useState for popup
     const [handleClose, setHandleClose] = useState(false);
@@ -124,7 +122,7 @@ function ParentCouresList({ CouresData, studentData, status }) {
                                                     fontSize: "16px",
                                                 }}
                                             >
-                                                {row.amount}
+                                                {row.amount}Dh
                                             </TableCell>
                                             <TableCell
                                                 style={{

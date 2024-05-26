@@ -131,6 +131,17 @@ export const ParentsSlice=createSlice({
         builder.addCase(PDeleteStudent.rejected, (state) => {
             state.action_status = 'succeeded';
         });
+        // update student 
+        builder.addCase(PupdateStudent.pending, (state) => {
+            state.action_status = 'loading';
+        });
+        builder.addCase(PupdateStudent.fulfilled, (state,action) => {
+            state.students=state.students.map(e=>e.id===action.payload.id?action.payload:e);
+            state.action_status = 'succeeded';
+        });
+        builder.addCase(PupdateStudent.rejected, (state) => {
+            state.action_status = 'succeeded';
+        });
     }
 })
 
@@ -345,6 +356,23 @@ export const PDeleteStudent=createAsyncThunk(
     }
 )
 
+export const PupdateStudent = createAsyncThunk(
+    'admin/PupdateStudent',
+    async ({ studentId, updatedStudent }) => {
+        let data=null;
+        const toastId = toast.loading('Loading...',StyleToast);
+        await axiosInstance.put(`/api/studients/${studentId}`, updatedStudent)
+        .catch(err => {
+            toast.dismiss(toastId);
+            toast.error(`X ${err.response.data.message}`, StyleToast);
+        }).then((res) => {
+            toast.dismiss(toastId);
+            toast.success(`X ${"Student updated successfully"}`, StyleToast);
+            return data= res.data.student;
+        });
+        return data
+    }
+);
 
 
 

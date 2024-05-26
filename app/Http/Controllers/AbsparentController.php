@@ -152,7 +152,7 @@ class AbsparentController extends Controller
             }
             return response()->json(['childrens' => $payData], 200);
         }else{
-            return response()->json(['message'=>'insert your students']);
+            return response()->json(['message'=>'insert your students'], 404);
         }
     }
 }

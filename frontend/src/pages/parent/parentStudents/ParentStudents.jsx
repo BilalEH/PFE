@@ -3,7 +3,6 @@ import { ParentStudentsList } from "../../../api/parentsStore/parentStore";
 import { useEffect, useState } from "react";
 import useAuthContext from "../../../api/auth";
 import P_StudentsList from "./components/ParentStudiantList";
-import {CircularProgress } from "@mui/material";
 import PAddStudentPopup from "./components/PAddStudentPopup";
 import "./style/ParentStudents.css";
 
@@ -15,6 +14,7 @@ export default function ParentStudents() {
     }, []);
     const [handleAddClose, setHandleAddClose] = useState(false);
     const StudentsData = useSelector((state) => state.parents);
+
     return (
         <div>
             <div className="d-flex justify-content-between align-items-center">
@@ -23,17 +23,7 @@ export default function ParentStudents() {
                     <button className="add-student" onClick={() => setHandleAddClose(true)}>Add Student</button>
                 </div>
             </div>
-            {/* {StudentsData.status === "succeeded" ? ( */}
-                <P_StudentsList StudentsData={StudentsData.students} status={StudentsData.status}/>
-            {/* // ) : StudentsData.status === "failed" ? (
-            //     <div className="w-100 d-flex justify-content-center">
-            //         No students data available
-            //     </div>
-            // ) : (
-            //     <div className="w-100 d-flex justify-content-center">
-            //         <CircularProgress />
-            //     </div>
-            // )} */}
+            <P_StudentsList StudentsData={StudentsData.students} status={StudentsData.student_status}/>
             <PAddStudentPopup
                 handleClose={handleAddClose}
                 setHandleClose={setHandleAddClose}

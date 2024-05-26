@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { GetTeachers } from "../../../../api/adminsStore/adminStore";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import useAuthContext from "../../../../api/auth";
+import { ParentStudentsList } from "../../../../api/parentsStore/parentStore";
 import {
     Table,
     TableBody,
@@ -9,63 +10,47 @@ import {
     TableHead,
     TableRow,
 } from "@mui/material";
-import ErrorData from "../../../../components/ErrorData";
-import LoadingForTables from "../../../../components/LoadingForTables";
-import EmptyStudentsPage from "../../AdminStudents/components/EmptyStudentsPage";
 import EmptyTable from "../../../../components/EmptyTable";
 
-export default function TeacherTable() {
-    const [teacherRows, setTeacherRows] = useState([]);
+export default function PStudentsTable() {
     const dispatch = useDispatch();
-    const teachersData = useSelector((state) => state.admins);
+    const { importUser } = useAuthContext();
+    useEffect(() => {
+        dispatch(ParentStudentsList(importUser().id));
+    }, []);
+    const StudentsData = useSelector((state) => state.parents.students);
 
     const columns = [
         { id: "firstName", name: "First name" },
         { id: "lastName", name: "Last name" },
-        { id: "phone", name: "Phone" },
+        { id: "dateN", name: "Birth date" },
     ];
-
-    useEffect(() => {
-        dispatch(GetTeachers());
-    }, [dispatch]);
-
-    console.log(teachersData);
-
-    useEffect(() => {
-        setTeacherRows(teachersData.students);
-    }, [teachersData]);
-
     return (
         <>
             <TableContainer>
-                <Table className="">
+                <Table>
                     <TableHead>
                         <TableRow>
-                            {columns.map((column) => (
+                            {columns.map((col) => (
                                 <TableCell
+                                    key={col.id}
                                     style={{
                                         padding: "22px 18px",
                                         fontWeight: "bold",
                                         fontFamily: "Montserrat",
                                         fontSize: "16px",
                                     }}
-                                    key={column.id}
                                 >
-                                    {column.name}
+                                    {col.name}
                                 </TableCell>
                             ))}
                         </TableRow>
                     </TableHead>
-
                     <TableBody>
-                        {teachersData.status_student === "failed" ? (
-                            <ErrorData />
-                        ) : teachersData.status_student === "loading" ? (
-                            <LoadingForTables />
-                        ) : teacherRows.length === 0 ? (
-                            <EmptyTable content="teachers" />
+                        {StudentsData.length === 0 ? (
+                            <EmptyTable content="students" />
                         ) : (
-                            teacherRows.slice(0, 3).map((row, i) => (
+                            StudentsData.slice(0, 3).map((row, i) => (
                                 <TableRow key={i}>
                                     <TableCell
                                         style={{
@@ -92,7 +77,7 @@ export default function TeacherTable() {
                                             fontSize: "16px",
                                         }}
                                     >
-                                        {row.user_id.phone}
+                                        {row.dateN}
                                     </TableCell>
                                 </TableRow>
                             ))

@@ -19,7 +19,7 @@ export default function EmptyTable({ content }) {
         <>
             <TableRow>
                 <TableCell colSpan={8}>
-                    <div className="empty-req-container text-muted">
+                    <div className="empty-req-container text-muted p-0">
                         <div className="empty-icon my-2">{windIcon}</div>
                         <div className="empty-text my-2">
                             There is no {content} at the moment

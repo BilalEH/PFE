@@ -12,6 +12,7 @@ import ErrorData from "../../../../components/ErrorData";
 import LoadingForTables from "../../../../components/LoadingForTables";
 import EmptyStudentsPage from "../../AdminStudents/components/EmptyStudentsPage";
 import { GetCourses } from "../../../../api/adminsStore/adminStore";
+import EmptyTable from "../../../../components/EmptyTable";
 
 export default function CoursesTable() {
     const [coursesRows, setcoursesRows] = useState([]);
@@ -60,7 +61,7 @@ export default function CoursesTable() {
                         ) : coursesData.status_courses === "loading" ? (
                             <LoadingForTables />
                         ) : coursesRows.length === 0 ? (
-                            <EmptyStudentsPage />
+                            <EmptyTable content="courses" />
                         ) : (
                             coursesRows.slice(0, 3).map((row, i) => (
                                 <TableRow key={i}>

@@ -2,3 +2,10 @@ body {
     margin-top: 180px;
     font-family: "Montserrat", sans-serif;
 }
+
+::selection {
+    background-color: #19647e;
+    /* Change this to your desired color */
+    color: #fafafa;
+    /* Optionally, change the text color as well */
+}

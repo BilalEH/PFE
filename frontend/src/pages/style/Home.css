@@ -1,0 +1,39 @@
+.header {
+    background: #fff;
+    background-image: linear-gradient(45deg, #19647e, #208d91, #04f17a);
+    border-bottom: 1px solid #eee;
+    padding: 1rem 0;
+    height: 100vh;
+    animation: gradient 15s ease infinite;
+}
+
+.home-img-container>img {
+    height: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.courses,
+.events {
+    padding: 100px 80px;
+    margin: 150px 0px;
+}
+
+.news {
+    background-color: #19647e;
+    color: #fafafa;
+    padding: 100px 80px;
+    margin: 150px 0px;
+}
+
+.testimonies {
+    margin-top: 150px;
+}
+
+.rev {
+    background-color: #19647e;
+    color: #fafafa;
+    padding: 100px 80px;
+    margin-top: 150px;
+}

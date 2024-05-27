@@ -57,7 +57,17 @@
 }
 
 
+.header-links a {
+    color: #0f0f0f;
+    text-decoration: none;
+    margin: 0px 10px;
+    transition: 100ms all ease-out;
+}
 
+.header-links a:hover {
+    color: #080808;
+    text-decoration: underline;
+}
 
 
 

@@ -1,4 +1,3 @@
-import React from "react";
 import "./style/Home.css";
 import course1 from "../assets/Images/course1.jpg";
 import course2 from "../assets/Images/course2.jpg";

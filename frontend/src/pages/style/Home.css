@@ -1,10 +1,26 @@
+
 .header {
-    background: #fff;
-    background-image: linear-gradient(45deg, #19647e, #208d91, #04f17a);
+    /* background-color: #fff; */
+    /* background: linear-gradient(45deg, #19647e, #04f17a,#208d91); */
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab,#ee7752);
+    background-size: 400% 400%;
     border-bottom: 1px solid #eee;
-    padding: 1rem 0;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
     height: 100vh;
-    animation: gradient 15s ease infinite;
+    animation: gradientAnimation 15s ease infinite;
+}
+
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 .home-img-container>img {

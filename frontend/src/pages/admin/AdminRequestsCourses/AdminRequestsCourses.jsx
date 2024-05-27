@@ -6,18 +6,17 @@ import "./style/AdminRequestsCourse.css";
 
 export default function AdminRequestsCourses() {
     const dispatch = useDispatch();
-
+    const {course_requests,status_course_request} = useSelector((state) => state.admins);
     useEffect(() => {
         dispatch(ACoursesReqList());
     }, []);
-    const CReqList = useSelector((state) => state.admins);
 
     return (
         <div>
             <div className="page-title">Enrolling requests</div>
             <ListOfReqJoin
-                data={CReqList.course_requests}
-                status={CReqList.status_course_request}
+                data={course_requests}
+                status={status_course_request}
             />
         </div>
     );

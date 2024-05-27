@@ -22,6 +22,7 @@ import "./style/TeacherClasses.css";
 
 function TeacherClasses() {
     const [classes, setClasses] = useState([]);
+    const [handleClose, setHandleClose] = useState(false);
     const [selectedClassStudents, setSelectedClassStudents] = useState([]);
     const dispatch = useDispatch();
     const teachersReq = useSelector((state) => state.admins);
@@ -192,11 +193,12 @@ function TeacherClasses() {
                                             <TableCell>
                                                 <button
                                                     className="show-students-btn"
-                                                    onClick={() =>
+                                                    onClick={() => {
                                                         handlerdisplaystudents(
                                                             row.id
-                                                        )
-                                                    }
+                                                        );
+                                                        setHandleClose(true);
+                                                    }}
                                                 >
                                                     Show Students
                                                 </button>
@@ -228,9 +230,11 @@ function TeacherClasses() {
                 />
             </Paper>
 
-            {selectedClassStudents.length > 0 && (
-                <TeacherClassesShowStudents students={selectedClassStudents} />
-            )}
+            <TeacherClassesShowStudents
+                handleClose={handleClose}
+                setHandleClose={setHandleClose}
+                students={selectedClassStudents}
+            />
         </div>
     );
 }

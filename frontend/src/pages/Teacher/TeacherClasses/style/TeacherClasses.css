@@ -11,3 +11,13 @@
     color: #0f3f4e;
     text-decoration: underline;
 }
+
+.close-btn-icon button {
+    background: none;
+    border: 0;
+    transition: 100ms all ease-out;
+}
+
+.close-btn-icon button:hover {
+    color: #F63E02;
+}

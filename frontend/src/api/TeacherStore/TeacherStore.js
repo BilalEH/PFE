@@ -116,7 +116,7 @@ export const GetStudents = createAsyncThunk(
 // Thunk to fetch messages
 export const GetMessages = createAsyncThunk(
     'Teachers/GetMessages',
-    async ({userId}) => {
+    async (userId) => {
         try {
             const response = await axiosInstance.get(`/api/messages/usermessages/${userId}`);
             return response.data.messages;
@@ -151,12 +151,20 @@ export const AddMessage = createAsyncThunk(
 export const DeleteMessage = createAsyncThunk(
     'Teachers/DeleteMessage',
     async (messageId) => {
+        let data = null;
+        const toastId = toast.loading('Loading...', StyleToast);
         await axiosInstance.delete(`/api/messages/${messageId}`)
-            .catch(err => {
-                toast.error(`X ${err.response.data.message}`, StyleToast);
-                throw err; // Re-throw the error to handle it in the component
-            });
-        return messageId;
+        .then(() => {
+            toast.dismiss(toastId);
+            toast.success(`message deleted successfully`, StyleToast);
+            return data=messageId;
+        })
+        .catch(err => {
+            toast.dismiss(toastId);
+            toast.error(`X ${err.response.data.message}`, StyleToast);
+            throw err; 
+        });
+        return data;
     }
 );
 

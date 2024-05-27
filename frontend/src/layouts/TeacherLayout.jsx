@@ -54,7 +54,7 @@ export default function TeacherLayout() {
                             </div>
                         </Link>
                     </div>
-                    <div className="dashElement">
+                    {/* <div className="dashElement">
                         <Link to="/teacher/notes">
                             <div className="d-flex align-items-center justify-content-between p-3 h-100">
                                 <div>Notes</div>
@@ -77,7 +77,7 @@ export default function TeacherLayout() {
                                 </div>
                             </div>
                         </Link>
-                    </div>
+                    </div> */}
                     <div className="dashElement">
                         <Link to="/teacher/classes">
                             <div className="d-flex align-items-center justify-content-between p-3 h-100">

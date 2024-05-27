@@ -72,17 +72,25 @@ class CourseController extends Controller
             $course = Course::findOrFail($id);
             $StuTest = Student::find($request->student_id);
             if ($StuTest) {
-                if ($course->requests()->where('student_id', $request->student_id)->exists()) {
-                    return response()->json(['message' => 'Request already sent'], 400);
-                } else {
-                    $course->requests()->attach($request->student_id);
+                if($StuTest->status==1){
+                    if ($course->requests()->where('student_id', $request->student_id)->exists()) {
+                        return response()->json(['message' => 'Request already sent'], 400);
+                    } else {
+                        $course->requests()->attach($request->student_id);
+                    }
+                }else{
+                    return response()->json(['message' => 'Wait for your account to activate'], 400);
                 }
             } else {
                 $Stu = Student::where('user_id', $request->student_id)->first();
-                if ($course->requests()->where('student_id', $Stu->id)->exists()) {
-                    return response()->json(['message' => 'Request already sent'], 400);
-                } else {
-                    $course->requests()->attach($Stu->id);
+                if($Stu->status==1){
+                    if ($course->requests()->where('student_id', $Stu->id)->exists()) {
+                        return response()->json(['message' => 'Request already sent'], 400);
+                    } else {
+                        $course->requests()->attach($Stu->id);
+                    }
+                }else{
+                    return response()->json(['message' => 'Wait for your account to activate'], 400);
                 }
             }
             return response()->json(['message' => 'Request sent successfully'], 201);

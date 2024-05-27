@@ -80,7 +80,7 @@ function P_StudentsList({ StudentsData, status }) {
                         <TableBody>
                             {status == 'failed' ? <ErrorData /> :
                                 status == 'loading' ? <LoadingForTables /> :
-                                StudentsData.length === 0 ? (<ParentEmptyStudentsPage />) : (
+                                StudentsData.length === 0 ? (<ParentEmptyStudentsPage content={'Students'} />) : (
                                     StudentsData.slice(page * rowPerPage, page * rowPerPage + rowPerPage)
                                     .map((row, i) => (
                                                 <TableRow key={i}>

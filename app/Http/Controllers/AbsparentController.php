@@ -143,16 +143,12 @@ class AbsparentController extends Controller
 
     public function GetPaymentListOfParent(string $id){
         $parent=Absparent::where('user_id',$id)->first();
-        if($parent->childrens()->exists()){
-            $payData=[];
-            foreach($parent->childrens as $stu){
-                if($stu->payments()->exists()){
-                    $payData[]=['payments'=> PaymentResource::collection($stu->payments->sortBy('datePay'))];
-                }
+        $payData=[];
+        foreach($parent->childrens as $stu){
+            if($stu->payments()->exists()){
+                $payData[]=['payments'=> PaymentResource::collection($stu->payments->sortBy('datePay'))];
             }
-            return response()->json(['childrens' => $payData], 200);
-        }else{
-            return response()->json(['message'=>'insert your students'], 404);
         }
+        return response()->json(['childrens' => $payData], 200);
     }
 }

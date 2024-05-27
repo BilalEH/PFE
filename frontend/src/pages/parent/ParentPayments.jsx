@@ -63,7 +63,7 @@ export default function ParentPayments() {
               ) : payment_status === "failed" ? (
                     <ErrorData />
               ) : payments.length === 0 ? (
-                  <EmptyTable />
+                  <EmptyTable content={'payments'}/>
               ) :payment_status === "succeeded"&& (
                 payments.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((student, i) => {
                     return student.payments.map((payment,i)=>{

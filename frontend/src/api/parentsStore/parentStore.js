@@ -325,11 +325,11 @@ export const PGetPaymentList=createAsyncThunk(
     async (parent_id) =>{
         let data=null;
         await axiosInstance.get(`/api/parent/childrens-payments/${parent_id}`)
-        .catch(err=>{
-            return toast.error(`X ${err.response.data.message}`, StyleToast);
-        })
         .then((res) => {
             return data=res.data.childrens;
+        })
+        .catch(err=>{
+            return toast.error(`X ${err.response.data.message}`, StyleToast);
         })
         return data;
     }

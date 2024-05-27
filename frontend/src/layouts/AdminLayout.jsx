@@ -24,10 +24,8 @@ export default function AdminLayout() {
     }, []);
 
     const logoutEvent = async () => {
-        const TestLogout = await logout();
-        if (TestLogout) {
-            navigate("/login");
-        }
+        await logout();
+        navigate("/login");
     };
     const { pathname } = useLocation();
     return (
@@ -48,11 +46,9 @@ export default function AdminLayout() {
                                 <div className="dash-icon">
                                     <Avatar
                                         alt={`${
-                                            importUser() &&
-                                            importUser().firstName
+                                            importUser()?importUser().firstName:''
                                         } ${
-                                            importUser() &&
-                                            importUser().lastName
+                                            importUser() &&importUser().lastName
                                         }`}
                                         src={
                                             importUser() && importUser().avatar

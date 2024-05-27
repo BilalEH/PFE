@@ -50,8 +50,9 @@ export const AuthProvider = ({children}) => {
 
     const logout = async () => {
         const toastId = toast.loading('Loading...',StyleToast);
-        if(importUser()){
-            localStorage.clear();
+        const user=importUser();
+        localStorage.clear();
+        if(user){
             await axiosInstance.get("/sanctum/csrf-cookie");
             await axiosInstance.post("/logout");
             setUser(null);
@@ -59,7 +60,6 @@ export const AuthProvider = ({children}) => {
             toast.success("Logout successful", StyleToast);
             return true;
         }else{
-            localStorage.clear();
             toast.dismiss(toastId);
             toast.error("you are not logged in", StyleToast);
             return false;

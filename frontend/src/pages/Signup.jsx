@@ -1,28 +1,35 @@
 import { useEffect, useState } from "react";
 import "./style/signup.css";
 import { useNavigate } from "react-router-dom";
-import {Button,FormControl,InputLabel,MenuItem,TextField,Select, CircularProgress,} from "@mui/material";
+import {
+    Button,
+    FormControl,
+    InputLabel,
+    MenuItem,
+    TextField,
+    Select,
+    CircularProgress,
+} from "@mui/material";
 import BrandLogo from "../components/BrandLogo";
 import useAuthContext from "../api/auth";
 export default function Signup() {
-
-    const {Register,importUser}=useAuthContext();
+    const { Register, importUser } = useAuthContext();
     const [loading, setLoading] = useState(false);
-    const padZero = (num) => num.toString().padStart(2, '0');
+    const padZero = (num) => num.toString().padStart(2, "0");
 
     useEffect(() => {
         const userTest = importUser();
         if (userTest) {
-            if (userTest.role === 'admin') {
-                navigate('/admin');
-            } else if (userTest.role === 'student') {
-                navigate('/student');
-            } else if (userTest.role === 'teacher') {
-                navigate('/teacher');
-            } else if (userTest.role === 'parent') {
-                navigate('/parent');
+            if (userTest.role === "admin") {
+                navigate("/admin");
+            } else if (userTest.role === "student") {
+                navigate("/student");
+            } else if (userTest.role === "teacher") {
+                navigate("/teacher");
+            } else if (userTest.role === "parent") {
+                navigate("/parent");
             }
-            }
+        }
     }, []);
 
     const [cin, setCin] = useState("");
@@ -31,14 +38,18 @@ export default function Signup() {
     const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
     const [role, setRole] = useState("");
-    const [date, setDate] = useState(`${new Date().getFullYear()}-${padZero(new Date().getMonth() + 1)}-${padZero(new Date().getDate())}`);//year + "-" + month + "-" + day
+    const [date, setDate] = useState(
+        `${new Date().getFullYear()}-${padZero(
+            new Date().getMonth() + 1
+        )}-${padZero(new Date().getDate())}`
+    ); //year + "-" + month + "-" + day
     const [password, setPassword] = useState("");
-    
+
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
 
     const validateForm = (e) => {
-        setLoading(true)
+        setLoading(true);
         e.preventDefault();
         const errorsObj = {};
         // Regex pattern for Moroccan phone number (05, 06, or 07 followed by 8 digits)
@@ -46,12 +57,14 @@ export default function Signup() {
         if (!phoneRegex.test(phone)) {
             errorsObj.phone = "Invalid Moroccan phone number format";
         }
-        if(role=='student'){
+        if (role == "student") {
             const currentDate = new Date();
             const selectedDate = new Date(date);
-            const differenceInYears =currentDate.getFullYear() - selectedDate.getFullYear();
+            const differenceInYears =
+                currentDate.getFullYear() - selectedDate.getFullYear();
             if (differenceInYears < 6 || differenceInYears > 80) {
-                errorsObj.date ="Date of birth should be between 6 and 80 years ago";
+                errorsObj.date =
+                    "Date of birth should be between 6 and 80 years ago";
             }
         }
         // Regex pattern for CIN (2 letters followed by 2 to 7 numbers)
@@ -66,33 +79,46 @@ export default function Signup() {
         if (!email) errorsObj.email = "Email is required";
         if (!role) errorsObj.role = "Role is required";
         if (!password) errorsObj.password = "Password is required";
-        if(Object.keys(errorsObj).length > 0){
-            setLoading(false)
+        if (Object.keys(errorsObj).length > 0) {
+            setLoading(false);
             return setErrors(errorsObj);
-        }else{
+        } else {
             return handleSubmit();
         }
-}
+    };
     const handleSubmit = async () => {
-        let Data={cin: cin,last_name: lastName,first_name: firstName,email: email,role: role,password: password,phone: phone}
+        let Data = {
+            cin: cin,
+            last_name: lastName,
+            first_name: firstName,
+            email: email,
+            role: role,
+            password: password,
+            phone: phone,
+        };
         if (role === "student") {
-            Data={...Data,dateN: date}
+            Data = { ...Data, dateN: date };
         }
-        const req=await Register(Data);
-        if(req){
+        const req = await Register(Data);
+        if (req) {
             const user = importUser();
-                if (user.role === 'student') {
-                navigate('/student');
-                } else if (user.role === 'parent') {
-                navigate('/parent');
-                }   
+            if (user.role === "student") {
+                navigate("/student");
+            } else if (user.role === "parent") {
+                navigate("/parent");
             }
+        }
         return setLoading(false);
     };
 
     return (
         <>
-            <div className="shadow-lg rounded-4 signupForm">
+            <div
+                className="shadow-lg rounded-4 signupForm"
+                data-aos="fade-up"
+                data-aos-easing="ease-out"
+                data-aos-duration="800"
+            >
                 <BrandLogo />
                 <form action="" className="mt-5" onSubmit={validateForm}>
                     <div className="my-3">
@@ -209,7 +235,14 @@ export default function Signup() {
                             <Button
                                 className="btn text-capitalize"
                                 type="submit"
-                                endIcon={loading && <CircularProgress size={20} color="inherit" />}
+                                endIcon={
+                                    loading && (
+                                        <CircularProgress
+                                            size={20}
+                                            color="inherit"
+                                        />
+                                    )
+                                }
                             >
                                 Sign Up
                             </Button>

@@ -25,7 +25,12 @@ function ContactUs() {
     return (
         <div className=" ">
             <div className=" container my-5 d-flex justify-content-space-around">
-                <div className="left_side d-flex shadow-lg mx-auto">
+                <div
+                    className="left_side d-flex shadow-lg mx-auto"
+                    data-aos="fade-up"
+                    data-aos-easing="ease-out"
+                    data-aos-duration="800"
+                >
                     <div className="w-100">
                         {" "}
                         <h1 className="display-6 ms-3 mt-3 text-success bold">

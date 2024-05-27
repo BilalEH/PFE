@@ -16,7 +16,12 @@ export default function Home() {
         <div className="home">
             <header className="header">
                 <div className="h-100 d-flex justify-content-center align-items-center">
-                    <div className="page-title text-white">
+                    <div
+                        className="page-title text-white"
+                        data-aos="fade-up"
+                        data-aos-easing="ease-out"
+                        data-aos-duration="1000"
+                    >
                         Welcome To ABS center
                     </div>
                 </div>
@@ -25,25 +30,78 @@ export default function Home() {
             <div className="container mt-5 pt-5">
                 <div className="row text-center">
                     <div className="col-4">
-                        <h3>Best Industry Leaders</h3>
-                        <p>Description about best industry leaders.</p>
+                        <h3
+                            data-aos="fade-up"
+                            data-aos-easing="ease-out"
+                            data-aos-duration="800"
+                        >
+                            Best Industry Leaders
+                        </h3>
+                        <p
+                            data-aos="fade-up"
+                            data-aos-easing="ease-out"
+                            data-aos-duration="800"
+                            data-aos-delay="300"
+                        >
+                            Description about best industry leaders.
+                        </p>
                     </div>
                     <div className="col-4">
-                        <h3>National Awards</h3>
-                        <p>Description about national awards.</p>
+                        <h3
+                            data-aos="fade-up"
+                            data-aos-easing="ease-out"
+                            data-aos-duration="800"
+                            data-aos-delay="300"
+                        >
+                            National Awards
+                        </h3>
+                        <p
+                            data-aos="fade-up"
+                            data-aos-easing="ease-out"
+                            data-aos-duration="800"
+                            data-aos-delay="600"
+                        >
+                            Description about national awards.
+                        </p>
                     </div>
                     <div className="col-4">
-                        <h3>Best Teachers</h3>
-                        <p>Description about best teachers.</p>
+                        <h3
+                            data-aos="fade-up"
+                            data-aos-easing="ease-out"
+                            data-aos-duration="800"
+                            data-aos-delay="600"
+                        >
+                            Best Teachers
+                        </h3>
+                        <p
+                            data-aos="fade-up"
+                            data-aos-easing="ease-out"
+                            data-aos-duration="800"
+                            data-aos-delay="900"
+                        >
+                            Description about best teachers.
+                        </p>
                     </div>
                 </div>
             </div>
             <br />
             <div className="container-fluid mt-5 py-5 courses">
                 <div className="text-center">
-                    <h2 className="my-5 page-title">Our Courses</h2>
+                    <h2
+                        className="my-5 page-title"
+                        data-aos="fade-up"
+                        data-aos-easing="ease-out"
+                        data-aos-duration="800"
+                    >
+                        Our Courses
+                    </h2>
                     <div className="row">
-                        <div className="col-3">
+                        <div
+                            className="col-3"
+                            data-aos="fade-up"
+                            data-aos-easing="ease-out"
+                            data-aos-duration="800"
+                        >
                             <div className="home-img-container">
                                 <img
                                     className="img-fluid w-100 shadow"
@@ -58,7 +116,13 @@ export default function Home() {
                                 comprehensive course.
                             </p>
                         </div>
-                        <div className="col-3">
+                        <div
+                            className="col-3"
+                            data-aos="fade-up"
+                            data-aos-easing="ease-out"
+                            data-aos-duration="800"
+                            data-aos-delay="300"
+                        >
                             <div className="home-img-container w-100">
                                 <img
                                     className="img-fluid w-100"
@@ -72,7 +136,13 @@ export default function Home() {
                                 Master Photoshop with this step-by-step guide.
                             </p>
                         </div>
-                        <div className="col-3">
+                        <div
+                            className="col-3"
+                            data-aos="fade-up"
+                            data-aos-easing="ease-out"
+                            data-aos-duration="800"
+                            data-aos-delay="600"
+                        >
                             <div className="home-img-container w-100">
                                 <img
                                     className="img-fluid w-100"
@@ -87,7 +157,13 @@ export default function Home() {
                                 in-depth course.
                             </p>
                         </div>
-                        <div className="col-3">
+                        <div
+                            className="col-3"
+                            data-aos="fade-up"
+                            data-aos-easing="ease-out"
+                            data-aos-duration="800"
+                            data-aos-delay="900"
+                        >
                             <div className="home-img-container w-100">
                                 <img
                                     className="img-fluid w-100"
@@ -108,9 +184,21 @@ export default function Home() {
 
             <div className="container-fluid news">
                 <div className="text-center my-4">
-                    <h2 className="page-title">Latest News</h2>
+                    <h2
+                        className="page-title"
+                        data-aos="fade-up"
+                        data-aos-easing="ease-out"
+                        data-aos-duration="800"
+                    >
+                        Latest News
+                    </h2>
                     <div className="row">
-                        <div className="col-3">
+                        <div
+                            className="col-3"
+                            data-aos="fade-up"
+                            data-aos-easing="ease-out"
+                            data-aos-duration="800"
+                        >
                             <div className="home-img-container my-5">
                                 <img
                                     className="img-fluid w-100"
@@ -127,7 +215,13 @@ export default function Home() {
                                 crucial role in creating more personalized.
                             </p>
                         </div>
-                        <div className="col-3">
+                        <div
+                            className="col-3"
+                            data-aos="fade-up"
+                            data-aos-easing="ease-out"
+                            data-aos-duration="800"
+                            data-aos-delay="300"
+                        >
                             <div className="home-img-container my-5">
                                 <img
                                     className="img-fluid w-100"
@@ -145,7 +239,13 @@ export default function Home() {
                                 teaching others.
                             </p>
                         </div>
-                        <div className="col-3">
+                        <div
+                            className="col-3"
+                            data-aos="fade-up"
+                            data-aos-easing="ease-out"
+                            data-aos-duration="800"
+                            data-aos-delay="600"
+                        >
                             <div className="home-img-container my-5">
                                 <img
                                     className="img-fluid w-100"
@@ -162,7 +262,13 @@ export default function Home() {
                                 can broaden your musical perspective .
                             </p>
                         </div>
-                        <div className="col-3">
+                        <div
+                            className="col-3"
+                            data-aos="fade-up"
+                            data-aos-easing="ease-out"
+                            data-aos-duration="800"
+                            data-aos-delay="900"
+                        >
                             <div className="home-img-container my-5">
                                 <img
                                     className="img-fluid w-100"
@@ -185,9 +291,21 @@ export default function Home() {
 
             <div className="container-fluid events">
                 <div className="text-center">
-                    <h2 className="page-title">Recent Event</h2>
+                    <h2
+                        className="page-title"
+                        data-aos="fade-up"
+                        data-aos-easing="ease-out"
+                        data-aos-duration="800"
+                    >
+                        Recent Event
+                    </h2>
                     <div className="row">
-                        <div className="col-4">
+                        <div
+                            className="col-4"
+                            data-aos="fade-up"
+                            data-aos-easing="ease-out"
+                            data-aos-duration="800"
+                        >
                             <div className="home-img-container">
                                 <img
                                     className="w-75"
@@ -207,7 +325,13 @@ export default function Home() {
                                 levels.
                             </p>
                         </div>
-                        <div className="col-4">
+                        <div
+                            className="col-4"
+                            data-aos="fade-up"
+                            data-aos-easing="ease-out"
+                            data-aos-duration="800"
+                            data-aos-delay="300"
+                        >
                             <div className="home-img-container">
                                 <img
                                     className="w-75"
@@ -227,7 +351,13 @@ export default function Home() {
                                 field.
                             </p>
                         </div>
-                        <div className="col-4">
+                        <div
+                            className="col-4"
+                            data-aos="fade-up"
+                            data-aos-easing="ease-out"
+                            data-aos-duration="800"
+                            data-aos-delay="600"
+                        >
                             <div className="home-img-container">
                                 <img
                                     className="w-75"
@@ -251,16 +381,34 @@ export default function Home() {
 
             <div className="container-fluid rev">
                 <div className="text-center">
-                    <h2 className="page-title">What's the Students saying?</h2>
+                    <h2
+                        className="page-title"
+                        data-aos="fade-up"
+                        data-aos-easing="ease-out"
+                        data-aos-duration="800"
+                    >
+                        What's the Students saying?
+                    </h2>
                     <div className="row justify-content-evenly testimonies">
-                        <div className="col-4">
+                        <div
+                            className="col-4"
+                            data-aos="fade-up"
+                            data-aos-easing="ease-out"
+                            data-aos-duration="800"
+                        >
                             <p>
                                 "In today's world, it's important to harness
                                 technology to help us advance and connect."
                             </p>
                             <h3>Russell Stephens</h3>
                         </div>
-                        <div className="col-4">
+                        <div
+                            className="col-4"
+                            data-aos="fade-up"
+                            data-aos-easing="ease-out"
+                            data-aos-duration="800"
+                            data-aos-delay="300"
+                        >
                             <p>
                                 "Together as teachers, students and universities
                                 we can help make this education available for
